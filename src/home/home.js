@@ -1,10 +1,9 @@
-import React, {Component} from "react";
-import {homeService} from "./home.service";
-import {observer} from "mobx-react";
+import React, { Component } from "react";
+import { homeService } from "./home.service";
+import { observer } from "mobx-react";
 
 const Home = observer(
   class Home extends Component {
-
     componentDidMount() {
       void homeService.posts.getPosts();
     }
@@ -28,7 +27,7 @@ const Home = observer(
             );
           })}
         </div>
-      )
+      );
     }
   }
 );
