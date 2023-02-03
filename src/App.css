@@ -20,7 +20,7 @@ body {
   background: #F6F6F7;
 }
 #root {
-  min-width: 1440px;
+  /* min-width: 1440px; */
   margin: 0 auto;
 }
 nav {
