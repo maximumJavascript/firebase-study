@@ -1,18 +1,9 @@
 ul{
   list-style-type: none;
 }
-
-header{
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 31px;
-}
 .App {
   text-align: center;
 }
-
 body {
   padding: 0%;
   margin: 0%;
@@ -20,137 +11,8 @@ body {
   background: #F6F6F7;
 }
 #root {
-  /* min-width: 1440px; */
   margin: 0 auto;
 }
-nav {
-  margin: 0;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  color: white;
-  text-decoration: none;
-  margin-left: 135px;
-  margin-right: 135px;
-}
-.navText, .portal, .newsLeft{
-  color: #5D5FEF;
-}
-.news, .portal, .homeText, .loginText{
-  font-family: 'Playfair Display';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 21px;
-}
-.logOutBtnText{
-  font-family: 'Playfair Display';
-  font-style: normal;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 21px;
-}
-.loginBtn, .logOutBtn{
-  cursor: pointer;
-  background: #5D5FEF;
-  border-radius: 4px;
-  width: 70px;
-  height: 37px;
-  border: none;
-}
-.loginText, .logOutBtnText{
-  color: white;
-}
-.dash{
-  width: 19px;
-    height: 2px;
-    background: #5D5FEF;
-      border-radius: 2px;
-      margin-top: 2px;
-}
-.newsContainer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.createPostText{
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 25px;
-  line-height: 21px;
-}
-.homeText{
-  background: #5D5FEF;
-  border-radius: 4px;
-  color: #F8F8F8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 37px;
-}
-.centerLinks{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.newsLink{
-  width: 56px;
-  height: 37px;
-  background: #5D5FEF;
-  border-radius: 4px;
-  color: #F8F8F8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.newsLeft, .blog{
-  font-family: 'Roboto';
-}
-.newsLeft{
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-}
-.newsLeftLink{
-  margin-right: 40px;
-}
-.blogLink{
-  margin-right: 35px;
-}
-.rightLinks{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.authImg{
-  width: 38px;
-  height: 38px;
-  border: 2px solid #DDDDDD;
-  border-radius: 64px;
-}
-.blog{
-  color: #A3A3A3;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  cursor: pointer;
-}
-.homeContainer{
-  margin-right: 0px;
-}
-.leftLinks{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .createPostPage {
   width: 100%;
   height: calc(100vh - 80px);
@@ -164,7 +26,6 @@ a {
   margin-right: 10px;
   font-size: 25px;
 }
-
 input,
 textarea {
   margin-top: 5px;

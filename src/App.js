@@ -6,11 +6,12 @@ import { auth } from "./firebase-config";
 import CreatePost from "./posts";
 import Home from "./home";
 import Login from "./auth";
-import NavBar from "./header/NavBar";
+import NavBar from "./header/MainNavbar/NavBar";
 // import { photoSrc } from "./auth/login";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth")); //isAuth - определяем, зарегался юзер или нет.
+  //isAuth - определяем, зарегался юзер или нет.
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
   const signUserOut = () => {
     signOut(auth).then(() => {
       localStorage.clear();
