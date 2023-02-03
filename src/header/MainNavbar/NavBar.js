@@ -20,7 +20,10 @@ class NavBar extends React.Component {
       <header>
         <nav>
           <LeftNavbar />
-          <CentrNavbar isAuth={this.props.isAuth} />
+          <CentrNavbar
+            isAuth={this.props.isAuth}
+            signUserOut={this.props.signUserOut}
+          />
           <RightNavbar photoSrc={photoSrc} />
         </nav>
       </header>
