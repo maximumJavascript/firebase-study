@@ -1,0 +1,23 @@
+.homePage .post .postAuthor {
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+	align-items: center;
+	cursor: pointer;
+}
+
+.homePage .post .authorName {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 19px;
+	color: #2b2c34;
+}
+
+.homePage .post .authorPostDate {
+	/* font-family: "Poppins"; */
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	text-transform: capitalize;
+	color: #718797;
+}

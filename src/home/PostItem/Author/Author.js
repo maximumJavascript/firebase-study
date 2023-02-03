@@ -1,3 +1,5 @@
+import "./Author.css";
+
 export default function Author(props) {
 	return (
 		<div className="postAuthor">

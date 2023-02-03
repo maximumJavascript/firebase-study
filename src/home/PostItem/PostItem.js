@@ -2,6 +2,7 @@ import SvgNext from "../../assets/icons/SvgNext";
 import Author from "./Author";
 import Views from "./Views";
 import Raiting from "./Raiting";
+import "./PostItem.css";
 
 export default function PostItem(props) {
 	return (
