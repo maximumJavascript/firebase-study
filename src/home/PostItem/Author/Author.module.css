@@ -1,4 +1,4 @@
-.homePage .post .postAuthor {
+.postAuthor {
 	display: flex;
 	justify-content: space-between;
 	column-gap: 10px;
@@ -6,18 +6,27 @@
 	cursor: pointer;
 }
 
-.homePage .post .authorName {
+.authorName {
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 19px;
 	color: #2b2c34;
 }
 
-.homePage .post .authorPostDate {
+.authorPostDate {
 	/* font-family: "Poppins"; */
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 21px;
 	text-transform: capitalize;
 	color: #718797;
+}
+
+.authorImg {
+	display: flex;
+}
+
+.authorImg__img {
+	width: 40px;
+	height: 40px;
 }
