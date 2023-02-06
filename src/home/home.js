@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { homeService } from "./home.service";
 import { observer } from "mobx-react";
 import PostItem from "./PostItem";
-import "./home.css";
+import styles from "./home.module.css";
 
 const Home = observer(
 	class Home extends Component {
@@ -14,8 +14,8 @@ const Home = observer(
 			const postLists = homeService.posts.data;
 
 			return (
-				<div className="homePage-wrapper container">
-					<div className="homePage">
+				<div className={styles.container}>
+					<div className={styles.homePage}>
 						{postLists.map((post) => (
 							<PostItem key={post.id} post={post} />
 						))}
