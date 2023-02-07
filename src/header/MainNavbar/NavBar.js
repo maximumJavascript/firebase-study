@@ -12,12 +12,6 @@ class NavBar extends React.Component {
     this.props = props;
   }
   render() {
-    // let photoSrc = authService.getSrc();
-    // console.log("photoSrc in NavBar", photoSrc);
-    // if (!photoSrc) {
-    //   photoSrc =
-    //     "https://sun9-7.userapi.com/r90oL_k8H2knEzaCqzV57L9GDlahcVwenNU3Sw/--QJZ-RiNV4.jpg";
-    // }
     return (
       <header>
         <nav>

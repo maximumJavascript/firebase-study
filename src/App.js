@@ -10,8 +10,6 @@ import NavBar from "./header/MainNavbar/NavBar";
 import { authService } from "./auth/auth.service";
 
 function App() {
-  //isAuth - определяем, зарегался юзер или нет.
-  // const [isAuth, setIsAuth] = useState(authService.isAuth);
   const signUserOut = () => {
     signOut(auth).then(() => {
       authService.photoSrc = null;

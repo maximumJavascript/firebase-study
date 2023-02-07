@@ -15,7 +15,6 @@ class PostsService {
 
   getPosts = async () => {
     const data = await getDocs(this._collection);
-    // console.log("data await", data);
     return (this.data = data.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,

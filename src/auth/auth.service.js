@@ -24,14 +24,6 @@ class AuthService {
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
-
-  getSrc = () => {
-    return this.photoSrc;
-  };
-  getAuthInfo = () => {
-    return this.isAuth;
-  };
-
   handleLogin = () => {
     signInWithPopup(auth, provider).then((value) => {
       let photoSrc = value.user.photoURL;
