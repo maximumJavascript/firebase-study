@@ -6,10 +6,6 @@ import { authService } from "../../auth/auth.service";
 
 const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
-    constructor(props) {
-      super(props);
-      this.props = props;
-    }
     render() {
       return (
         <div className={styles.centerLinks}>

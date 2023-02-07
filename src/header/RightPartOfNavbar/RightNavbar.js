@@ -4,10 +4,6 @@ import styles from "../Navbar.module.css";
 import { authService } from "../../auth/auth.service";
 const RightNavbar = observer(
   class RightNavbar extends React.Component {
-    constructor(props) {
-      super(props);
-      this.props = props;
-    }
     render() {
       return (
         <ul className={styles.rightLinks}>

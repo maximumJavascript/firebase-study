@@ -7,10 +7,6 @@ import RightNavbar from "../RightPartOfNavbar/RightNavbar";
 import { authService } from "../../auth/auth.service";
 
 class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = props;
-  }
   render() {
     return (
       <header>

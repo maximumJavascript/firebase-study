@@ -2,10 +2,6 @@ import React from "react";
 import styles from "../Navbar.module.css";
 
 class LeftNavbar extends React.Component {
-  constructor(props) {
-    super();
-    this.props = props;
-  }
   render() {
     return (
       <ul className={styles.leftLinks}>

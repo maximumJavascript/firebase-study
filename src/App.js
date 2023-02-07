@@ -12,9 +12,8 @@ import { authService } from "./auth/auth.service";
 function App() {
   const signUserOut = () => {
     signOut(auth).then(() => {
-      authService.photoSrc = null;
+      authService.setSrc(null);
       authService.handleIsAuth();
-      // setIsAuth(false);
       window.location.pathname = "/login";
     });
   };
