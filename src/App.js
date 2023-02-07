@@ -7,7 +7,6 @@ import CreatePost from "./posts";
 import Home from "./home";
 import Login from "./auth";
 import NavBar from "./header/MainNavbar/NavBar";
-// import { photoSrc } from "./auth/login";
 
 function App() {
   //isAuth - определяем, зарегался юзер или нет.
@@ -19,7 +18,6 @@ function App() {
       window.location.pathname = "/login";
     });
   };
-
   return (
     <Router>
       <NavBar isAuth={isAuth} signUserOut={signUserOut} />

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../MainNavbar/Navbar.module.css";
+import styles from "../Navbar.module.css";
 import { Link } from "react-router-dom";
 
 class CentrNavbar extends React.Component {

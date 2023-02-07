@@ -13,6 +13,27 @@ body {
 #root {
   margin: 0 auto;
 }
+header {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 31px;
+}
+
+nav {
+  margin: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  margin-left: 135px;
+  margin-right: 135px;
+  border-bottom: 2px solid #CDCDCD;
+}
 .createPostPage {
   width: 100%;
   height: calc(100vh - 80px);
@@ -79,7 +100,6 @@ textarea {
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
   cursor: not-allowed;
 }
-
 .homePage {
   width: 100%;
   min-height: calc(100vh - 80px);
