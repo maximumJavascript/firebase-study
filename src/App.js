@@ -7,24 +7,27 @@ import CreatePost from "./posts";
 import Home from "./home";
 import Login from "./auth";
 import NavBar from "./header/MainNavbar/NavBar";
+import { authService } from "./auth/auth.service";
 
 function App() {
   //isAuth - определяем, зарегался юзер или нет.
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  // const [isAuth, setIsAuth] = useState(authService.isAuth);
   const signUserOut = () => {
     signOut(auth).then(() => {
-      localStorage.clear();
-      setIsAuth(false);
+      authService.photoSrc = null;
+      authService.handleIsAuth();
+      // setIsAuth(false);
       window.location.pathname = "/login";
     });
   };
+
   return (
     <Router>
-      <NavBar isAuth={isAuth} signUserOut={signUserOut} />
+      <NavBar />
       <Routes>
-        <Route path="/" element={<Home isAuth={isAuth} />} />
-        <Route path="/createpost" element={<CreatePost isAuth={isAuth} />} />
-        <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

@@ -1,41 +1,48 @@
 import React from "react";
 import styles from "../Navbar.module.css";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react";
+import { authService } from "../../auth/auth.service";
 
-class CentrNavbar extends React.Component {
-  constructor(props) {
-    super();
-    this.props = props;
-  }
-  render() {
-    return (
-      <div className={styles.centerLinks}>
-        <Link to="/" className={styles.homeContainer}>
-          <span className={(styles.navText, styles.homeText)}>Home</span>
-        </Link>
-        {!this.props.isAuth ? (
-          <Link to="/login">
-            <button className={styles.loginBtn}>
-              <span className={(styles.navText, styles.loginText)}>Login</span>
-            </button>
+const CentrNavbar = observer(
+  class CentrNavbar extends React.Component {
+    constructor(props) {
+      super(props);
+      this.props = props;
+    }
+    render() {
+      return (
+        <div className={styles.centerLinks}>
+          <Link to="/" className={styles.homeContainer}>
+            <span className={(styles.navText, styles.homeText)}>Home</span>
           </Link>
-        ) : (
-          <>
-            <Link to="/createpost">
-              <span className={(styles.navText, styles.createPostText)}>
-                Create Post
-              </span>
+          {!authService.isAuth ? (
+            <Link to="/login">
+              <button className={styles.loginBtn}>
+                <span className={(styles.navText, styles.loginText)}>
+                  Login
+                </span>
+              </button>
             </Link>
-            <button
-              onClick={this.props.signUserOut}
-              className={styles.logOutBtn}
-            >
-              <span className={styles.logOutBtnText}>Log Out</span>
-            </button>
-          </>
-        )}
-      </div>
-    );
+          ) : (
+            <>
+              <Link to="/createpost">
+                <span className={(styles.navText, styles.createPostText)}>
+                  Create Post
+                </span>
+              </Link>
+              <button
+                onClick={authService.handleLogOut}
+                className={styles.logOutBtn}
+              >
+                <span className={styles.logOutBtnText}>Log Out</span>
+              </button>
+            </>
+          )}
+        </div>
+      );
+    }
   }
-}
+);
+
 export default CentrNavbar;
