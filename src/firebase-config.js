@@ -11,12 +11,12 @@ const firebaseConfig = {
   projectId: "study-app1-8cc56",
   storageBucket: "study-app1-8cc56.appspot.com",
   messagingSenderId: "84165532547",
-  appId: "1:84165532547:web:3864737a8fb3303ce4b4b6"
+  appId: "1:84165532547:web:3864737a8fb3303ce4b4b6",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
+// это все необходимые штуки, чтобы обращаться к бд
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();

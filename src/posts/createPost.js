@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 export class CreatePost extends Component {
   render() {
-    return <div>Create post</div>;
+    return <div className="createPostPage">hello world</div>;
   }
 }
