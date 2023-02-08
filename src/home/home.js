@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { homeService } from "./home.service";
 import { observer } from "mobx-react";
+import PostItem from "./PostItem";
+import styles from "./home.module.css";
+
 const Home = observer(
   class Home extends Component {
     componentDidMount() {
@@ -10,25 +13,17 @@ const Home = observer(
     render() {
       const postLists = homeService.posts.data;
 
-      return (
-        <div className="homePage">
-          {postLists.map((post) => {
-            return (
-              <div className="post" key={post.id}>
-                <div className="postHeader">
-                  <div className="title">
-                    <h1>{post.title}</h1>
-                  </div>
-                </div>
-                <div className="postTextContainer"> {post.text} </div>
-                <h3>@{post.author.name}</h3>
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
-  }
+			return (
+				<div className={styles.container}>
+					<div className={styles.homePage}>
+						{postLists.map((post) => (
+							<PostItem key={post.id} post={post} />
+						))}
+					</div>
+				</div>
+			);
+		}
+	}
 );
 
 export default Home;

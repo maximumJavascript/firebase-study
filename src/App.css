@@ -1,14 +1,22 @@
-ul{
+* {
+	max-width: 100%;
+	/* margin: 0;
+	padding: 0; */
+	box-sizing: border-box;
+}
+
+ul {
   list-style-type: none;
 }
+
 .App {
   text-align: center;
 }
 body {
-  padding: 0%;
-  margin: 0%;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #F6F6F7;
+	padding: 0%;
+	margin: 0%;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: rgb(246, 246, 246);
 }
 #root {
   margin: 0 auto;
@@ -22,7 +30,7 @@ header {
 }
 
 nav {
-  margin: 0;
+  margin: 0 135px;
   width: 100%;
   height: 80px;
   display: flex;
@@ -30,16 +38,9 @@ nav {
   align-items: center;
   color: white;
   text-decoration: none;
-  margin-left: 135px;
-  margin-right: 135px;
   border-bottom: 2px solid #CDCDCD;
 }
-.createPostPage {
-  width: 100%;
-  height: calc(100vh - 80px);
-  display: grid;
-  place-items: center;
-}
+
 a {
   color: white;
   text-decoration: none;
@@ -99,43 +100,4 @@ textarea {
   background-color: #ebebeb;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
   cursor: not-allowed;
-}
-.homePage {
-  width: 100%;
-  min-height: calc(100vh - 80px);
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
-}
-
-.homePage .post {
-  width: 600px;
-  height: auto;
-  max-height: 600px;
-  background-color: rgb(250, 250, 250);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 15px;
-}
-
-.post .postHeader {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.postHeader .title {
-  flex: 50%;
-}
-
-.post .postTextContainer {
-  word-wrap: break-word;
-  height: auto;
-  max-height: 400px;
-  width: 100%;
-  overflow: hidden;
-  overflow-y: auto;
 }
