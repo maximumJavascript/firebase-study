@@ -8,15 +8,14 @@ export class CreatePost extends Component {
 		if (!authService.isAuth) window.location.pathname = "/login";
 	}
 
-	handleFormSubmit = (e) => {
+	handleFormSubmit = async (e) => {
 		e.preventDefault();
-		const target = e.target;
-		createPostService
-			.handleCreatePost({
-				title: target.title.value,
-				text: target.text.value,
-			})
-			.then(console.log);
+		await createPostService.handleCreatePost({
+			title: e.target.title.value,
+			text: e.target.text.value,
+		});
+		e.target.title.value = "";
+		e.target.text.value = "";
 	};
 
 	render() {
