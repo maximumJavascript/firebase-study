@@ -1,0 +1,22 @@
+.inputHeaderContainer{
+    color: red;
+    margin-top: 400px;
+    margin-left: 800px;
+}
+.inputHeader {   
+    border: 1px solid #006297;
+    border-radius: 4px;
+    color: black;
+    padding: 6px 16px;
+    width: 320px;
+    height: 32px;
+    font-family: 'Inter';
+    box-sizing: border-box;
+}
+.inputHeader::placeholder{
+    color: #BDC1C3;
+    font-weight: 400;
+    font-Size: 14px; 
+    Line-height:20px;
+    font-family: 'Inter';
+}
