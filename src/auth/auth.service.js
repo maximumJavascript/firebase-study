@@ -2,6 +2,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase-config";
 import { makeObservable, observable } from "mobx";
 import { signOut } from "firebase/auth";
+import { storageService } from "../localStorageService/storageService";
 
 class AuthService {
   photoSrc = null;
@@ -29,6 +30,8 @@ class AuthService {
       let photoSrc = value.user.photoURL;
       this.setSrc(photoSrc);
       this.handleIsAuth();
+      storageService.setSrcToStorage(this.photoSrc);
+      storageService.setAuth();
     });
   };
 
@@ -36,6 +39,7 @@ class AuthService {
     signOut(auth).then(() => {
       this.handleIsAuth();
       window.location.pathname = "/login";
+      storageService.clearLocalStorage();
     });
   };
 }
