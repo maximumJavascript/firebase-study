@@ -6,12 +6,12 @@ import CreatePostBtn from "../CreatePostBtn/CreatePostBtn";
 class CreatePostComponent extends React.Component {
   render() {
     return (
-      <div className={styles.createPostContainer}>
+      <form className={styles.createPostContainer}>
         <h2 className={styles.postTitle}>FORM</h2>
         <TitleInput />
         <TextArea />
         <CreatePostBtn />
-      </div>
+      </form>
     );
   }
 }
