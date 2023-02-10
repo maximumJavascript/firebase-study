@@ -1,6 +1,21 @@
 .createPostContainer{
+    width: 508px;
+    height: 666px; /*rofl */
+    background: #FFFFFF;
+    border-radius: 14px 10px 2px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
+}
+.postTitle{
+    font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 72px;
+        text-align: center;
+        color: #5D5FEF;
+        margin-top: 27px;
+        margin-bottom: 21px;
 }
