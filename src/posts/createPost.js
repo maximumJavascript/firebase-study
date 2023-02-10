@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import HeaderTextInput from "../inputControls/HeaderTextInput";
+import CreatePostComponent from "../createPostForm/createPostComponent/CreatePostComponent";
+import styles from "./createPost.module.css";
 export class CreatePost extends Component {
   render() {
     return (
-      <div>
-        <HeaderTextInput />
+      <div className={styles.createPostWindow}>
+        <CreatePostComponent />
       </div>
     );
   }

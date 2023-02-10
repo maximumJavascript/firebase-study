@@ -1,8 +1,4 @@
-.inputHeaderContainer{
-    color: red;
-    margin-top: 400px;
-    margin-left: 800px;
-}
+
 .inputHeader {   
     border: 1px solid #006297;
     border-radius: 4px;
@@ -19,4 +15,7 @@
     font-Size: 14px; 
     Line-height:20px;
     font-family: 'Inter';
+}
+.inputTitleContainer{
+    display: flex;
 }

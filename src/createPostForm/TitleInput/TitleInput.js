@@ -1,10 +1,10 @@
-import styles from "./headerInput.module.css";
+import styles from "./titleInput.module.css";
 import React from "react";
 
-class HeaderTextInput extends React.Component {
+class TitleInput extends React.Component {
   render() {
     return (
-      <div className={styles.inputHeaderContainer}>
+      <div className={styles.inputTitleContainer}>
         <input
           id="inputHeader"
           className={styles.inputHeader}
@@ -16,4 +16,4 @@ class HeaderTextInput extends React.Component {
   }
 }
 
-export default HeaderTextInput;
+export default TitleInput;
