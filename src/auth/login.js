@@ -11,7 +11,6 @@ function Login({ setIsAuth }) {
   let navigate = useNavigate();
   const signInWithGoogle = () => {
     authService.handleLogin();
-    // setIsAuth(true);
     navigate("/");
   };
 
