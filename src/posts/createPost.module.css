@@ -1,0 +1,8 @@
+.createPostWindow{
+    margin: 0 auto;
+    max-width: 1170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
