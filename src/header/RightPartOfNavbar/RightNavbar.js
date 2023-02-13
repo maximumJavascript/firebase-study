@@ -2,9 +2,11 @@ import { observer } from "mobx-react";
 import React from "react";
 import styles from "../Navbar.module.css";
 import { authService } from "../../auth/auth.service";
+import { storageService } from "../../localStorageService/storageService";
 const RightNavbar = observer(
   class RightNavbar extends React.Component {
     render() {
+      let ImageSrc = authService.photoSrc;
       return (
         <ul className={styles.rightLinks}>
           <li className={styles.newsLeftLink}>
@@ -21,7 +23,7 @@ const RightNavbar = observer(
             </a>
           </li>
           <li className={styles.authPicture}>
-            <img className={styles.authImg} src={authService.photoSrc} />
+            <img className={styles.authImg} src={ImageSrc} />
           </li>
         </ul>
       );

@@ -1,43 +1,72 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase-config";
-import { makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, reaction, autorun } from "mobx";
 import { signOut } from "firebase/auth";
-
+import storageService from "../localStorageService/storageService";
 class AuthService {
-	photoSrc = null;
-	isAuth = false;
+  photoSrc = null;
+  isAuth = false;
+  isLogOut = null;
+  constructor() {
+    makeObservable(this, {
+      photoSrc: observable,
+      isAuth: observable,
+      isLogOut: observable,
+      // It is recommended that you mark any piece of code that changes observable's as an action
+      handleLogin: action,
+      handleLogOut: action,
+      setSrc: action,
+      handleIsAuth: action,
+    });
+    this.photoSrc = null;
+    this.isAuth = false;
+  }
 
-	constructor() {
-		makeObservable(this, {
-			photoSrc: observable,
-			isAuth: observable,
-		});
+  setSrc = (src) => {
+    this.photoSrc = src;
+  };
 
-		this.photoSrc = null;
-		this.isAuth = false;
-	}
+  handleIsAuth = () => {
+    this.isAuth = !this.isAuth;
+  };
 
-	setSrc = (src) => {
-		this.photoSrc = src;
-	};
+  handleLogin = () => {
+    signInWithPopup(auth, provider).then((value) => {
+      let photoSrc = value.user.photoURL;
+      this.setSrc(photoSrc);
+      this.handleIsAuth();
+    });
+  };
 
-	handleIsAuth = () => {
-		this.isAuth = !this.isAuth;
-	};
-	handleLogin = () => {
-		signInWithPopup(auth, provider).then((value) => {
-			let photoSrc = value.user.photoURL;
-			this.setSrc(photoSrc);
-			this.handleIsAuth();
-		});
-	};
-
-	handleLogOut = () => {
-		signOut(auth).then(() => {
-			this.handleIsAuth();
-			window.location.pathname = "/login";
-		});
-	};
+  handleLogOut = () => {
+    signOut(auth).then(() => {
+      this.handleIsAuth();
+      this.isLogOut = true;
+      window.location.pathname = "/login";
+    });
+  };
 }
-
 export const authService = new AuthService();
+
+autorun(() => {
+  if (authService.isAuth) {
+    storageService.setAuthToStorage(authService.isAuth);
+    storageService.setSrcToStorage(authService.photoSrc);
+  }
+  if (authService.isAuth === false && storageService.isStorageAuth()) {
+    authService.handleIsAuth();
+    authService.setSrc(storageService.getSrcFromStorage());
+  }
+  if (authService.isLogOut === true) {
+    storageService.clearStorage();
+  }
+});
+
+// reaction(
+//   () => authService.isAuth,
+//   (isAuth) => storageService.handleAuth(isAuth)
+// );
+// reaction(
+//   () => authService.photoSrc,
+//   (photoSrc) => storageService.setPhoto(photoSrc)
+// );
