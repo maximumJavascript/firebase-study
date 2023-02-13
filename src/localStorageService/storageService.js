@@ -1,19 +1,35 @@
+import { autorun } from "mobx";
+import { authService } from "../auth/auth.service";
 class StorageService {
+  setAuthToStorage = (isAuth) => {
+    window.localStorage.setItem("isAuth", isAuth);
+  };
   setSrcToStorage = (src) => {
     window.localStorage.setItem("src", src);
   };
-  setAuth = () => {
-    window.localStorage.setItem("isAuth", true);
-  };
-  clearLocalStorage = () => {
+  getSrcFromStorage = () => window.localStorage.getItem("src");
+  clearStorage = () => {
     window.localStorage.clear();
   };
-  getSrc = () => {
-    return window.localStorage.getItem("src");
-  };
-  isAuth = () => {
-    return window.localStorage.getItem("isAuth");
+  isStorageAuth = () => {
+    return window.localStorage.getItem("isAuth") === "true";
   };
 }
-
-export const storageService = new StorageService();
+const storageService = new StorageService();
+export default storageService;
+// если переносить сюда, то работает ток с таймаутом
+// setTimeout(() => {
+//   autorun(() => {
+//     if (authService.isAuth) {
+//       storageService.setAuthToStorage(authService.isAuth);
+//       storageService.setSrcToStorage(authService.photoSrc);
+//     }
+//     if (authService.isAuth === false && storageService.isStorageAuth()) {
+//       authService.handleIsAuth();
+//       authService.setSrc(storageService.getSrcFromStorage());
+//     }
+//     if (authService.tellTheTruth === true) {
+//       storageService.clearStorage();
+//     }
+//   });
+// });

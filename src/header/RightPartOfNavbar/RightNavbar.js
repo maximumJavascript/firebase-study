@@ -6,9 +6,7 @@ import { storageService } from "../../localStorageService/storageService";
 const RightNavbar = observer(
   class RightNavbar extends React.Component {
     render() {
-      let ImageSrc = authService.photoSrc
-        ? authService.photoSrc
-        : storageService.getSrc();
+      let ImageSrc = authService.photoSrc;
       return (
         <ul className={styles.rightLinks}>
           <li className={styles.newsLeftLink}>

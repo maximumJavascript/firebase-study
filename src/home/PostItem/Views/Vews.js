@@ -1,13 +1,13 @@
 import SvgEye from "../../../assets/icons/SvgEye";
-import "./Views.css";
+import styles from "./Views.module.css";
 
 export default function Views() {
 	return (
-		<div className="postViews">
-			<div className="postViewsSvg">
+		<div className={styles.postViews}>
+			<div className={styles.postViewsSvg}>
 				<SvgEye />
 			</div>
-			<div className="postViewsCount">0</div>
+			<div className={styles.postViewsCount}>0</div>
 		</div>
 	);
 }
