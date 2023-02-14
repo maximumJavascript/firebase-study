@@ -10,6 +10,7 @@ export default class TextArea extends Component {
         name="area"
         onChange={this.props.onChange}
         value={this.props.value}
+        required
       ></textarea>
     );
   }

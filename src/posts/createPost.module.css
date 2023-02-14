@@ -8,6 +8,8 @@
 }
 
 .createPostContainer {
+  margin: 0 auto;
+  margin-top: 50px;
   width: 508px;
   height: 666px; /*rofl */
   background: #ffffff;

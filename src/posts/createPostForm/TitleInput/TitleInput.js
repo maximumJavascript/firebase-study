@@ -11,6 +11,7 @@ export default class TitleInput extends Component {
           name="title"
           onChange={this.props.onChange}
           value={this.props.value}
+          required
         ></input>
       </div>
     );
