@@ -38,7 +38,7 @@ export const CreatePost = observer(
     render() {
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
-        <div className={styles.createPostPage}>
+        <div className={styles.createPostWindow}>
           <form className={styles.createPostContainer} onSubmit={this.handleFormSubmit}>
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
