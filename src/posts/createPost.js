@@ -3,6 +3,10 @@ import { observer } from "mobx-react";
 import { authService } from "../auth/auth.service";
 import { createPostService } from "./createPost.service";
 import { Navigate } from "react-router-dom";
+import TextArea from "./createPostForm/TextArea/TextArea";
+import TitleInput from "./createPostForm/TitleInput/TitleInput";
+import CreatePostComponent from "./createPostForm/createPostComponent/CreatePostComponent";
+import CreatePostBtn from "./createPostForm/CreatePostBtn/CreatePostBtn";
 
 export const CreatePost = observer(
   class CreatePost extends Component {
@@ -34,29 +38,11 @@ export const CreatePost = observer(
     render() {
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
-        <div className="createPostPage">
-          <form onSubmit={this.handleFormSubmit}>
-            <input
-              onChange={this.handleInput}
-              value={this.state.titleValue}
-              name="title"
-              type="text"
-              id="postTitle"
-              placeholder="Заголовок"
-            />
-            <br />
-            <textarea
-              onChange={this.handleInput}
-              value={this.state.areaValue}
-              name="area"
-              id="postText"
-              cols="30"
-              rows="10"
-            ></textarea>
-            <br />
-            <button type="submit">Отправить</button>
-          </form>
-        </div>
+        <CreatePostComponent onSubmit={this.handleFormSubmit}>
+          <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
+          <TextArea onChange={this.handleInput} value={this.state.areaValue}></TextArea>
+          <CreatePostBtn />
+        </CreatePostComponent>
       );
     }
   }
