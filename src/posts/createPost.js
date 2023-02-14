@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { observer } from "mobx-react";
 import { authService } from "../auth/auth.service";
 import { createPostService } from "./createPost.service";
 import { Navigate } from "react-router-dom";
 import TextArea from "./createPostForm/TextArea/TextArea";
 import TitleInput from "./createPostForm/TitleInput/TitleInput";
-import CreatePostComponent from "./createPostForm/createPostComponent/CreatePostComponent";
 import CreatePostBtn from "./createPostForm/CreatePostBtn/CreatePostBtn";
+import styles from "./createPost.module.css";
 
 export const CreatePost = observer(
   class CreatePost extends Component {
@@ -38,11 +38,14 @@ export const CreatePost = observer(
     render() {
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
-        <CreatePostComponent onSubmit={this.handleFormSubmit}>
-          <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
-          <TextArea onChange={this.handleInput} value={this.state.areaValue}></TextArea>
-          <CreatePostBtn />
-        </CreatePostComponent>
+        <div className={styles.createPostPage}>
+          <form className={styles.createPostContainer} onSubmit={this.handleFormSubmit}>
+            <h2 className={styles.postTitle}>FORM</h2>
+            <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
+            <TextArea onChange={this.handleInput} value={this.state.areaValue} />
+            <CreatePostBtn />
+          </form>
+        </div>
       );
     }
   }
