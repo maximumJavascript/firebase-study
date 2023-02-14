@@ -20,6 +20,8 @@ export const CreatePost = observer(
         createPostService.handleCreatePost({
           title: state.titleValue,
           text: state.areaValue,
+          photoSrc: authService.photoSrc,
+          userId: authService.userId,
         });
         return { titleValue: "", areaValue: "" };
       });
@@ -32,6 +34,7 @@ export const CreatePost = observer(
     };
 
     render() {
+      console.log(authService.userId);
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
         <div className="createPostPage">

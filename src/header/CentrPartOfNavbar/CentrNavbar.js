@@ -8,7 +8,6 @@ const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
     render() {
       let isAuth = authService.isAuth;
-
       return (
         <div className={styles.centerLinks}>
           <Link to="/" className={styles.homeContainer}>

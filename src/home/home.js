@@ -12,18 +12,17 @@ const Home = observer(
 
     render() {
       const postLists = homeService.posts.data;
-
-			return (
-				<div className={styles.container}>
-					<div className={styles.homePage}>
-						{postLists.map((post) => (
-							<PostItem key={post.id} post={post} />
-						))}
-					</div>
-				</div>
-			);
-		}
-	}
+      return (
+        <div className={styles.container}>
+          <div className={styles.homePage}>
+            {postLists.map((post) => (
+              <PostItem key={post.id} post={post} />
+            ))}
+          </div>
+        </div>
+      );
+    }
+  }
 );
 
 export default Home;

@@ -7,6 +7,7 @@ class AuthService {
   photoSrc = null;
   isAuth = false;
   isLogOut = null;
+  userId = null;
   constructor() {
     makeObservable(this, {
       photoSrc: observable,
@@ -29,9 +30,10 @@ class AuthService {
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
-
   handleLogin = () => {
     signInWithPopup(auth, provider).then((value) => {
+      console.log(value);
+      this.userId = value.user.uid;
       let photoSrc = value.user.photoURL;
       this.setSrc(photoSrc);
       this.handleIsAuth();
