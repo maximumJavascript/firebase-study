@@ -1,0 +1,40 @@
+.dropdownContainer {
+  text-align: left;
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 4px;
+}
+
+.dropdownInput {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.dropdownMenu {
+  border: 0;
+  cursor: pointer;
+  max-width: 252px;
+  width: 100%;
+  min-height: 16px;
+  height: 100%;
+  padding: 5px 0;
+  color: #0F1416;
+  transition: background-color .2s liner;
+}
+
+.dropdown-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #F0F1F3;
+}
+
+.active-color {
+  background-color: #62e062;
+}

@@ -1,0 +1,34 @@
+.btn {
+  background-color: #006297;
+  color: #fff;
+  transition: background-color .2s linear;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  max-width: 109px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 6px 16px;
+  border: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.btn-pressed {
+  background-color: #003D5E;
+}
+
+.btn-hovered {
+  background-color: #004F79;
+  transition: background-color .2s linear;
+}
+
+/* 
+.btn:hover {
+  background-color: #004F79;
+  transition: background-color .2s linear;
+} */
+
+.btn:active {
+  background-color: #003D5E;
+}
