@@ -21,7 +21,6 @@ export const CreatePost = observer(
           title: state.titleValue,
           text: state.areaValue,
           photoSrc: authService.photoSrc,
-          userId: authService.userId,
         });
         return { titleValue: "", areaValue: "" };
       });
