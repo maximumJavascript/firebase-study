@@ -1,6 +1,9 @@
 import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { commentsService } from './comments.service';
+import PostItem from '../../home/PostItem';
+import styles from './Comments.module.css';
+import homeStyles from '../../home/home.module.css';
 
 const Comments = observer(
   class Comments extends Component {
@@ -16,8 +19,14 @@ const Comments = observer(
 
     render() {
       const post = commentsService.post;
-      if (!post.author) return null;
-      return <div>{post.author.id}</div>;
+      if (!post.text) return null;
+      return (
+        <div className={homeStyles.container}>
+          <div className={homeStyles.homePage}>
+            <PostItem post={post} isComments={true} />
+          </div>
+        </div>
+      );
     }
   }
 );

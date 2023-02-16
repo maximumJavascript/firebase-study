@@ -23,11 +23,13 @@ export default function PostItem(props) {
           <Author name={props.post.author.name} />
           <Views />
           <Raiting />
-          <Link to={`/comments/${props.post.id}`}>
-            <div className={styles.postShowMore}>
-              <SvgNext />
-            </div>
-          </Link>
+          {!props.isComments && (
+            <Link to={`/comments/${props.post.id}`}>
+              <div className={styles.postShowMore}>
+                <SvgNext />
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>
