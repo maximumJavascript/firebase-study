@@ -10,24 +10,24 @@ import NavBar from './header/MainNavbar/NavBar';
 import { authService } from './auth/auth.service';
 
 function App() {
-	const signUserOut = () => {
-		signOut(auth).then(() => {
-			authService.setSrc(null);
-			authService.handleIsAuth();
-			window.location.pathname = '/login';
-		});
-	};
+  const signUserOut = () => {
+    signOut(auth).then(() => {
+      authService.setSrc(null);
+      authService.handleIsAuth();
+      window.location.pathname = '/login';
+    });
+  };
 
-	return (
-		<Router>
-			<NavBar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/createpost" element={<CreatePost />} />
-				<Route path="/login" element={<Login />} />
-			</Routes>
-		</Router>
-	);
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

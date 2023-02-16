@@ -8,20 +8,20 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from './auth.service';
 
 function Login({ setIsAuth }) {
-	let navigate = useNavigate();
-	const signInWithGoogle = () => {
-		authService.handleLogin();
-		navigate('/');
-	};
+  let navigate = useNavigate();
+  const signInWithGoogle = () => {
+    authService.handleLogin();
+    navigate('/');
+  };
 
-	return (
-		<div className="loginPage">
-			<p>Sign In With Google to Continue</p>
-			<button className="login-with-google-btn" onClick={signInWithGoogle}>
-				Sign in with Google
-			</button>
-		</div>
-	);
+  return (
+    <div className="loginPage">
+      <p>Sign In With Google to Continue</p>
+      <button className="login-with-google-btn" onClick={signInWithGoogle}>
+        Sign in with Google
+      </button>
+    </div>
+  );
 }
 
 export default Login;

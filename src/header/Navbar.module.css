@@ -1,149 +1,149 @@
 .logOutBtnText {
-	font-family: "Playfair Display";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 14px;
-	line-height: 21px;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
 }
 .navText,
 .portal,
 .newsLeft {
-	color: #5d5fef;
+  color: #5d5fef;
 }
 
 .news,
 .portal,
 .homeText,
 .loginText {
-	font-family: "Playfair Display";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 21px;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 21px;
 }
 
 .logOutBtnText {
-	font-family: "Playfair Display";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 14px;
-	line-height: 21px;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
 }
 
 .loginBtn,
 .logOutBtn {
-	cursor: pointer;
-	background: #5d5fef;
-	border-radius: 4px;
-	width: 70px;
-	height: 37px;
-	border: none;
+  cursor: pointer;
+  background: #5d5fef;
+  border-radius: 4px;
+  width: 70px;
+  height: 37px;
+  border: none;
 }
 
 .loginText,
 .logOutBtnText {
-	color: white;
+  color: white;
 }
 
 .dash {
-	width: 19px;
-	height: 2px;
-	background: #5d5fef;
-	border-radius: 2px;
-	margin-top: 2px;
+  width: 19px;
+  height: 2px;
+  background: #5d5fef;
+  border-radius: 2px;
+  margin-top: 2px;
 }
 
 .newsContainer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .createPostText {
-	font-family: "Playfair Display";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 25px;
-	line-height: 21px;
-	color: #5d5fef;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 21px;
+  color: #5d5fef;
 }
 
 .homeText {
-	background: #5d5fef;
-	border-radius: 4px;
-	color: #f8f8f8;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 70px;
-	height: 37px;
+  background: #5d5fef;
+  border-radius: 4px;
+  color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 37px;
 }
 
 .centerLinks {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .newsLink {
-	width: 56px;
-	height: 37px;
-	background: #5d5fef;
-	border-radius: 4px;
-	color: #f8f8f8;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  width: 56px;
+  height: 37px;
+  background: #5d5fef;
+  border-radius: 4px;
+  color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .newsLeft,
 .blog {
-	font-family: "Roboto";
+  font-family: "Roboto";
 }
 
 .newsLeft {
-	font-style: normal;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 19px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .newsLeftLink {
-	margin-right: 40px;
+  margin-right: 40px;
 }
 
 .blogLink {
-	margin-right: 35px;
+  margin-right: 35px;
 }
 
 .rightLinks {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .authImg {
-	width: 38px;
-	height: 38px;
-	border: 2px solid #dddddd;
-	border-radius: 64px;
+  width: 38px;
+  height: 38px;
+  border: 2px solid #dddddd;
+  border-radius: 64px;
 }
 
 .blog {
-	color: #a3a3a3;
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 19px;
+  color: #a3a3a3;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .homeContainer {
-	margin-right: 0px;
+  margin-right: 0px;
 }
 
 .leftLinks {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -5,37 +5,37 @@ import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
 import { storageService } from '../../localStorageService/storageService';
 const CentrNavbar = observer(
-	class CentrNavbar extends React.Component {
-		render() {
-			let isAuth = authService.isAuth;
+  class CentrNavbar extends React.Component {
+    render() {
+      let isAuth = authService.isAuth;
 
-			return (
-				<div className={styles.centerLinks}>
-					<Link to="/" className={styles.homeContainer}>
-						<span className={(styles.navText, styles.homeText)}>Home</span>
-					</Link>
-					{!isAuth ? (
-						<Link to="/login">
-							<button className={styles.loginBtn}>
-								<span className={(styles.navText, styles.loginText)}>Login</span>
-							</button>
-						</Link>
-					) : (
-						<>
-							<Link to="/createpost">
-								<span className={(styles.navText, styles.createPostText)}>
-									Create Post
-								</span>
-							</Link>
-							<button onClick={authService.handleLogOut} className={styles.logOutBtn}>
-								<span className={styles.logOutBtnText}>Log Out</span>
-							</button>
-						</>
-					)}
-				</div>
-			);
-		}
-	}
+      return (
+        <div className={styles.centerLinks}>
+          <Link to="/" className={styles.homeContainer}>
+            <span className={(styles.navText, styles.homeText)}>Home</span>
+          </Link>
+          {!isAuth ? (
+            <Link to="/login">
+              <button className={styles.loginBtn}>
+                <span className={(styles.navText, styles.loginText)}>Login</span>
+              </button>
+            </Link>
+          ) : (
+            <>
+              <Link to="/createpost">
+                <span className={(styles.navText, styles.createPostText)}>
+                  Create Post
+                </span>
+              </Link>
+              <button onClick={authService.handleLogOut} className={styles.logOutBtn}>
+                <span className={styles.logOutBtnText}>Log Out</span>
+              </button>
+            </>
+          )}
+        </div>
+      );
+    }
+  }
 );
 
 export default CentrNavbar;
