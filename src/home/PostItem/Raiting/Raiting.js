@@ -1,4 +1,4 @@
-import SvgEmptyStar from "../../../assets/icons/SvgEmptyStar";
+import SvgEmptyStar from '../../../assets/icons/SvgEmptyStar';
 
 export default function Raiting() {
 	return (

@@ -1,27 +1,27 @@
 .createPostWindow {
-  margin-top: 50px;
+	margin-top: 50px;
 }
 
 .createPostContainer {
-  margin: 0 auto;
-  width: 508px;
-  height: 666px; /*rofl */
-  background: #ffffff;
-  border-radius: 14px 10px 2px;
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-  flex-direction: column;
+	margin: 0 auto;
+	width: 508px;
+	height: 666px; /*rofl */
+	background: #ffffff;
+	border-radius: 14px 10px 2px;
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+	flex-direction: column;
 }
 
 .postTitle {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 48px;
-  line-height: 72px;
-  text-align: center;
-  color: #5d5fef;
-  margin-top: 27px;
-  margin-bottom: 21px;
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 48px;
+	line-height: 72px;
+	text-align: center;
+	color: #5d5fef;
+	margin-top: 27px;
+	margin-bottom: 21px;
 }

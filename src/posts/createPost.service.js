@@ -1,13 +1,13 @@
-import {addDoc, collection} from "firebase/firestore";
-import {auth, db} from "../firebase-config";
+import { addDoc, collection } from 'firebase/firestore';
+import { auth, db } from '../firebase-config';
 
 class CreatePostService {
-	#collection = collection(db, "posts");
+	#collection = collection(db, 'posts');
 
 	get #authorData() {
 		return {
 			name: auth.currentUser.displayName,
-			id: auth.currentUser.uid
+			id: auth.currentUser.uid,
 		};
 	}
 
@@ -16,7 +16,7 @@ class CreatePostService {
 			...postData,
 			author: this.#authorData,
 		});
-	}
+	};
 }
 
 export const createPostService = new CreatePostService();

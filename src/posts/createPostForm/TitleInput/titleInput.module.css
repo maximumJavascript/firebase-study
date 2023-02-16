@@ -1,20 +1,20 @@
 .inputHeader {
-  border: 1px solid #006297;
-  border-radius: 4px;
-  color: black;
-  padding: 6px 16px;
-  width: 320px;
-  height: 32px;
-  font-family: "Inter";
-  box-sizing: border-box;
+	border: 1px solid #006297;
+	border-radius: 4px;
+	color: black;
+	padding: 6px 16px;
+	width: 320px;
+	height: 32px;
+	font-family: "Inter";
+	box-sizing: border-box;
 }
 .inputHeader::placeholder {
-  color: #bdc1c3;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  font-family: "Inter";
+	color: #bdc1c3;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 20px;
+	font-family: "Inter";
 }
 .inputTitleContainer {
-  display: flex;
+	display: flex;
 }

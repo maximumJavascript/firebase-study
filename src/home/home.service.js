@@ -1,7 +1,7 @@
-import { postsService } from "../posts/posts.service";
+import { postsService } from '../posts/posts.service';
 
 class HomeService {
-  posts = postsService;
+	posts = postsService;
 }
 
 export const homeService = new HomeService();

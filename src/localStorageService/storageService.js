@@ -1,19 +1,19 @@
-import { autorun } from "mobx";
-import { authService } from "../auth/auth.service";
+import { autorun } from 'mobx';
+import { authService } from '../auth/auth.service';
 class StorageService {
-  setAuthToStorage = (isAuth) => {
-    window.localStorage.setItem("isAuth", isAuth);
-  };
-  setSrcToStorage = (src) => {
-    window.localStorage.setItem("src", src);
-  };
-  getSrcFromStorage = () => window.localStorage.getItem("src");
-  clearStorage = () => {
-    window.localStorage.clear();
-  };
-  isStorageAuth = () => {
-    return window.localStorage.getItem("isAuth") === "true";
-  };
+	setAuthToStorage = (isAuth) => {
+		window.localStorage.setItem('isAuth', isAuth);
+	};
+	setSrcToStorage = (src) => {
+		window.localStorage.setItem('src', src);
+	};
+	getSrcFromStorage = () => window.localStorage.getItem('src');
+	clearStorage = () => {
+		window.localStorage.clear();
+	};
+	isStorageAuth = () => {
+		return window.localStorage.getItem('isAuth') === 'true';
+	};
 }
 const storageService = new StorageService();
 export default storageService;

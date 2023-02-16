@@ -1,5 +1,5 @@
-import SvgEye from "../../../assets/icons/SvgEye";
-import styles from "./Views.module.css";
+import SvgEye from '../../../assets/icons/SvgEye';
+import styles from './Views.module.css';
 
 export default function Views() {
 	return (
