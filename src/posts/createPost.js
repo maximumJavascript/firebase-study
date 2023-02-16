@@ -3,9 +3,9 @@ import { observer } from 'mobx-react';
 import { authService } from '../auth/auth.service';
 import { createPostService } from './createPost.service';
 import { Navigate } from 'react-router-dom';
-import TextArea from './createPostForm/TextArea/TextArea';
-import TitleInput from './createPostForm/TitleInput/TitleInput';
-import CreatePostBtn from './createPostForm/CreatePostBtn/CreatePostBtn';
+import TextArea from '../controls/createPostForm/TextArea/TextArea';
+import TitleInput from '../controls/createPostForm/TitleInput/TitleInput';
+import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
 
 export const CreatePost = observer(
