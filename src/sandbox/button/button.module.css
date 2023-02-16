@@ -1,3 +1,10 @@
+.sandboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .btn {
   background-color: #006297;
   color: #fff;

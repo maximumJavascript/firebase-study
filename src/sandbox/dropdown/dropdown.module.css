@@ -1,17 +1,31 @@
+.sandboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 3em 0 15em 0;
+}
+
 .dropdownContainer {
+  max-width: 252px;
+  width: 100%;
   text-align: left;
   border: 1px solid #ccc;
   position: relative;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .dropdownInput {
   padding: 5px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   user-select: none;
+}
+
+.dropdownSelectedValue {
+  background-color: #E7F0F5;
 }
 
 .dropdownMenu {
@@ -26,15 +40,15 @@
   transition: background-color .2s liner;
 }
 
-.dropdown-item {
+.dropdownItem {
   padding: 5px;
   cursor: pointer;
 }
 
-.dropdown-item:hover {
+.dropdownItem:hover {
   background-color: #F0F1F3;
 }
 
-.active-color {
+.activeColor {
   background-color: #62e062;
 }

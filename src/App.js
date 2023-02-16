@@ -1,20 +1,28 @@
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "./firebase-config";
-import CreatePost from "./posts";
-import Home from "./home";
-import Login from "./auth";
-import NavBar from "./header/MainNavbar/NavBar";
-import { authService } from "./auth/auth.service";
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from './firebase-config';
+import CreatePost from './posts';
+import Home from './home';
+import Login from './auth';
+import NavBar from './header/MainNavbar/NavBar';
+import Button from './sandbox/button';
+import Dropdown from './sandbox/dropdown/Dropdown';
+import { authService } from './auth/auth.service';
+
+const options = [
+  { id: 0, value: 'Dog', label: 'Dog' },
+  { id: 1, value: 'Cat', label: 'Cat' },
+  { id: 2, value: 'Frontender', label: 'Frontender' },
+];
 
 function App() {
   const signUserOut = () => {
     signOut(auth).then(() => {
       authService.setSrc(null);
       authService.handleIsAuth();
-      window.location.pathname = "/login";
+      window.location.pathname = '/login';
     });
   };
 
@@ -26,6 +34,8 @@ function App() {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Button />
+      <Dropdown options={options} />
     </Router>
   );
 }

@@ -1,9 +1,12 @@
+import styles from './dropdown.module.css';
+
+console.log(this.props.options);
 <div>
-  {options.map((option) => {
+  {this.props.options.map((option) => {
     return (
       <div
         key={option.id}
-        className={this.state.isClicked ? "active-color" : null}
+        className={this.state.isClicked ? styles.activeColor : null}
         onClick={this.toggleClass}
       >
         {option.value}

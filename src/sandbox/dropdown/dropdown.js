@@ -1,8 +1,9 @@
-import React from "react";
-import styles from "./dropdown.module.css";
-import Icon from "./icon";
+import React from 'react';
+import styles from './dropdown.module.css';
+import Icon from './icon';
+// import Option from './Option';
 
-export default class PureDropdown extends React.Component {
+export default class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isOpen: false, selectedItemId: 1 };
@@ -16,14 +17,16 @@ export default class PureDropdown extends React.Component {
 
   render() {
     return (
-      <div className={styles.dropdownContainer}>
-        <div className={styles.dropdownInput}>
-          <div className={styles.dropdownSelectedValue}>
-            {!this.state.selectedItemId
-              ? "Placeholder..."
-              : this.props.options.find(
-                  (elem) => elem.id === this.state.selectedItemId
-                ).label}
+      <div className={styles.sandboxContainer}>
+        <h2>Dropdown:</h2>
+        <div className={styles.dropdownContainer}>
+          <div className={styles.dropdownInput}>
+            <div className={styles.dropdownSelectedValue}>
+              {!this.state.selectedItemId
+                ? 'Placeholder...'
+                : this.props.options.find((elem) => elem.id === this.state.selectedItemId)
+                    .label}
+            </div>
             <Icon />
           </div>
         </div>

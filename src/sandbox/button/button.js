@@ -1,5 +1,5 @@
-import React from "react";
-import "./button.module.css";
+import React from 'react';
+import styles from './button.module.css';
 
 export default class Button extends React.Component {
   constructor(props) {
@@ -14,22 +14,25 @@ export default class Button extends React.Component {
   };
 
   render() {
-    const hoverClass = this.state.isHovered ? "btn-hovered" : "";
-    const clickClass = this.isClicked ? "btn-pressed" : "";
+    const hoverClass = this.state.isHovered ? 'btn-hovered' : '';
+    const clickClass = this.isClicked ? 'btn-pressed' : '';
 
     return (
-      <button
-        onClick={this.handleHover}
-        className={`btn ${hoverClass} ${clickClass}`}
-      >
-        Vsesoki
-      </button>
+      <div className={styles.sandboxContainer}>
+        <h2>Button:</h2>
+        <button
+          onClick={this.handleHover}
+          className={`${styles.btn} ${styles.hoverClass} ${styles.clickClass}`}
+        >
+          Vsesoki
+        </button>
+      </div>
     );
   }
 }
 
 Button.defaultProps = {
-  label: "Empty button",
+  label: 'Empty button',
 };
 
 /*const { isPressed, isHovered, label } = this.props;
