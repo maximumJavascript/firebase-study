@@ -3,6 +3,7 @@ import Author from './Author';
 import Views from './Views';
 import Raiting from './Raiting';
 import styles from './PostItem.module.css';
+import { Link } from 'react-router-dom';
 
 export default function PostItem(props) {
   return (
@@ -22,9 +23,11 @@ export default function PostItem(props) {
           <Author name={props.post.author.name} />
           <Views />
           <Raiting />
-          <div className={styles.postShowMore}>
-            <SvgNext />
-          </div>
+          <Link to={`/comments/${props.post.id}`}>
+            <div className={styles.postShowMore}>
+              <SvgNext />
+            </div>
+          </Link>
         </div>
       </div>
     </div>
