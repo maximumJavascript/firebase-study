@@ -18,7 +18,7 @@ export default class PureDropdown extends React.Component {
     return (
       <div className={styles.dropdownContainer}>
         <div className={styles.dropdownInput}>
-          <div className="dropdown-selected-value">
+          <div className={styles.dropdownSelectedValue}>
             {!this.state.selectedItemId
               ? "Placeholder..."
               : this.props.options.find(
