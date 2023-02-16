@@ -1,16 +1,26 @@
+import React from 'react';
 import styles from './dropdown.module.css';
 
-console.log(this.props.options);
-<div>
-  {this.props.options.map((option) => {
+export default class Option extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
     return (
-      <div
-        key={option.id}
-        className={this.state.isClicked ? styles.activeColor : null}
-        onClick={this.toggleClass}
-      >
-        {option.value}
+      <div>
+        {this.props.options.map((option) => {
+          return (
+            <div
+              key={option.id}
+              className={this.state.isClicked ? styles.activeColor : null}
+              onClick={this.toggleClass}
+            >
+              {option.value}
+            </div>
+          );
+        })}
       </div>
     );
-  })}
-</div>;
+  }
+}

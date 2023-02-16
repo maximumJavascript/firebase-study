@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './dropdown.module.css';
 import Icon from './icon';
-// import Option from './Option';
+import Option from './Option';
 
 export default class Dropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, selectedItemId: 1 };
+    this.state = { isOpen: false, selectedItemId: 0 };
   }
 
   toggleClass = () => {
@@ -29,6 +29,7 @@ export default class Dropdown extends React.Component {
             </div>
             <Icon />
           </div>
+          <Option />
         </div>
       </div>
     );
