@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/firebase-study/static/css/main.bc551bb9.css",
+    "main.js": "/firebase-study/static/js/main.78c001d8.js",
+    "index.html": "/firebase-study/index.html",
+    "main.bc551bb9.css.map": "/firebase-study/static/css/main.bc551bb9.css.map",
+    "main.78c001d8.js.map": "/firebase-study/static/js/main.78c001d8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bc551bb9.css",
+    "static/js/main.78c001d8.js"
+  ]
+}
