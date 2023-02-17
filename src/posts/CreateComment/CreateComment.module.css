@@ -1,0 +1,21 @@
+.commentInput,
+.commentButton {
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.CreateComment {
+  display: flex;
+  column-gap: 15px;
+}
+
+.commentInput {
+  width: 100%;
+  font-size: 20px;
+}
+
+.commentButton {
+  padding: 0 20px;
+  height: 100%;
+}

@@ -3,14 +3,12 @@ import styles from './textArea.module.css';
 
 export default class TextArea extends Component {
   render() {
-    const classNames = Array.isArray(this.props.classNames)
-      ? this.props.classNames.join(' ')
-      : '';
+    const className = this.props.className ? this.props.className : '';
     return (
       <textarea
-        className={`${styles.createPostTextArea} ${classNames}`}
+        className={`${styles.createPostTextArea} ${className}`}
         placeholder={this.props.placeholder}
-        name="area"
+        name={this.props.name}
         onChange={this.props.onChange}
         value={this.props.value}
         required

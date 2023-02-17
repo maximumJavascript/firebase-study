@@ -8,7 +8,7 @@ export default class TitleInput extends Component {
         <input
           className={styles.inputHeader}
           placeholder={this.props.placeholder}
-          name="title"
+          name={this.props.name}
           onChange={this.props.onChange}
           value={this.props.value}
           required

@@ -13,8 +13,8 @@ export const CreatePost = observer(
     constructor(props) {
       super(props);
       this.state = {
-        titleValue: '',
-        areaValue: '',
+        title: '',
+        area: '',
       };
     }
 
@@ -22,16 +22,16 @@ export const CreatePost = observer(
       e.preventDefault();
       this.setState((state) => {
         createPostService.handleCreatePost({
-          title: state.titleValue,
-          text: state.areaValue,
+          title: state.title,
+          text: state.area,
         });
-        return { titleValue: '', areaValue: '' };
+        return { title: '', area: '' };
       });
     };
 
     handleInput = (e) => {
       this.setState({
-        [e.target.name + 'Value']: e.target.value,
+        [e.target.name]: e.target.value,
       });
     };
 
@@ -43,13 +43,15 @@ export const CreatePost = observer(
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput
               onChange={this.handleInput}
-              value={this.state.titleValue}
+              value={this.state.title}
               placeholder="Title post"
+              name="title"
             />
             <TextArea
               onChange={this.handleInput}
-              value={this.state.areaValue}
+              value={this.state.area}
               placeholder="Text post"
+              name="area"
             />
             <CreatePostBtn text={'SEND'} />
           </form>
