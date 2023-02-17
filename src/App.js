@@ -34,7 +34,7 @@ function App() {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      <Button />
+      <Button label={'Text botton'} />
       <Dropdown options={options} />
     </Router>
   );

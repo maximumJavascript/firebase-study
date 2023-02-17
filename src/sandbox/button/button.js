@@ -14,17 +14,13 @@ export default class Button extends React.Component {
   };
 
   render() {
-    const hoverClass = this.state.isHovered ? 'btn-hovered' : '';
-    const clickClass = this.isClicked ? 'btn-pressed' : '';
+    const classes = `${styles.button} ${styles.medium} ${styles.primary}`;
 
     return (
       <div className={styles.sandboxContainer}>
         <h2>Button:</h2>
-        <button
-          onClick={this.handleHover}
-          className={`${styles.btn} ${styles.hoverClass} ${styles.clickClass}`}
-        >
-          Vsesoki
+        <button onClick={this.handleHover} className={classes}>
+          {this.props.label}
         </button>
       </div>
     );

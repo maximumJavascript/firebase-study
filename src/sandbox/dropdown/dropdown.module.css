@@ -22,10 +22,24 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  background-color: none;
+}
+
+.dropdownInputValue {
+  transition: background-color .2s linear;
+}
+
+.dropdownInputValue:hover { 
+  background-color: #F0F1F3;
 }
 
 .dropdownSelectedValue {
   background-color: #E7F0F5;
+}
+
+.dropdownSelectedValue {
+  background-color: red;
+  /* background-color: #E7F0F5; */
 }
 
 .dropdownMenu {
