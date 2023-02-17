@@ -43,7 +43,7 @@ export const CreatePost = observer(
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
             <TextArea onChange={this.handleInput} value={this.state.areaValue} />
-            <CreatePostBtn />
+            <CreatePostBtn text={'SEND'} />
           </form>
         </div>
       );

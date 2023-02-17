@@ -4,7 +4,7 @@ class CreatePostBtn extends React.Component {
   render() {
     return (
       <button className={styles.createPostBtn}>
-        <span className={styles.btnText}>SEND</span>
+        <span className={styles.btnText}>{this.props.text}</span>
       </button>
     );
   }

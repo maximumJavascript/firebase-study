@@ -2,6 +2,8 @@ import { Component } from 'react';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
 import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginButton';
+import TextArea from '../../controls/createPostForm/TextArea/TextArea';
+import CreatePostBtn from '../../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 
 const CreateComment = observer(
   class CreateComment extends Component {
@@ -17,7 +19,12 @@ const CreateComment = observer(
             text={'Чтобы оставлять комментарии, авторизуйтесь'}
           />
         );
-      return <div></div>;
+      return (
+        <div>
+          <TextArea />
+          <CreatePostBtn />
+        </div>
+      );
     }
   }
 );
