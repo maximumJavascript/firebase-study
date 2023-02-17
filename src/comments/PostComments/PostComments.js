@@ -30,7 +30,7 @@ const PostComments = observer(
             <PostItem post={post} isComments={true} />
           </div>
           <div>
-            <CreateComment />
+            <CreateComment postId={post.id} />
           </div>
           <div className={styles.commentsList}>
             <CommentsList postId={post.id} />

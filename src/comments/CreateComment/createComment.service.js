@@ -1,11 +1,15 @@
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../../firebase-config';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { auth, db } from '../../firebase-config';
 
 class CreateCommentService {
   _collection = collection(db, 'comments');
 
-  createComent = (commentData) => {
-    addDoc(this._collection, {});
+  createComment = async (commentData) => {
+    await addDoc(this._collection, {
+      authorId: auth.currentUser.uid,
+      date: Timestamp.fromDate(new Date()),
+      ...commentData,
+    });
   };
 }
 

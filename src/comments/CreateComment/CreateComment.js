@@ -26,6 +26,13 @@ const CreateComment = observer(
 
     handleSendComment = (e) => {
       e.preventDefault();
+      this.setState((state) => {
+        createCommentService.createComment({
+          text: state.areaValue,
+          postId: this.props.postId,
+        });
+        return { areaValue: '' };
+      });
     };
 
     render() {
