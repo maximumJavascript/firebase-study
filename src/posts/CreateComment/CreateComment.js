@@ -21,8 +21,8 @@ const CreateComment = observer(
         );
       return (
         <div>
-          <TextArea />
-          <CreatePostBtn />
+          <TextArea placeholder="Comment text" />
+          <CreatePostBtn text="Send" />
         </div>
       );
     }

@@ -6,7 +6,7 @@ export default class TextArea extends Component {
     return (
       <textarea
         className={styles.createPostTextArea}
-        placeholder="Text post"
+        placeholder={this.props.placeholder}
         name="area"
         onChange={this.props.onChange}
         value={this.props.value}

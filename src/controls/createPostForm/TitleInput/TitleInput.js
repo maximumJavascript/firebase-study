@@ -7,7 +7,7 @@ export default class TitleInput extends Component {
       <div className={styles.inputTitleContainer}>
         <input
           className={styles.inputHeader}
-          placeholder="Title post"
+          placeholder={this.props.placeholder}
           name="title"
           onChange={this.props.onChange}
           value={this.props.value}
