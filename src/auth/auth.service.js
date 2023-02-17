@@ -1,9 +1,10 @@
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase-config";
-import { action, makeObservable, observable, reaction, autorun } from "mobx";
-import { signOut } from "firebase/auth";
-import { getAuth, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
-import storageService from "../localStorageService/storageService";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../firebase-config';
+import { action, makeObservable, observable, reaction, autorun } from 'mobx';
+import { signOut } from 'firebase/auth';
+import { createUserService } from '../usersService/CreateUsersService';
+import { userService } from '../usersService/UserService';
+import storageService from '../localStorageService/storageService';
 class AuthService {
   photoSrc = null;
   isAuth = false;
@@ -36,29 +37,26 @@ class AuthService {
   };
   handleLogin = () => {
     signInWithPopup(auth, provider).then((value) => {
-      const credential = GoogleAuthProvider.credentialFromResult(value);
-      provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
       this.setUserId(value.user.uid);
       this.setSrc(value.user.photoURL);
       this.handleIsAuth();
-    });
-    getRedirectResult(auth).then((result) => {
-      // This gives you a Google Access Token. You can use it to access Google APIs.
-      console.log(result);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+      userService.getUsers().then((users) => {
+        if (users.some((user) => user.user.userUid !== value.user.uid)) {
+          createUserService.handleAddUsers({
+            userUid: value.user.uid,
+            userName: value.user.displayName,
+            userPhoto: value.user.photoURL,
+            userEmail: value.user.email,
+          });
+        }
+      });
     });
   };
   handleLogOut = () => {
     signOut(auth).then(() => {
       this.handleIsAuth();
       this.isLogOut = true;
-      window.location.pathname = "/login";
+      window.location.pathname = '/login';
     });
   };
 }
