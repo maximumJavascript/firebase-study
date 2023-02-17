@@ -1,5 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { postsService } from '../posts.service';
+import { postsService } from '../../posts/posts.service';
 
 class CommentsService {
   post = {};

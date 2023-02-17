@@ -21,7 +21,7 @@ export const CreatePost = observer(
     handleFormSubmit = async (e) => {
       e.preventDefault();
       this.setState((state) => {
-        createPostService.handleCreatePost({
+        createPostService.createPost({
           title: state.title,
           text: state.area,
         });

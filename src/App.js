@@ -8,7 +8,7 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import Comments from './posts/PostComments';
+import Comments from './comments/PostComments';
 
 function App() {
   const signUserOut = () => {

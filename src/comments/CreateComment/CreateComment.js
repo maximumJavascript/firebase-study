@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
+import { createCommentService } from './createComment.service';
 import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginButton';
 import TextArea from '../../controls/createPostForm/TextArea/TextArea';
 import CreatePostBtn from '../../controls/createPostForm/CreatePostBtn/CreatePostBtn';
