@@ -1,5 +1,6 @@
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../../firebase-config';
+import { commentsListService } from '../CommentsList/commentsList.service';
 
 class CreateCommentService {
   _collection = collection(db, 'comments');
@@ -10,6 +11,7 @@ class CreateCommentService {
       date: Timestamp.fromDate(new Date()),
       ...commentData,
     });
+    void (await commentsListService.getComments(commentData.postId));
   };
 }
 

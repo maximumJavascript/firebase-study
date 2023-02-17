@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { Comment } from '../Comment/Comment';
