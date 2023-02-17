@@ -4,6 +4,7 @@ import { authService } from '../../auth/auth.service';
 import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginButton';
 import TextArea from '../../controls/createPostForm/TextArea/TextArea';
 import CreatePostBtn from '../../controls/createPostForm/CreatePostBtn/CreatePostBtn';
+import styles from './CreateComment.module.css';
 
 const CreateComment = observer(
   class CreateComment extends Component {
@@ -21,7 +22,7 @@ const CreateComment = observer(
         );
       return (
         <div>
-          <TextArea placeholder="Comment text" />
+          <TextArea classNames={[styles.test]} placeholder="Comment text" />
           <CreatePostBtn text="Send" />
         </div>
       );
