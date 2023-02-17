@@ -2,8 +2,8 @@ import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { commentsService } from './postComments.service';
 import PostItem from '../../home/PostItem';
-import styles from './postComments.module.css';
 import homeStyles from '../../home/home.module.css';
+import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 
 const PostComments = observer(
@@ -22,11 +22,13 @@ const PostComments = observer(
       const post = commentsService.post;
       if (post.id !== this.id) return null;
       return (
-        <div className={homeStyles.container}>
-          <div className={homeStyles.homePage}>
+        <div
+          className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}
+        >
+          <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
             <PostItem post={post} isComments={true} />
           </div>
-          <div>
+          <div className={styles.commentsList}>
             <CommentsList postId={post.id} />
           </div>
         </div>

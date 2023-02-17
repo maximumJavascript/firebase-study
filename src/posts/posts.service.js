@@ -1,6 +1,6 @@
 import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase-config';
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, runInAction } from 'mobx';
 
 class PostsService {
   _collection = collection(db, 'posts');
@@ -15,10 +15,12 @@ class PostsService {
 
   getPosts = async () => {
     const data = await getDocs(this._collection);
-    return (this.data = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    })));
+    runInAction(() => {
+      return (this.data = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })));
+    });
   };
 
   getSinglePost = async (id) => {

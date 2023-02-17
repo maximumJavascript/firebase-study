@@ -13,7 +13,7 @@ class CommentsService {
   getPost = async (id) => {
     const post = await postsService.getSinglePost(id);
     runInAction(() => {
-      this.post = { ...post, id };
+      return (this.post = { ...post, id });
     });
   };
 }

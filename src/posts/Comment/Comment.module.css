@@ -1,0 +1,11 @@
+.comment {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.commentText {
+  font-weight: 500;
+  font-size: 18px;
+  color: #121221;
+}

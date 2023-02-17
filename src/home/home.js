@@ -14,7 +14,7 @@ const Home = observer(
       const postLists = homeService.posts.data;
 
       return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
             {postLists.map((post) => (
               <PostItem key={post.id} post={post} />
