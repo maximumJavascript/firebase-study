@@ -5,6 +5,7 @@ import PostItem from '../../home/PostItem';
 import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
+import CreateComment from '../CreateComment';
 
 const PostComments = observer(
   class PostComments extends Component {
@@ -27,6 +28,9 @@ const PostComments = observer(
         >
           <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
             <PostItem post={post} isComments={true} />
+          </div>
+          <div>
+            <CreateComment />
           </div>
           <div className={styles.commentsList}>
             <CommentsList postId={post.id} />
