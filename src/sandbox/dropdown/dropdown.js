@@ -6,7 +6,7 @@ import Option from './option';
 export default class PureDropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, selectedItemId: undefined };
+    this.state = { isOpen: false, isClicked: false, selectedItemId: undefined };
   }
 
   toggleIsOpen = () => {
@@ -14,6 +14,8 @@ export default class PureDropdown extends React.Component {
       isOpen: !prevState.isOpen,
     }));
   };
+
+  onChangeClass = (id) => this.setState({ isClicked: id });
 
   handleSelectItem = (selectedItemId) => {
     this.setState({
@@ -39,11 +41,11 @@ export default class PureDropdown extends React.Component {
               {this.props.options.map((option) => {
                 return (
                   <Option
-                    className={styles.dropdownInputValue}
                     key={option.id}
                     optionObj={option}
                     onSelectItem={this.handleSelectItem}
                     onToggle={this.toggleIsOpen}
+                    onChangeClass={this.onChangeClass}
                   />
                 );
               })}
