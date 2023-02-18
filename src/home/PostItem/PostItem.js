@@ -20,7 +20,11 @@ export default function PostItem(props) {
           <div className={styles.postTextContainer}>{props.post.text}</div>
         </div>
         <div className={styles.postFooter}>
-          <Author userPhoto={props.user.userPhoto} userName={props.user.userName} />
+          <Author
+            userPhoto={props.user.userPhoto}
+            userName={props.user.userName}
+            date={props.date}
+          />
           <Views />
           <Raiting />
           <div className={styles.postShowMore}>

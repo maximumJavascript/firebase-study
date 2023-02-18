@@ -18,10 +18,17 @@ const Home = observer(
         <div className={styles.container}>
           <div className={styles.homePage}>
             {postLists.map((post) => {
+              console.log(toJS(post));
               return userList.map((user) => {
                 if (user.user.userUid === post.author.id) {
-                  console.log('true');
-                  return <PostItem key={post.id} post={post} user={user.user} />;
+                  return (
+                    <PostItem
+                      key={post.id}
+                      post={post}
+                      user={user.user}
+                      date={post.date}
+                    />
+                  );
                 }
               });
             })}

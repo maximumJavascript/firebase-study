@@ -7,7 +7,20 @@ import TextArea from './createPostForm/TextArea/TextArea';
 import TitleInput from './createPostForm/TitleInput/TitleInput';
 import CreatePostBtn from './createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
-
+function date() {
+  let d = new Date();
+  return (
+    ('0' + d.getDate()).slice(-2) +
+    '-' +
+    ('0' + (d.getMonth() + 1)).slice(-2) +
+    '-' +
+    d.getFullYear() +
+    ' ' +
+    ('0' + d.getHours()).slice(-2) +
+    ':' +
+    ('0' + d.getMinutes()).slice(-2)
+  );
+}
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
@@ -24,6 +37,7 @@ export const CreatePost = observer(
         createPostService.handleCreatePost({
           title: state.titleValue,
           text: state.areaValue,
+          date: date(),
         });
         return { titleValue: '', areaValue: '' };
       });

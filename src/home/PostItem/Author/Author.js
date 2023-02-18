@@ -11,9 +11,7 @@ export default function Author(props) {
       </div>
       <div className={styles.authorInfo}>
         <div className={styles.authorName}>@{props.userName}</div>
-        <div className={styles.authorPostDate}>
-          {new Date().toLocaleDateString('en', { dateStyle: 'medium' })}
-        </div>
+        <div className={styles.authorPostDate}>{props.date}</div>
       </div>
     </div>
   );
