@@ -44,6 +44,7 @@ class AuthService {
       this.setSrc(value.user.photoURL);
       this.handleIsAuth();
       userService.getUsers().then((users) => {
+        // проверка на наличие/отсутствие юзера в базе и добавление в базу юзера, если такого там еще нет
         if (users.some((user) => user.user.userUid !== value.user.uid)) {
           createUserService.handleAddUsers({
             userUid: value.user.uid,

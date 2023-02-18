@@ -18,19 +18,12 @@ const Home = observer(
         <div className={styles.container}>
           <div className={styles.homePage}>
             {postLists.map((post) => {
-              console.log(toJS(post));
-              return userList.map((user) => {
-                if (user.user.userUid === post.author.id) {
-                  return (
-                    <PostItem
-                      key={post.id}
-                      post={post}
-                      user={user.user}
-                      date={post.date}
-                    />
-                  );
-                }
+              let user = userList.find((user) => {
+                return user.user.userUid === post.author.id ? user : undefined;
               });
+              return user !== undefined ? (
+                <PostItem key={post.id} post={post} user={user.user} date={post.date} />
+              ) : undefined;
             })}
           </div>
         </div>
