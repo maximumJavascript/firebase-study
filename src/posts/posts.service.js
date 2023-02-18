@@ -1,9 +1,9 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase-config";
-import { makeObservable, observable } from "mobx";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase-config';
+import { makeObservable, observable } from 'mobx';
 
 class PostsService {
-  _collection = collection(db, "posts");
+  _collection = collection(db, 'posts');
   data = [];
 
   constructor() {

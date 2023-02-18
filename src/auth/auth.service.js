@@ -1,8 +1,8 @@
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase-config";
-import { action, makeObservable, observable, reaction, autorun } from "mobx";
-import { signOut } from "firebase/auth";
-import storageService from "../localStorageService/storageService";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../firebase-config';
+import { action, makeObservable, observable, reaction, autorun } from 'mobx';
+import { signOut } from 'firebase/auth';
+import storageService from '../localStorageService/storageService';
 class AuthService {
   photoSrc = null;
   isAuth = false;
@@ -42,7 +42,7 @@ class AuthService {
     signOut(auth).then(() => {
       this.handleIsAuth();
       this.isLogOut = true;
-      window.location.pathname = "/login";
+      window.location.pathname = '/login';
     });
   };
 }

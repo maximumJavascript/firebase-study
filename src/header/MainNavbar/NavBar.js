@@ -1,7 +1,7 @@
-import React from "react";
-import LeftNavbar from "../LeftPartOfNavbar/LeftNavbarPart";
-import CentrNavbar from "../CentrPartOfNavbar/CentrNavbar";
-import RightNavbar from "../RightPartOfNavbar/RightNavbar";
+import React from 'react';
+import LeftNavbar from '../LeftPartOfNavbar/LeftNavbarPart';
+import CentrNavbar from '../CentrPartOfNavbar/CentrNavbar';
+import RightNavbar from '../RightPartOfNavbar/RightNavbar';
 
 class NavBar extends React.Component {
   render() {

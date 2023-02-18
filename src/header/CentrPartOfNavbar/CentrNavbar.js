@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "../Navbar.module.css";
-import { Link } from "react-router-dom";
-import { observer } from "mobx-react";
-import { authService } from "../../auth/auth.service";
-import { storageService } from "../../localStorageService/storageService";
+import React from 'react';
+import styles from '../Navbar.module.css';
+import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { authService } from '../../auth/auth.service';
+import { storageService } from '../../localStorageService/storageService';
 const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
     render() {
@@ -17,9 +17,7 @@ const CentrNavbar = observer(
           {!isAuth ? (
             <Link to="/login">
               <button className={styles.loginBtn}>
-                <span className={(styles.navText, styles.loginText)}>
-                  Login
-                </span>
+                <span className={(styles.navText, styles.loginText)}>Login</span>
               </button>
             </Link>
           ) : (
@@ -29,10 +27,7 @@ const CentrNavbar = observer(
                   Create Post
                 </span>
               </Link>
-              <button
-                onClick={authService.handleLogOut}
-                className={styles.logOutBtn}
-              >
+              <button onClick={authService.handleLogOut} className={styles.logOutBtn}>
                 <span className={styles.logOutBtnText}>Log Out</span>
               </button>
             </>

@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./createPostBtn.module.css";
+import React from 'react';
+import styles from './createPostBtn.module.css';
 class CreatePostBtn extends React.Component {
   render() {
     return (
