@@ -1,20 +1,20 @@
-import { Component } from "react";
-import { observer } from "mobx-react";
-import { authService } from "../auth/auth.service";
-import { createPostService } from "./createPost.service";
-import { Navigate } from "react-router-dom";
-import TextArea from "./createPostForm/TextArea/TextArea";
-import TitleInput from "./createPostForm/TitleInput/TitleInput";
-import CreatePostBtn from "./createPostForm/CreatePostBtn/CreatePostBtn";
-import styles from "./createPost.module.css";
+import { Component } from 'react';
+import { observer } from 'mobx-react';
+import { authService } from '../auth/auth.service';
+import { createPostService } from './createPost.service';
+import { Navigate } from 'react-router-dom';
+import TextArea from './createPostForm/TextArea/TextArea';
+import TitleInput from './createPostForm/TitleInput/TitleInput';
+import CreatePostBtn from './createPostForm/CreatePostBtn/CreatePostBtn';
+import styles from './createPost.module.css';
 
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        titleValue: "",
-        areaValue: "",
+        titleValue: '',
+        areaValue: '',
       };
     }
 
@@ -24,20 +24,18 @@ export const CreatePost = observer(
         createPostService.handleCreatePost({
           title: state.titleValue,
           text: state.areaValue,
-          photoSrc: authService.photoSrc,
         });
-        return { titleValue: "", areaValue: "" };
+        return { titleValue: '', areaValue: '' };
       });
     };
 
     handleInput = (e) => {
       this.setState({
-        [e.target.name + "Value"]: e.target.value,
+        [e.target.name + 'Value']: e.target.value,
       });
     };
 
     render() {
-      console.log(authService.userId);
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
         <div className={styles.createPostWindow}>

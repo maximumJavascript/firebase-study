@@ -29,12 +29,15 @@ class AuthService {
   setSrc = (src) => {
     this.photoSrc = src;
   };
+
   setUserId = (id) => {
     this.userId = id;
   };
+
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
+
   handleLogin = () => {
     signInWithPopup(auth, provider).then((value) => {
       this.setUserId(value.user.uid);
@@ -52,6 +55,7 @@ class AuthService {
       });
     });
   };
+
   handleLogOut = () => {
     signOut(auth).then(() => {
       this.handleIsAuth();
@@ -77,12 +81,3 @@ autorun(() => {
     storageService.clearStorage();
   }
 });
-
-// reaction(
-//   () => authService.isAuth,
-//   (isAuth) => storageService.handleAuth(isAuth)
-// );
-// reaction(
-//   () => authService.photoSrc,
-//   (photoSrc) => storageService.setPhoto(photoSrc)
-// );

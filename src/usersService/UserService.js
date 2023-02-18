@@ -16,7 +16,6 @@ class UserService {
     const data = await getDocs(this._collection);
     return (this.data = data.docs.map((doc) => ({
       ...doc.data(),
-      //   id: doc.id,
     })));
   };
 }
