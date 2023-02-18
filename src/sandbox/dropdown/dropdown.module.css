@@ -26,11 +26,13 @@
 }
 
 .dropdownInputValue {
+  background-color: #fff;
   transition: background-color .2s linear;
 }
 
 .dropdownInputValue:hover { 
-  background-color: #F0F1F3;
+  background-color: #286df9;
+  /* background-color: #F0F1F3; */
 }
 
 .dropdownSelectedValue {

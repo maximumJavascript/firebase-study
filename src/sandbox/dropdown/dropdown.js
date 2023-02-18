@@ -1,61 +1,63 @@
 import React from 'react';
 import styles from './dropdown.module.css';
 import Icon from './icon';
-// import classNames from 'classnames';
-// import Option from './option';
+import Option from './option';
 
-export default class Dropdown extends React.Component {
+export default class PureDropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, isClicked: 0, selectedItemId: 0 };
+    this.state = { isOpen: false, selectedItemId: undefined };
   }
 
-  onChangeClass = (id) => {
-    this.setState(({ isClicked }) => ({ isClicked: id }));
+  toggleIsOpen = () => {
+    this.setState((prevState) => ({
+      isOpen: !prevState.isOpen,
+    }));
   };
 
-  onChangeOpen = () => {
-    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
-  };
-
-  onChangeSelectedItem = () => {
-    this.setState(({ selectedItemId }) => ({ selectedItemId: !selectedItemId }));
+  handleSelectItem = (selectedItemId) => {
+    this.setState({
+      selectedItemId,
+    });
   };
 
   render() {
-    // const buttonClass = classNames([
-    //   styles.dropdownInputValue,
-    //   this.state.isClicked === option.id ? styles.dropdownSelectedValue : '',
-    // ]);
+    const selectedValue = !this.state.selectedItemId
+      ? 'Placeholder...'
+      : this.props.options.find((elem) => elem.id === this.state.selectedItemId).label;
 
     return (
       <div className={styles.sandboxContainer}>
-        <h2>Dropdown:</h2>
-        <div className={styles.dropdownContainer} onClick={this.onChangeOpen}>
-          <div className={styles.dropdownInput}>
-            <div onClick={this.onChangeSelectedItem}>
-              {!this.state.selectedItemId
-                ? 'Placeholder...'
-                : this.props.options.find((elem) => elem.id === this.state.selectedItemId)
-                    .label}
-            </div>
+        <h2>PureDropdown:</h2>
+        <div className={styles.dropdownContainer}>
+          <div className={styles.dropdownInput} onClick={this.toggleIsOpen}>
+            <div>{selectedValue}</div>
             <Icon />
           </div>
-          {!this.state.isOpen
-            ? this.props.options.map((option) => {
+          {this.state.isOpen && (
+            <div>
+              {this.props.options.map((option) => {
                 return (
-                  <div
+                  <Option
+                    className={styles.dropdownInputValue}
                     key={option.id}
-                    onClick={this.onChangeClass(option.id)}
-                    className={styles.dropdownSelectedValue}
-                  >
-                    {option.value}
-                  </div>
+                    optionObj={option}
+                    onSelectItem={this.handleSelectItem}
+                    onToggle={this.toggleIsOpen}
+                  />
                 );
-              })
-            : ''}
+              })}
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
+
+/*
+нужно просто инпут с выпадахой
+у тебя состояние isOpen true/false и все по логике. верстка еще
+выбор итема на клик
+еще состояние selectedItemId: string | undefined
+*/
