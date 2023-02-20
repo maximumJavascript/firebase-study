@@ -5,13 +5,12 @@ export default class Option extends React.Component {
   handleOnClick = () => {
     this.props.onSelectItem(this.props.optionObj.id);
     this.props.onToggle();
-    this.props.onChangeClassNames(this.props.optionObj.id);
   };
 
   render() {
     const buttonClass = classNames([
       styles.dropdownInputValue,
-      this.props.isClickedState ? styles.dropdownSelectedValue : '',
+      this.props.isSelected ? styles.dropdownSelectedValue : '',
     ]);
 
     return (

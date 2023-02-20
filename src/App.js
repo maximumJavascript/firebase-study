@@ -8,7 +8,7 @@ import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import Button from './sandbox/button/button';
-import Dropdown from './sandbox/dropdown/dropdown';
+import Dropdown from './sandbox/dropdown/Dropdown';
 import { authService } from './auth/auth.service';
 
 const options = [

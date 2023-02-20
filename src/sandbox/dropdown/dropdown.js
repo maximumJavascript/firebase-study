@@ -1,23 +1,17 @@
 import React from 'react';
 import styles from './dropdown.module.css';
-import Icon from './icon';
-import Option from './option';
+import Icon from '../../assets/icons/SvgArrowDown';
+import Option from './Option';
 
 export default class PureDropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, isClicked: false, selectedItemId: undefined };
+    this.state = { isOpen: false, selectedItemId: undefined };
   }
 
   toggleIsOpen = () => {
     this.setState((prevState) => ({
       isOpen: !prevState.isOpen,
-    }));
-  };
-
-  onChangeClass = () => {
-    this.setState(({ isClicked }) => ({
-      isClicked: !isClicked,
     }));
   };
 
@@ -42,18 +36,15 @@ export default class PureDropdown extends React.Component {
           </div>
           {this.state.isOpen && (
             <div>
-              {this.props.options.map((option) => {
-                return (
-                  <Option
-                    key={option.id}
-                    optionObj={option}
-                    onSelectItem={this.handleSelectItem}
-                    onToggle={this.toggleIsOpen}
-                    onChangeClassNames={this.onChangeClass}
-                    isClickedState={this.state.isClicked}
-                  />
-                );
-              })}
+              {this.props.options.map((option) => (
+                <Option
+                  key={option.id}
+                  optionObj={option}
+                  onSelectItem={this.handleSelectItem}
+                  onToggle={this.toggleIsOpen}
+                  isSelected={this.state.selectedItemId === option.id}
+                />
+              ))}
             </div>
           )}
         </div>
@@ -61,10 +52,3 @@ export default class PureDropdown extends React.Component {
     );
   }
 }
-
-/*
-нужно просто инпут с выпадахой
-у тебя состояние isOpen true/false и все по логике. верстка еще
-выбор итема на клик
-еще состояние selectedItemId: string | undefined
-*/
