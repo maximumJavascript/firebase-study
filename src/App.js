@@ -8,7 +8,7 @@ import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import { authService } from './auth/auth.service';
-
+import { userService } from './usersService/UserService';
 function App() {
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -17,7 +17,7 @@ function App() {
       window.location.pathname = '/login';
     });
   };
-
+  // userService.getUsers().then((user) => console.log(user));
   return (
     <Router>
       <NavBar />
