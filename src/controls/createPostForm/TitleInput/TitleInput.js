@@ -1,5 +1,5 @@
-import { Component } from "react";
-import styles from "./titleInput.module.css";
+import { Component } from 'react';
+import styles from './titleInput.module.css';
 
 export default class TitleInput extends Component {
   render() {

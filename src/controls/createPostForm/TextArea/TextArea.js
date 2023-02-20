@@ -1,5 +1,5 @@
-import { Component } from "react";
-import styles from "./textArea.module.css";
+import { Component } from 'react';
+import styles from './textArea.module.css';
 
 export default class TextArea extends Component {
   render() {

@@ -1,8 +1,8 @@
 .postViews {
-	display: flex;
-	column-gap: 12px;
-	font-weight: 700;
-	font-size: 18px;
-	line-height: 21px;
-	color: #515151;
+  display: flex;
+  column-gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  color: #515151;
 }
