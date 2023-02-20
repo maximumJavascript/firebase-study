@@ -5,6 +5,7 @@ export default class Option extends React.Component {
   handleOnClick = () => {
     this.props.onSelectItem(this.props.optionObj.id);
     this.props.onToggle();
+    this.props.onChangeClassNames(this.props.optionObj.id);
   };
 
   render() {
@@ -14,7 +15,7 @@ export default class Option extends React.Component {
     ]);
 
     return (
-      <div className={buttonClass} onClick={this.props.onChangeClassNames}>
+      <div className={buttonClass} onClick={this.handleOnClick}>
         {this.props.optionObj.label}
       </div>
     );

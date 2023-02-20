@@ -15,11 +15,9 @@ export default class PureDropdown extends React.Component {
     }));
   };
 
-  onChangeClass = (event) => {
-    event.stopPropagation();
-    this.setState(({ isClicked, isOpen }) => ({
+  onChangeClass = () => {
+    this.setState(({ isClicked }) => ({
       isClicked: !isClicked,
-      isOpen: !isOpen,
     }));
   };
 
