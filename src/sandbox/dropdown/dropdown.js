@@ -15,7 +15,13 @@ export default class PureDropdown extends React.Component {
     }));
   };
 
-  onChangeClass = (id) => this.setState({ isClicked: id });
+  onChangeClass = (event) => {
+    event.stopPropagation();
+    this.setState(({ isClicked, isOpen }) => ({
+      isClicked: !isClicked,
+      isOpen: !isOpen,
+    }));
+  };
 
   handleSelectItem = (selectedItemId) => {
     this.setState({
@@ -45,7 +51,8 @@ export default class PureDropdown extends React.Component {
                     optionObj={option}
                     onSelectItem={this.handleSelectItem}
                     onToggle={this.toggleIsOpen}
-                    onChangeClass={this.onChangeClass}
+                    onChangeClassNames={this.onChangeClass}
+                    isClickedState={this.state.isClicked}
                   />
                 );
               })}

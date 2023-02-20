@@ -32,7 +32,6 @@ Button.defaultProps = {
 };
 
 /*const { isPressed, isHovered, label } = this.props;
-
 const btnClass = classNames("btn", {
   "btn-pressed": isPressed,
   "btn-hovered": !isPressed && isHovered,

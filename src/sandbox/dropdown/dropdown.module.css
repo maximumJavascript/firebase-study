@@ -36,10 +36,6 @@
 }
 
 .dropdownSelectedValue {
-  background-color: #E7F0F5;
-}
-
-.dropdownSelectedValue {
   background-color: red;
   /* background-color: #E7F0F5; */
 }

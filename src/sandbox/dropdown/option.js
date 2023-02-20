@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './dropdown.module.css';
+import classNames from 'classnames';
 export default class Option extends React.Component {
   handleOnClick = () => {
     this.props.onSelectItem(this.props.optionObj.id);
@@ -7,14 +8,13 @@ export default class Option extends React.Component {
   };
 
   render() {
+    const buttonClass = classNames([
+      styles.dropdownInputValue,
+      this.props.isClickedState ? styles.dropdownSelectedValue : '',
+    ]);
+
     return (
-      <div
-        className={
-          (styles.dropdownInputValue,
-          this.state.isClicked ? styles.dropdownSelectedValue : '')
-        }
-        onClick={this.handleOnClick}
-      >
+      <div className={buttonClass} onClick={this.props.onChangeClassNames}>
         {this.props.optionObj.label}
       </div>
     );

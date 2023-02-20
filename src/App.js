@@ -7,8 +7,8 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import Button from './sandbox/button';
-import Dropdown from './sandbox/dropdown/Dropdown';
+import Button from './sandbox/button/button';
+import Dropdown from './sandbox/dropdown/dropdown';
 import { authService } from './auth/auth.service';
 
 const options = [
@@ -34,7 +34,7 @@ function App() {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      <Button label={'Text botton'} />
+      <Button label={'Text button'} />
       <Dropdown options={options} />
     </Router>
   );
