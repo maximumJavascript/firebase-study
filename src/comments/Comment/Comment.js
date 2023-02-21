@@ -8,7 +8,7 @@ const Comment = class Comment extends Component {
     // и передавать в автора
     return (
       <div className={styles.comment}>
-        <Author />
+        <Author authorId={this.props.data.authorId} />
         <div className={styles.commentText}>{this.props.data.text}</div>
       </div>
     );

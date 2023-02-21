@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import { authService } from './auth/auth.service';
+import { userService } from './usersService/UserService';
 import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
@@ -18,7 +19,7 @@ function App() {
       window.location.pathname = '/login';
     });
   };
-
+  // userService.getUsers().then((user) => console.log(user));
   return (
     <Router>
       <NavBar />

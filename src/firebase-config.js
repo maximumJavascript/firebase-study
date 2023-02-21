@@ -16,7 +16,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// это все необходимые штуки, чтобы обращаться к бд
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
+// console.log(provider);
+
+// Do not call this constructor directly. Instead, use firebase.auth().

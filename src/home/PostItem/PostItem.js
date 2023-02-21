@@ -3,6 +3,7 @@ import Author from './Author';
 import Views from './Views';
 import Raiting from './Raiting';
 import styles from './PostItem.module.css';
+import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 
 export default function PostItem(props) {
@@ -20,7 +21,11 @@ export default function PostItem(props) {
           <div className={styles.postTextContainer}>{props.post.text}</div>
         </div>
         <div className={styles.postFooter}>
-          <Author name={props.post.author.name} />
+          <Author
+            userPhoto={props.user.userPhoto}
+            userName={props.user.userName}
+            date={props.date}
+          />
           <Views />
           <Raiting />
           {!props.isComments && (
