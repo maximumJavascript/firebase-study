@@ -7,6 +7,7 @@ import TextArea from '../controls/createPostForm/TextArea/TextArea';
 import TitleInput from '../controls/createPostForm/TitleInput/TitleInput';
 import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
+import PhotoUploader from '../photoUploader/PhotoUploader';
 function date() {
   let d = new Date();
   return (
@@ -57,6 +58,7 @@ export const CreatePost = observer(
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
             <TextArea onChange={this.handleInput} value={this.state.areaValue} />
+            <PhotoUploader />
             <CreatePostBtn />
           </form>
         </div>
