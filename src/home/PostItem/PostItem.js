@@ -6,14 +6,16 @@ import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 
 export default function PostItem(props) {
+  let src = props.post.base64Img;
+  let imgJsx;
+  if(props.post.base64Img === undefined || props.post.base64Img === null ){
+    imgJsx = null
+  } else {
+    imgJsx = (<div className={styles.postImage}><img src={src} alt="post: img"/></div>)
+  }
   return (
     <div className={styles.post}>
-      <div className={styles.postImage}>
-        <img
-          src="https://shop.funlymc.ru/image/unsplash_EhTcC9sYXsw.jpg"
-          alt="post: img"
-        />
-      </div>
+      {imgJsx}
       <div className={styles.postContainer}>
         <div className={styles.postBodyText}>
           <div className={styles.postTitle}>{props.post.title}</div>

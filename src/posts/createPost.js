@@ -29,6 +29,7 @@ export const CreatePost = observer(
       this.state = {
         titleValue: '',
         areaValue: '',
+        base64Img: null,
       };
     }
 
@@ -39,6 +40,7 @@ export const CreatePost = observer(
           title: state.titleValue,
           text: state.areaValue,
           date: date(),
+          base64Img: state.base64Img,
         });
         return { titleValue: '', areaValue: '' };
       });
@@ -49,7 +51,9 @@ export const CreatePost = observer(
         [e.target.name + 'Value']: e.target.value,
       });
     };
-
+    getCode  = (file) => {
+      this.setState({base64Img: file})
+    };
     render() {
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
@@ -58,7 +62,7 @@ export const CreatePost = observer(
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
             <TextArea onChange={this.handleInput} value={this.state.areaValue} />
-            <PhotoUploader />
+            <PhotoUploader getCode = {this.getCode}/>
             <CreatePostBtn />
           </form>
         </div>
