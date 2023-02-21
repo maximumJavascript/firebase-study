@@ -23,9 +23,8 @@ export default function PostItem(props) {
         </div>
         <div className={styles.postFooter}>
           <Author
-            userPhoto={props.user.userPhoto}
-            userName={props.user.userName}
             date={props.date}
+            post = {props.post}
           />
           <Views />
           <Raiting />

@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase-config';
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, toJS } from 'mobx';
 
 class UserService {
   _collection = collection(db, 'users');
@@ -18,6 +18,7 @@ class UserService {
       ...doc.data(),
     })));
   };
+
 }
 
 export const userService = new UserService();

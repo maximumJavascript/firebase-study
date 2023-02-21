@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { createUserService } from '../usersService/CreateUsersService';
 import { userService } from '../usersService/UserService';
 import storageService from '../localStorageService/storageService';
+import { toJS } from 'mobx';
 class AuthService {
   photoSrc = null;
   isAuth = false;
@@ -55,6 +56,7 @@ class AuthService {
         }
       });
     });
+
   };
 
   handleLogOut = () => {
