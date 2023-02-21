@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './dropdown.module.css';
+import styles from './Dropdown.module.css';
 import Icon from '../../assets/icons/SvgArrowDown';
 import Option from './Option';
+import optionsList from './optionsList';
+import storageService from '../../localStorageService/storageService';
 
 export default class PureDropdown extends React.Component {
   constructor(props) {
@@ -24,19 +26,20 @@ export default class PureDropdown extends React.Component {
   render() {
     const selectedValue = !this.state.selectedItemId
       ? 'Placeholder...'
-      : this.props.options.find((elem) => elem.id === this.state.selectedItemId).label;
+      : optionsList.find((elem) => elem.id === this.state.selectedItemId).label;
+    localStorage.setItem('selectedItemInStorage', selectedValue);
 
     return (
       <div className={styles.sandboxContainer}>
-        <h2>PureDropdown:</h2>
+        <h2>Dropdown:</h2>
         <div className={styles.dropdownContainer}>
           <div className={styles.dropdownInput} onClick={this.toggleIsOpen}>
-            <div>{selectedValue}</div>
+            <div>{localStorage.getItem('selectedItemInStorage')}</div>
             <Icon />
           </div>
           {this.state.isOpen && (
             <div>
-              {this.props.options.map((option) => (
+              {optionsList.map((option) => (
                 <Option
                   key={option.id}
                   optionObj={option}

@@ -7,15 +7,9 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import Button from './sandbox/button/button';
-import Dropdown from './sandbox/dropdown/Dropdown';
+import Button from './sandbox/Button/Button';
+import Dropdown from './sandbox/Dropdown/Dropdown';
 import { authService } from './auth/auth.service';
-
-const options = [
-  { id: 1, value: 'Dog', label: 'Dog' },
-  { id: 2, value: 'Cat', label: 'Cat' },
-  { id: 3, value: 'Frontender', label: 'Frontender' },
-];
 
 function App() {
   const signUserOut = () => {
@@ -35,7 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
       <Button label={'Text button'} />
-      <Dropdown options={options} />
+      <Dropdown />
     </Router>
   );
 }
