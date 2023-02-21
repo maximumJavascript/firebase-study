@@ -28,7 +28,7 @@ class PhotoUploader extends React.Component{
         <div className="photoUploaderContainer">
             <label className={styles.inputFile} htmlFor = 'uploadPhoto'>
                 <span className="labelText ">{labelText}</span>
-                <input type='file' name="file" id = 'uploadPhoto'onChange={this.handleChange}></input>
+                <input type='file' name="file" id = 'uploadPhoto'onChange={this.handleChange} accept="image/gif, image/jpeg, image/png" ></input>
             </label>
         </div>)
     }
