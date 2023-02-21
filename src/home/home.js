@@ -11,11 +11,12 @@ const Home = observer(
       void homeService.posts.getPosts();
       void userService.getUsers();
     }
+
     render() {
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
             {postLists.map((post) => {
               let user = userList.find((user) => {

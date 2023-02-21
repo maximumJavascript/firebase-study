@@ -7,6 +7,7 @@ import TextArea from '../controls/createPostForm/TextArea/TextArea';
 import TitleInput from '../controls/createPostForm/TitleInput/TitleInput';
 import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
+
 function date() {
   let d = new Date();
   return (
@@ -21,31 +22,32 @@ function date() {
     ('0' + d.getMinutes()).slice(-2)
   );
 }
+
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        titleValue: '',
-        areaValue: '',
+        title: '',
+        area: '',
       };
     }
 
     handleFormSubmit = async (e) => {
       e.preventDefault();
       this.setState((state) => {
-        createPostService.handleCreatePost({
-          title: state.titleValue,
-          text: state.areaValue,
+        createPostService.createPost({
+          title: state.title,
+          text: state.area,
           date: date(),
         });
-        return { titleValue: '', areaValue: '' };
+        return { title: '', area: '' };
       });
     };
 
     handleInput = (e) => {
       this.setState({
-        [e.target.name + 'Value']: e.target.value,
+        [e.target.name]: e.target.value,
       });
     };
 
@@ -55,9 +57,19 @@ export const CreatePost = observer(
         <div className={styles.createPostWindow}>
           <form className={styles.createPostContainer} onSubmit={this.handleFormSubmit}>
             <h2 className={styles.postTitle}>FORM</h2>
-            <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
-            <TextArea onChange={this.handleInput} value={this.state.areaValue} />
-            <CreatePostBtn />
+            <TitleInput
+              onChange={this.handleInput}
+              value={this.state.title}
+              placeholder="Title post"
+              name="title"
+            />
+            <TextArea
+              onChange={this.handleInput}
+              value={this.state.area}
+              placeholder="Text post"
+              name="area"
+            />
+            <CreatePostBtn text={'SEND'} />
           </form>
         </div>
       );

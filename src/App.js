@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
+import { authService } from './auth/auth.service';
+import { userService } from './usersService/UserService';
 import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import { authService } from './auth/auth.service';
-import { userService } from './usersService/UserService';
+import Comments from './comments/PostComments';
+
 function App() {
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -25,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/comments/:id" element={<Comments />} />
       </Routes>
     </Router>
   );
