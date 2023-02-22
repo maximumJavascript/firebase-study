@@ -22,6 +22,7 @@ function date() {
     ('0' + d.getMinutes()).slice(-2)
   );
 }
+
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
@@ -36,19 +37,19 @@ export const CreatePost = observer(
     handleFormSubmit = async (e) => {
       e.preventDefault();
       this.setState((state) => {
-        createPostService.handleCreatePost({
-          title: state.titleValue,
-          text: state.areaValue,
+        createPostService.createPost({
+          title: state.title,
+          text: state.area,
           date: date(),
           base64Img: state.base64Img,
         });
-        return { titleValue: '', areaValue: '' };
+        return { title: '', area: '' };
       });
     };
 
     handleInput = (e) => {
       this.setState({
-        [e.target.name + 'Value']: e.target.value,
+        [e.target.name]: e.target.value,
       });
     };
     getCode = (file) => {
