@@ -10,6 +10,7 @@ import NavBar from './header/MainNavbar/NavBar';
 import Button from './sandbox/Button/Button';
 import Dropdown from './sandbox/Dropdown/Dropdown';
 import { authService } from './auth/auth.service';
+import { userService } from './usersService/UserService';
 
 function App() {
   const signUserOut = () => {
@@ -19,7 +20,7 @@ function App() {
       window.location.pathname = '/login';
     });
   };
-
+  // userService.getUsers().then((user) => console.log(user));
   return (
     <Router>
       <NavBar />
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/comments/:id" element={<Comments />} />
       </Routes>
       <Button label={'Text button'} />
       <Dropdown />
