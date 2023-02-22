@@ -45,7 +45,11 @@ class AuthService {
       this.handleIsAuth();
       userService.getUsers().then((users) => {
         // проверка на наличие/отсутствие юзера в базе и добавление в базу юзера, если такого там еще нет
-        if (users.some((user) => user.user.userUid !== value.user.uid)) {
+        if (
+          users.some((user) => {
+            return !user.user.userUid === value.user.uid;
+          })
+        ) {
           createUserService.handleAddUsers({
             userUid: value.user.uid,
             userName: value.user.displayName,
