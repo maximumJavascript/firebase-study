@@ -8,11 +8,17 @@ import { toJS } from 'mobx';
 export default function PostItem(props) {
   let src = props.post.base64Img;
   let imgJsx;
-  if(props.post.base64Img === undefined || props.post.base64Img === null ){
-    imgJsx = null
+  if (props.post.base64Img === undefined || props.post.base64Img === null) {
+    imgJsx = null;
   } else {
-    imgJsx = (<div className={styles.postImage}><img src={src} alt="post: img"/></div>)
+    imgJsx = (
+      <div className={styles.postImage}>
+        <img src={src} alt="post: img" />
+      </div>
+    );
   }
+  // console.log(props.post.author.id);
+
   return (
     <div className={styles.post}>
       {imgJsx}
@@ -22,10 +28,7 @@ export default function PostItem(props) {
           <div className={styles.postTextContainer}>{props.post.text}</div>
         </div>
         <div className={styles.postFooter}>
-          <Author
-            date={props.date}
-            post = {props.post}
-          />
+          <Author date={props.date} authorId={props.post.author.id} />
           <Views />
           <Raiting />
           <div className={styles.postShowMore}>

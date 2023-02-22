@@ -2,7 +2,7 @@ import styles from './Author.module.css';
 import { toJS } from 'mobx';
 import { authorService } from './authorService';
 export default function Author(props) {
-  let users = authorService.getUser(props.post.author.id);
+  let users = authorService.getUser(props.authorId);
   return (
     <div className={styles.postAuthor}>
       <div className={styles.authorImg}>
