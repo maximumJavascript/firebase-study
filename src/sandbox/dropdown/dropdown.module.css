@@ -3,9 +3,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 20em;
-  margin-bottom: 2em;
-  /* margin: 3em 0 15em 0; */
+  margin: 3em 0 15em 0;
 }
 
 .dropdownContainer {
@@ -14,6 +12,7 @@
   color: #0F1416;
   max-width: 252px;
   width: 100%;
+  height: 100%;
   text-align: left;
   border-radius: 4px;
   cursor: pointer;
