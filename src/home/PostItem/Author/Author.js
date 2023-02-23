@@ -7,43 +7,28 @@ import { Component } from 'react';
 const Author = observer(
   class Author extends Component {
     componentDidMount() {
-      void authorService.getAuthor(this.props.authorId);
+      void userService.getUsers();
     }
     render() {
-      const users = authorService.getAuthors;
-      console.log(toJS(users));
-      return null;
-      // return (
-      // <div className={styles.postAuthor}>
-      {
-        /* <div className={styles.authorImg}> */
-      }
-      {
-        /* <img */
-      }
-      // className={styles.authorImg__img}
-      // src={user.userPhoto}
-      // alt="img: Photo author post"
-      // />
-      {
-        /* </div> */
-      }
-      {
-        /* <div className={styles.authorInfo}> */
-      }
-      {
-        /* <div className={styles.authorName}>@{user.userName}</div> */
-      }
-      {
-        /* <div className={styles.authorPostDate}>{this.props.date}</div> */
-      }
-      {
-        /* </div> */
-      }
-      {
-        /* </div> */
-      }
-      // );
+      const userList = userService.data;
+      let author = authorService.findTheAuthor(userList, this.props.authorId);
+      return (
+        <div className={styles.postAuthor}>
+          <div className={styles.authorImg}>
+            <img
+              className={styles.authorImg__img}
+              src={author.user.userPhoto}
+              alt="img: Photo author post"
+            />
+          </div>
+
+          <div className={styles.authorInfo}>
+            <div className={styles.authorName}>@{author.user.userName}</div>
+
+            <div className={styles.authorPostDate}>{this.props.date}</div>
+          </div>
+        </div>
+      );
     }
   }
 );
