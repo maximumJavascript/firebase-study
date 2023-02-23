@@ -16,7 +16,9 @@ const Star = observer(
       this.props.onMouseChange(0);
     };
 
-    onClick = () => {};
+    onClick = (e) => {
+      this.props.onAddRating(this.props.number);
+    };
 
     render() {
       const handlers = authService.isAuth

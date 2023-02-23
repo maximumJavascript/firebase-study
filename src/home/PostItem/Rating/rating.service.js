@@ -1,6 +1,6 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { makeObservable, observable, runInAction } from 'mobx';
-import { db } from '../../../firebase-config';
+import { db, auth } from '../../../firebase-config';
 
 class RatingService {
   _collection = collection(db, 'ratings');
@@ -29,7 +29,13 @@ class RatingService {
     return arr;
   };
 
-  addRating = async (postId, score) => {};
+  addRating = async (postId, score) => {
+    await addDoc(this._collection, {
+      postId,
+      score,
+      userId: auth.currentUser.uid,
+    });
+  };
 }
 
 export const ratingService = new RatingService();

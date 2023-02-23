@@ -15,12 +15,21 @@ class Rating extends Component {
   }
 
   async componentDidMount() {
-    const count = await ratingService.getAverageScore(this.props.postId);
-    this.setState({ count });
+    this.getAvegareScore();
   }
+
+  getAvegareScore = async () => {
+    const count = await ratingService.getAverageScore(this.props.postId);
+    this.setState({ count, userCount: 0 });
+  };
 
   handleMouseChange = (userCount) => {
     this.setState({ userCount });
+  };
+
+  handleAddRating = async (number) => {
+    await ratingService.addRating(this.props.postId, number);
+    this.getAvegareScore();
   };
 
   render() {
@@ -36,6 +45,7 @@ class Rating extends Component {
             isFilled={count-- > 0}
             userHovered={!!this.state.userCount}
             onMouseChange={this.handleMouseChange}
+            onAddRating={this.handleAddRating}
           />
         ))}
       </div>
