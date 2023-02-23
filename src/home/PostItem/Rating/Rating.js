@@ -34,6 +34,7 @@ class Rating extends Component {
             number={index + 1}
             isSelected={userCount-- > 0}
             isFilled={count-- > 0}
+            userHovered={!!this.state.userCount}
             onMouseChange={this.handleMouseChange}
           />
         ))}
