@@ -5,6 +5,7 @@ import Raiting from './Raiting';
 import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
+import { authService } from '../../auth/auth.service';
 
 export default function PostItem(props) {
   let src = props.post.base64Img;
@@ -18,8 +19,6 @@ export default function PostItem(props) {
       </div>
     );
   }
-  // console.log(props.post.author.id);
-
   return (
     <div className={styles.post}>
       {imgJsx}

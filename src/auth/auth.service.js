@@ -48,9 +48,11 @@ class AuthService {
         // проверка на наличие/отсутствие юзера в базе и добавление в базу юзера, если такого там еще нет
         if (
           users.some((user) => {
-            return !user.user.userUid === value.user.uid;
+            console.log(user.user.userUid, value.user.uid);
+            return user.user.userUid === value.user.uid;
           })
         ) {
+        } else {
           createUserService.handleAddUsers({
             userUid: value.user.uid,
             userName: value.user.displayName,
@@ -60,7 +62,6 @@ class AuthService {
         }
       });
     });
-
   };
 
   handleLogOut = () => {
