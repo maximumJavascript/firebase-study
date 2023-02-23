@@ -28,6 +28,8 @@ class RatingService {
     });
     return arr;
   };
+
+  addRating = async (postId, score) => {};
 }
 
 export const ratingService = new RatingService();
