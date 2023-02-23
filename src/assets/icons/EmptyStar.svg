@@ -1,6 +1,4 @@
-export default function SvgEmptyStar() {
-  return (
-    <svg
+<svg
       width="21"
       height="20"
       viewBox="0 0 21 20"
@@ -12,5 +10,3 @@ export default function SvgEmptyStar() {
         fill="#515151"
       />
     </svg>
-  );
-}

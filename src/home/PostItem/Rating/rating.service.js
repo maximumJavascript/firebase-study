@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, runInAction } from 'mobx';
 import { db } from '../../../firebase-config';
 
 class RatingService {
@@ -15,7 +15,8 @@ class RatingService {
   getAverageScore = async (postId) => {
     const ratings = await this.findRatings(postId);
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
-    return (this.averageScore = Math.round(sum / ratings.length));
+    if (!ratings.length) return 0;
+    return Math.round(sum / ratings.length);
   };
 
   findRatings = async (postId) => {
