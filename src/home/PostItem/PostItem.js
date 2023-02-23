@@ -1,7 +1,7 @@
 import SvgNext from '../../assets/icons/SvgNext';
 import Author from './Author';
 import Views from './Views';
-import Raiting from './Raiting';
+import Rating from './Rating';
 import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
@@ -27,7 +27,7 @@ export default function PostItem(props) {
             date={props.date}
           />
           <Views />
-          <Raiting />
+          <Rating postId={props.post.id} />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>
               <div className={styles.postShowMore}>
