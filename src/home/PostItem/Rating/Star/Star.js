@@ -31,16 +31,15 @@ const Star = observer(
 
       const isFilled = this.props.isFilled;
       const isSelected = this.props.isSelected;
+      const userHovered = this.props.userHovered;
       const starClass = classNames({
         [styles.star]: true,
         [styles.isSelected]: isSelected,
         [styles.isFilled]: isFilled,
       });
 
-      if (this.props.userHovered) {
-        if (isSelected) return <FilledStar {...handlers} className={starClass} />;
-      } else {
-        if (isFilled) return <FilledStar {...handlers} className={starClass} />;
+      if ((userHovered && isSelected) || (!userHovered && isFilled)) {
+        return <FilledStar {...handlers} className={starClass} />;
       }
       return <EmptyStar {...handlers} className={styles.star} />;
     }
