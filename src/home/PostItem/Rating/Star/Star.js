@@ -8,24 +8,24 @@ import classNames from 'classnames';
 
 const Star = observer(
   class Star extends Component {
-    onMouseOver = (e) => {
+    handleMouseOver = (e) => {
       this.props.onMouseChange(this.props.number);
     };
 
-    onMouseOut = (e) => {
+    handleMouseOut = (e) => {
       this.props.onMouseChange(0);
     };
 
-    onClick = (e) => {
+    handleClick = (e) => {
       this.props.onAddRating(this.props.number);
     };
 
     render() {
       const handlers = authService.isAuth
         ? {
-            onMouseOver: this.onMouseOver,
-            onMouseOut: this.onMouseOut,
-            onClick: this.onClick,
+            onMouseOver: this.handleMouseOver,
+            onMouseOut: this.handleMouseOut,
+            onClick: this.handleClick,
           }
         : {};
 

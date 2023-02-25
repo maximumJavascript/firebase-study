@@ -22,8 +22,8 @@ class RatingService {
 
   getAverageScore = async (postId) => {
     const ratings = await this.getRatings(postId);
-    const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     if (!ratings.length) return 0;
+    const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     return Math.round(sum / ratings.length);
   };
 

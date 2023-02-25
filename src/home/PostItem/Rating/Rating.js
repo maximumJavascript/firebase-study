@@ -1,11 +1,11 @@
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { Component } from 'react';
+import { Component, PureComponent } from 'react';
 import Star from './Star';
 import styles from './Rating.module.css';
 import { ratingService } from './rating.service';
 
-class Rating extends Component {
+class Rating extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,10 +15,10 @@ class Rating extends Component {
   }
 
   async componentDidMount() {
-    this.getAvegareScore();
+    this.updateAvegareScore();
   }
 
-  getAvegareScore = async () => {
+  updateAvegareScore = async () => {
     const count = await ratingService.getAverageScore(this.props.postId);
     this.setState({ count, userCount: 0 });
   };
@@ -29,25 +29,29 @@ class Rating extends Component {
 
   handleAddRating = async (number) => {
     await ratingService.addRating(this.props.postId, number);
-    this.getAvegareScore();
+    this.updateAvegareScore();
   };
 
   render() {
-    let count = this.state.count;
-    let userCount = this.state.userCount;
+    const count = this.state.count;
+    const userCount = this.state.userCount;
     return (
       <div className={styles.postRaiting}>
-        {new Array(5).fill(0).map((item, index) => (
-          <Star
-            key={index}
-            number={index + 1}
-            isSelected={userCount-- > 0}
-            isFilled={count-- > 0}
-            userHovered={!!this.state.userCount}
-            onMouseChange={this.handleMouseChange}
-            onAddRating={this.handleAddRating}
-          />
-        ))}
+        {new Array(5).fill(0).map((item, index) => {
+          const isSelected = userCount > index;
+          const isFilled = count > index;
+          return (
+            <Star
+              key={index}
+              number={index + 1}
+              isSelected={isSelected}
+              isFilled={isFilled}
+              userHovered={!!this.state.userCount}
+              onMouseChange={this.handleMouseChange}
+              onAddRating={this.handleAddRating}
+            />
+          );
+        })}
       </div>
     );
   }
