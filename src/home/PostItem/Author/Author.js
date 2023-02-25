@@ -1,9 +1,9 @@
 import styles from './Author.module.css';
 import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import { authorService } from './authorService';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
+
 const Author = observer(
   class Author extends Component {
     componentDidMount() {
@@ -11,6 +11,7 @@ const Author = observer(
     }
     render() {
       const userList = userService.data;
+      if (!userList.length) return null;
       let author = authorService.findTheAuthor(userList, this.props.authorId);
       return (
         <div className={styles.postAuthor}>
