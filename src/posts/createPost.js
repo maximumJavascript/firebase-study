@@ -9,6 +9,21 @@ import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBt
 import styles from './createPost.module.css';
 import PhotoUploader from '../photoUploader/PhotoUploader';
 
+function date() {
+  let d = new Date();
+  return (
+    ('0' + d.getDate()).slice(-2) +
+    '-' +
+    ('0' + (d.getMonth() + 1)).slice(-2) +
+    '-' +
+    d.getFullYear() +
+    ' ' +
+    ('0' + d.getHours()).slice(-2) +
+    ':' +
+    ('0' + d.getMinutes()).slice(-2)
+  );
+}
+
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
