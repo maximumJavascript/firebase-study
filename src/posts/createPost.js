@@ -61,8 +61,18 @@ export const CreatePost = observer(
         <div className={styles.createPostWindow}>
           <form className={styles.createPostContainer} onSubmit={this.handleFormSubmit}>
             <h2 className={styles.postTitle}>FORM</h2>
-            <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
-            <TextArea onChange={this.handleInput} value={this.state.areaValue} />
+            <TitleInput
+              onChange={this.handleInput}
+              value={this.state.titleValue}
+              placeholder="Title post"
+              name="title"
+            />
+            <TextArea
+              onChange={this.handleInput}
+              value={this.state.areaValue}
+              placeholder="Text post"
+              name="area"
+            />
             <PhotoUploader getCode={this.getCode} />
             <CreatePostBtn />
           </form>
