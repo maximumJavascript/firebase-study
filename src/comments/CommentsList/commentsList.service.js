@@ -15,7 +15,9 @@ class CommentsListService {
     const comments = [];
     const q = query(collection(db, 'comments'), where('postId', '==', postId));
     const querySnapshot = await getDocs(q);
+    // console.log('querySnapshot', querySnapshot);
     querySnapshot.forEach((doc) => {
+      // console.log('testComments');
       comments.push({
         id: doc.id,
         ...doc.data(),

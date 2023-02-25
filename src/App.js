@@ -19,7 +19,6 @@ function App() {
       window.location.pathname = '/login';
     });
   };
-  // userService.getUsers().then((user) => console.log(user));
   return (
     <Router>
       <NavBar />
