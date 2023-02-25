@@ -11,7 +11,7 @@ class CreatePostService {
     };
   }
 
-  handleCreatePost = async (postData) => {
+  createPost = async (postData) => {
     await addDoc(this.#collection, {
       ...postData,
       author: this.#authorData,

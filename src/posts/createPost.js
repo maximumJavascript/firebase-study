@@ -22,6 +22,7 @@ function date() {
     ('0' + d.getMinutes()).slice(-2)
   );
 }
+
 export const CreatePost = observer(
   class CreatePost extends Component {
     constructor(props) {
@@ -36,19 +37,19 @@ export const CreatePost = observer(
     handleFormSubmit = async (e) => {
       e.preventDefault();
       this.setState((state) => {
-        createPostService.handleCreatePost({
-          title: state.titleValue,
-          text: state.areaValue,
+        createPostService.createPost({
+          title: state.title,
+          text: state.area,
           date: date(),
           base64Img: state.base64Img,
         });
-        return { titleValue: '', areaValue: '' };
+        return { title: '', area: '' };
       });
     };
 
     handleInput = (e) => {
       this.setState({
-        [e.target.name + 'Value']: e.target.value,
+        [e.target.name]: e.target.value,
       });
     };
     getCode = (file) => {
@@ -60,8 +61,18 @@ export const CreatePost = observer(
         <div className={styles.createPostWindow}>
           <form className={styles.createPostContainer} onSubmit={this.handleFormSubmit}>
             <h2 className={styles.postTitle}>FORM</h2>
-            <TitleInput onChange={this.handleInput} value={this.state.titleValue} />
-            <TextArea onChange={this.handleInput} value={this.state.areaValue} />
+            <TitleInput
+              onChange={this.handleInput}
+              value={this.state.titleValue}
+              placeholder="Title post"
+              name="title"
+            />
+            <TextArea
+              onChange={this.handleInput}
+              value={this.state.areaValue}
+              placeholder="Text post"
+              name="area"
+            />
             <PhotoUploader getCode={this.getCode} />
             <CreatePostBtn />
           </form>

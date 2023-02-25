@@ -4,6 +4,7 @@ import Views from './Views';
 import Raiting from './Raiting';
 import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
+import { Link } from 'react-router-dom';
 
 export default function PostItem(props) {
   const src = props.post.base64Img;
@@ -27,9 +28,13 @@ export default function PostItem(props) {
           />
           <Views />
           <Raiting />
-          <div className={styles.postShowMore}>
-            <SvgNext />
-          </div>
+          {!props.isComments && (
+            <Link to={`/comments/${props.post.id}`}>
+              <div className={styles.postShowMore}>
+                <SvgNext />
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>
