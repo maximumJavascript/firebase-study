@@ -6,7 +6,7 @@ import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 
 export default function PostItem(props) {
-  let src = props.post.base64Img;
+  const src = props.post.base64Img;
   return (
     <div className={styles.post}>
       {src && (
