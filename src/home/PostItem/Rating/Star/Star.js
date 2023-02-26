@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import { ReactComponent as FilledStar } from '../../../../assets/icons/FilledStar.svg';
-import { ReactComponent as EmptyStar } from '../../../../assets/icons/EmptyStar.svg';
+import { EmptyStar } from '../../../../assets/icons/EmptyStar.js';
 import { authService } from '../../../../auth/auth.service';
 import { observer } from 'mobx-react';
+import { StarIcon } from '../../../../assets/icons/SvgStar';
 import styles from './Star.module.css';
 import classNames from 'classnames';
 
@@ -38,10 +39,11 @@ const Star = observer(
         [styles.isFilled]: isFilled,
       });
 
-      if ((userHovered && isSelected) || (!userHovered && isFilled)) {
-        return <FilledStar {...handlers} className={starClass} />;
-      }
-      return <EmptyStar {...handlers} className={styles.star} />;
+      // if ((userHovered && isSelected) || (!userHovered && isFilled)) {
+      //   return <FilledStar {...handlers} className={starClass} />;
+      // }
+      // return <EmptyStar {...handlers} className={styles.star} />;
+      return <StarIcon filled={0} className={styles.star} />;
     }
   }
 );

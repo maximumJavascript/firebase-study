@@ -5,8 +5,10 @@ import Rating from './Rating';
 import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
+import { RatingService } from './Rating/rating.service';
 
 export default function PostItem(props) {
+  const ratingService = new RatingService();
   return (
     <div className={styles.post}>
       <div className={styles.postImage}>
@@ -27,7 +29,7 @@ export default function PostItem(props) {
             date={props.date}
           />
           <Views />
-          <Rating postId={props.post.id} />
+          <Rating postId={props.post.id} service={ratingService} />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>
               <div className={styles.postShowMore}>

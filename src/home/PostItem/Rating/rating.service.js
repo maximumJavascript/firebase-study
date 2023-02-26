@@ -12,7 +12,7 @@ import { db, auth } from '../../../firebase-config';
 
 class RatingService {
   _collection = collection(db, 'ratings');
-  averageScore = 0;
+  averageScore = {};
 
   constructor() {
     makeObservable(this, {
@@ -22,9 +22,12 @@ class RatingService {
 
   getAverageScore = async (postId) => {
     const ratings = await this.getRatings(postId);
-    if (!ratings.length) return 0;
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
-    return Math.round(sum / ratings.length);
+    const score = Math.round(sum / ratings.length);
+    return (this.averageScore = {
+      postId,
+      score: isFinite(score) ? score : 0,
+    });
   };
 
   getRatings = async (postId) => {
@@ -77,4 +80,4 @@ class RatingService {
   };
 }
 
-export const ratingService = new RatingService();
+export { RatingService };

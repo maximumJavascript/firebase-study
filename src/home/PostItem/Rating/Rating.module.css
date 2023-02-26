@@ -1,4 +1,6 @@
 .postRaiting {
   display: flex;
   align-items: center;
+  column-gap: 5px;
+  cursor: pointer;
 }
