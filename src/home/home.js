@@ -5,6 +5,7 @@ import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { toJS } from 'mobx';
+
 const Home = observer(
   class Home extends Component {
     componentDidMount() {

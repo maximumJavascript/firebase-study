@@ -1,6 +1,4 @@
 import { Component } from 'react';
-import { ReactComponent as FilledStar } from '../../../../assets/icons/FilledStar.svg';
-import { EmptyStar } from '../../../../assets/icons/EmptyStar.js';
 import { authService } from '../../../../auth/auth.service';
 import { observer } from 'mobx-react';
 import { StarIcon } from '../../../../assets/icons/SvgStar';
@@ -9,41 +7,54 @@ import classNames from 'classnames';
 
 const Star = observer(
   class Star extends Component {
-    handleMouseOver = (e) => {
-      this.props.onMouseChange(this.props.number);
+    handleMouseEnter = (e) => {
+      this.rect = e.target.getBoundingClientRect();
     };
 
-    handleMouseOut = (e) => {
-      this.props.onMouseChange(0);
+    handleMouseMove = (e) => {
+      const score = this.getScore(e);
+      this.props.onMouseChange(score);
+    };
+
+    getScore = (e) => {
+      const innerLeft = e.clientX - this.rect.left;
+      const number = this.props.number;
+      return innerLeft > this.rect.width / 2 ? number * 2 : number * 2 - 1;
     };
 
     handleClick = (e) => {
-      this.props.onAddRating(this.props.number);
+      const score = this.getScore(e);
+      this.props.onAddRating(score);
     };
 
     render() {
       const handlers = authService.isAuth
         ? {
-            onMouseOver: this.handleMouseOver,
-            onMouseOut: this.handleMouseOut,
+            onMouseEnter: this.handleMouseEnter,
             onClick: this.handleClick,
+            onMouseMove: this.handleMouseMove,
           }
         : {};
 
-      const isFilled = this.props.isFilled;
-      const isSelected = this.props.isSelected;
       const userHovered = this.props.userHovered;
+      const percSelected = this.props.percSelected;
+      const percFilled = this.props.percFilled;
       const starClass = classNames({
         [styles.star]: true,
-        [styles.isSelected]: isSelected,
-        [styles.isFilled]: isFilled,
+        [styles.isFilled]: percFilled > 0,
+        [styles.isSelected]: percSelected > 0,
       });
 
-      // if ((userHovered && isSelected) || (!userHovered && isFilled)) {
-      //   return <FilledStar {...handlers} className={starClass} />;
-      // }
-      // return <EmptyStar {...handlers} className={styles.star} />;
-      return <StarIcon filled={0} className={styles.star} />;
+      if ((userHovered && percSelected) || (!userHovered && percFilled)) {
+        return (
+          <StarIcon
+            {...handlers}
+            filled={userHovered ? percSelected : percFilled}
+            className={starClass}
+          />
+        );
+      }
+      return <StarIcon {...handlers} className={styles.star} />;
     }
   }
 );
