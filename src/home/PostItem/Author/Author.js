@@ -4,6 +4,7 @@ import { toJS } from 'mobx';
 import { authorService } from './authorService';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
+import { viewsCounter } from '../../../viewsCounter/ViewsCounter';
 const Author = observer(
   class Author extends Component {
     componentDidMount() {
@@ -24,7 +25,7 @@ const Author = observer(
 
           <div className={styles.authorInfo}>
             <div className={styles.authorName}>@{author.user.userName}</div>
-
+            <button onClick={viewsCounter.increment}>Counter</button>
             <div className={styles.authorPostDate}>{this.props.date}</div>
           </div>
         </div>

@@ -15,6 +15,7 @@ const Home = observer(
     render() {
       const postLists = homeService.posts.data;
       const userList = userService.data;
+      console.log(toJS(postLists));
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>

@@ -6,6 +6,7 @@ const Comment = class Comment extends Component {
   render() {
     // создать сервис для нахождения объекта с инфой о пользователе по его id
     // и передавать в автора
+    console.log('renderComments');
     return (
       <div className={styles.comment}>
         <Author authorId={this.props.data.authorId} />
