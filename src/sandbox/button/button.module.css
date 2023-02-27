@@ -1,0 +1,38 @@
+.button {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  margin: 0 auto;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  width: 100%;
+  border-radius: 4px;
+  padding: 6px 16px;
+  border: 0;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background-color .2s linear;
+}
+
+.button:hover {
+  background-color: #004F79;
+  transition: background-color .2s linear;
+}
+
+.button:active {
+  background-color: #003D5E;
+}
+
+.small {
+  max-width: 109px;
+}
+
+.medium {
+  max-width: 169px;
+}
+
+.primary {
+  background-color: #006297;
+}
