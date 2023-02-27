@@ -7,8 +7,8 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import Button from './sandbox/button/Button';
-import Dropdown from './sandbox/dropdown/Dropdown';
+import { Button } from './sandbox/button/Button';
+import { Dropdown } from './sandbox/dropdown/Dropdown';
 import { authService } from './auth/auth.service';
 import { userService } from './usersService/UserService';
 import Comments from './comments/PostComments';
@@ -22,6 +22,12 @@ function App() {
     });
   };
 
+  const optionsList = [
+    { id: 1, value: 'Dog', label: 'Dog' },
+    { id: 2, value: 'Cat', label: 'Cat' },
+    { id: 3, value: 'Frontender', label: 'Frontender' },
+  ];
+
   return (
     <Router>
       <NavBar />
@@ -32,7 +38,7 @@ function App() {
         <Route path="/comments/:id" element={<Comments />} />
       </Routes>
       <Button label={'Text button'} />
-      <Dropdown />
+      <Dropdown optionsList={optionsList} />
     </Router>
   );
 }

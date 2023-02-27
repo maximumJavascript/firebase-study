@@ -1,11 +1,8 @@
-.sandboxContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
 .button {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  margin: 0 auto;
   color: #fff;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -19,6 +16,15 @@
   transition: background-color .2s linear;
 }
 
+.button:hover {
+  background-color: #004F79;
+  transition: background-color .2s linear;
+}
+
+.button:active {
+  background-color: #003D5E;
+}
+
 .small {
   max-width: 109px;
 }
@@ -29,14 +35,4 @@
 
 .primary {
   background-color: #006297;
-}
-
-
-.button:hover {
-  background-color: #004F79;
-  transition: background-color .2s linear;
-}
-
-.button:active {
-  background-color: #003D5E;
 }
