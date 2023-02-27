@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { createUserService } from '../usersService/CreateUsersService';
 import { userService } from '../usersService/UserService';
 import storageService from '../localStorageService/storageService';
+import { toJS } from 'mobx';
 class AuthService {
   photoSrc = null;
   isAuth = false;
@@ -45,7 +46,12 @@ class AuthService {
       this.handleIsAuth();
       userService.getUsers().then((users) => {
         // проверка на наличие/отсутствие юзера в базе и добавление в базу юзера, если такого там еще нет
-        if (users.some((user) => user.user.userUid !== value.user.uid)) {
+        if (
+          users.some((user) => {
+            return user.user.userUid === value.user.uid;
+          })
+        ) {
+        } else {
           createUserService.handleAddUsers({
             userUid: value.user.uid,
             userName: value.user.displayName,
