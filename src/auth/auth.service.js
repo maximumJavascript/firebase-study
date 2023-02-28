@@ -2,7 +2,6 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../firebase-config';
 import { action, makeObservable, observable, reaction, autorun } from 'mobx';
 import { signOut } from 'firebase/auth';
-import { createUserService } from '../usersService/CreateUsersService';
 import { userService } from '../usersService/UserService';
 import storageService from '../localStorageService/storageService';
 import { toJS } from 'mobx';
@@ -38,23 +37,19 @@ class AuthService {
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
-
   handleLogin = () => {
     signInWithPopup(auth, provider).then((value) => {
       this.setUserId(value.user.uid);
       this.setSrc(value.user.photoURL);
       this.handleIsAuth();
-      userService.getUsers().then((users) => {
-        // проверка на наличие/отсутствие юзера в базе и добавление в базу юзера, если такого там еще нет
-        if (
-          users.some((user) => {
-            return user.user.userUid === value.user.uid;
-          })
-        ) {
+      const isNewUser = async () => {
+        if ((await userService.isUserExist(value.user.uid)) !== false) {
+          // user exist
         } else {
-          createUserService.handleAddUsers(value.user);
+          userService.handleAddUsers(value.user);
         }
-      });
+      };
+      isNewUser();
     });
   };
 
