@@ -23,7 +23,7 @@ export default function PostItem(props) {
         </div>
         <div className={styles.postFooter}>
           <Author date={props.date} authorId={props.post.author.id} />
-          <Views />
+          <Views postId={props.post.id} />
           <Raiting />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>

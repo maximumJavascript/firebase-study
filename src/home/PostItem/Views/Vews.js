@@ -2,8 +2,12 @@ import { observer } from 'mobx-react-lite';
 import SvgEye from '../../../assets/icons/SvgEye';
 import styles from './Views.module.css';
 import { viewsCounter } from '../../../viewsCounter/ViewsCounter';
-export default observer(function Views() {
-  // console.log('внутри views');
+import { db } from '../../../firebase-config';
+import { updateDoc, doc } from 'firebase/firestore';
+import { async } from '@firebase/util';
+export default observer(function Views(props) {
+  // console.log('внутри views c postId', props.postId);
+  // viewsCounter.updateDoc(props.postId);
   let counter = viewsCounter.viewsCounter;
   return (
     <div className={styles.postViews}>

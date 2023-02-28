@@ -15,13 +15,12 @@ const Home = observer(
     render() {
       const postLists = homeService.posts.data;
       const userList = userService.data;
-      console.log(toJS(postLists));
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
             {postLists.map((post) => {
               let user = userList.find((user) => {
-                return user.user.userUid === post.author.id ? user : undefined;
+                return user.userUid === post.author.id ? user : undefined;
               });
               return user !== undefined ? (
                 <PostItem key={post.id} post={post} user={user.user} date={post.date} />

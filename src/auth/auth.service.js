@@ -52,12 +52,7 @@ class AuthService {
           })
         ) {
         } else {
-          createUserService.handleAddUsers({
-            userUid: value.user.uid,
-            userName: value.user.displayName,
-            userPhoto: value.user.photoURL,
-            userEmail: value.user.email,
-          });
+          createUserService.handleAddUsers(value.user);
         }
       });
     });

@@ -18,13 +18,13 @@ const Author = observer(
           <div className={styles.authorImg}>
             <img
               className={styles.authorImg__img}
-              src={author.user.userPhoto}
+              src={author.userPhoto}
               alt="img: Photo author post"
             />
           </div>
 
           <div className={styles.authorInfo}>
-            <div className={styles.authorName}>@{author.user.userName}</div>
+            <div className={styles.authorName}>@{author.userName}</div>
             <button onClick={viewsCounter.increment}>Counter</button>
             <div className={styles.authorPostDate}>{this.props.date}</div>
           </div>
