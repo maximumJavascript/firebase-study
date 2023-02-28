@@ -27,6 +27,7 @@ class UserService {
       userName: user.displayName,
       userPhoto: user.photoURL,
       userEmail: user.email,
+      viewedPosts: [],
     });
   };
   getUsers = async () => {

@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { db } from '../firebase-config';
 import { updateDoc, doc } from 'firebase/firestore';
 class ViewsCounter {
-  viewsCounter = 10;
+  viewsCounter = 0;
   constructor() {
     makeAutoObservable(this);
   }
