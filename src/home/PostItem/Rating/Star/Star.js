@@ -41,8 +41,8 @@ const Star = observer(
       const percFilled = this.props.percFilled;
       const starClass = classNames({
         [styles.star]: true,
-        [styles.isFilled]: percFilled > 0,
         [styles.isSelected]: percSelected > 0,
+        [styles.isFilled]: percFilled > 0,
       });
 
       if ((userHovered && percSelected) || (!userHovered && percFilled)) {

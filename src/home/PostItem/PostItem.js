@@ -3,7 +3,6 @@ import Author from './Author';
 import Views from './Views';
 import Rating from './Rating';
 import styles from './PostItem.module.css';
-import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 import { RatingService } from './Rating/rating.service';
 
