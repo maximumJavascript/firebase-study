@@ -15,22 +15,11 @@ export class Dropdown extends React.Component {
     }));
   };
 
-  handleSelectItem = (selectedItemId) => {
-    this.setState({
-      selectedItemId,
-    });
-  };
-
   render() {
-    const selectedValue = !this.state.selectedItemId
-      ? 'Placeholder...'
-      : this.props.optionsList.find((elem) => elem.id === this.state.selectedItemId)
-          .label;
-
     return (
       <div className={styles.dropdownContainer}>
         <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
-          <div>{selectedValue}</div>
+          <div>{this.props.selectedValue}</div>
           <SvgArrowDown />
         </div>
         {this.state.isOpen && (
@@ -39,9 +28,10 @@ export class Dropdown extends React.Component {
               <Option
                 key={option.id}
                 optionObj={option}
-                onSelectItem={this.handleSelectItem}
+                onSelectItem={this.props.onSelectItem}
                 onToggle={this.toggleIsOpen}
-                isSelected={this.state.selectedItemId === option.id}
+                isSelected={this.props.selectedItemIdState === option.id}
+                selectedItemIdState={this.props.selectedItemIdState}
               />
             ))}
           </div>

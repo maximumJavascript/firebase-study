@@ -8,13 +8,13 @@ export default class Option extends React.Component {
   };
 
   render() {
-    const buttonClass = cn([
+    const selectedValueClasses = cn([
       styles.dropdownMenuValue,
       this.props.isSelected ? styles.dropdownSelectedValue : '',
     ]);
 
     return (
-      <div className={buttonClass} onClick={this.handleClick}>
+      <div className={selectedValueClasses} onClick={this.handleClick}>
         {this.props.optionObj.label}
       </div>
     );

@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import CreatePost from './posts';
-import Home from './home';
+// import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import { Button } from './sandbox/button/Button';
-import { Dropdown } from './sandbox/dropdown/Dropdown';
+// import { Dropdown } from './sandbox/dropdown/Dropdown';
+import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDropdown';
 import { authService } from './auth/auth.service';
 import { userService } from './usersService/UserService';
 import Comments from './comments/PostComments';
@@ -22,12 +23,6 @@ function App() {
     });
   };
 
-  const optionsList = [
-    { id: 1, value: 'Dog', label: 'Dog' },
-    { id: 2, value: 'Cat', label: 'Cat' },
-    { id: 3, value: 'Frontender', label: 'Frontender' },
-  ];
-
   return (
     <Router>
       <NavBar />
@@ -38,7 +33,7 @@ function App() {
         <Route path="/comments/:id" element={<Comments />} />
       </Routes>
       <Button label={'Text button'} />
-      <Dropdown optionsList={optionsList} />
+      <AnimalsDropdown />
     </Router>
   );
 }
