@@ -51,10 +51,13 @@ const Star = observer(
             {...handlers}
             filled={userHovered ? percSelected : percFilled}
             className={starClass}
+            number={this.props.postId}
           />
         );
       }
-      return <StarIcon {...handlers} className={styles.star} />;
+      return (
+        <StarIcon {...handlers} number={this.props.postId} className={styles.star} />
+      );
     }
   }
 );

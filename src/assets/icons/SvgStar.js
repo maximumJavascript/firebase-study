@@ -13,10 +13,10 @@ export function StarIcon(props) {
     );
   } else {
     const percentage = `${props.filled * 100}%`;
-
+    const number = props.number ? props.number : '';
     return (
-      <StarIconSvg {...handlers} className={props.className} fill="url(#grad)">
-        <linearGradient id="grad" x1="0" x2="100%" y1="0" y2="0">
+      <StarIconSvg {...handlers} className={props.className} fill={`url(#${number})`}>
+        <linearGradient id={`${number}`} x1="0" x2="100%" y1="0" y2="0">
           <stop offset={percentage} stopColor={'currentColor'} />
           <stop offset={percentage} stopColor={'transparent'} />
         </linearGradient>

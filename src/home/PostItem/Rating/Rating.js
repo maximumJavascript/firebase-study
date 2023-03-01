@@ -53,6 +53,7 @@ class Rating extends PureComponent {
               userHovered={!!this.state.userCount}
               onMouseChange={this.handleMouseChange}
               onAddRating={this.handleAddRating}
+              postId={this.props.postId}
             />
           );
         })}
