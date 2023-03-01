@@ -1,4 +1,3 @@
-// handleSelectItem не в дропдауне, а в компоненте кто его будет использовать
 import React from 'react';
 import { Dropdown } from './Dropdown';
 
