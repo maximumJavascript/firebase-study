@@ -6,34 +6,46 @@ import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 import { authService } from '../../auth/auth.service';
+import { render } from 'react-dom';
+import React from 'react';
+import { ref } from '../../viewsCounter/ref';
+export default class PostItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props = props;
+    // this.ref = React.createRef();
+  }
 
-export default function PostItem(props) {
-  const src = props.post.base64Img;
-  return (
-    <div className={styles.post}>
-      {src && (
-        <div className={styles.postImage}>
-          <img src={src} alt="post: img" />
-        </div>
-      )}
-      <div className={styles.postContainer}>
-        <div className={styles.postBodyText}>
-          <div className={styles.postTitle}>{props.post.title}</div>
-          <div className={styles.postTextContainer}>{props.post.text}</div>
-        </div>
-        <div className={styles.postFooter}>
-          <Author date={props.date} authorId={props.post.author.id} />
-          <Views postId={props.post.id} />
-          <Raiting />
-          {!props.isComments && (
-            <Link to={`/comments/${props.post.id}`}>
-              <div className={styles.postShowMore}>
-                <SvgNext />
-              </div>
-            </Link>
-          )}
+  render() {
+    // console.log(toJS(this.props));
+    const src = this.props.post.base64Img;
+    return (
+      <div className={styles.post}>
+        {src && (
+          <div className={styles.postImage}>
+            <img src={src} alt="post: img" />
+          </div>
+        )}
+        <div className={styles.postContainer}>
+          <div className={styles.postBodyText}>
+            <div className={styles.postTitle}>{this.props.post.title}</div>
+            <div className={styles.postTextContainer}>{this.props.post.text}</div>
+          </div>
+          <div className={styles.postFooter}>
+            <Author date={this.props.date} authorId={this.props.post.author.id} />
+            <Views postId={this.props.post.id} />
+            <Raiting />
+            {!this.props.isComments && (
+              <Link to={`/comments/${this.props.post.id}`}>
+                <div className={styles.postShowMore}>
+                  <SvgNext />
+                </div>
+              </Link>
+            )}
+          </div>
+          <button onClick={() => console.log(this.props.ref.current)}>SHOREF</button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

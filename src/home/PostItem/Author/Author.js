@@ -1,7 +1,4 @@
 import styles from './Author.module.css';
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import { authorService } from './authorService';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { viewsCounter } from '../../../viewsCounter/ViewsCounter';

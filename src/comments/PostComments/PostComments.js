@@ -8,7 +8,8 @@ import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
 import { toJS } from 'mobx';
-
+import storageService from '../../localStorageService/storageService';
+import { viewsCounter } from '../../viewsCounter/ViewsCounter';
 const PostComments = observer(
   class PostComments extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ const PostComments = observer(
     render() {
       const post = commentsService.post;
       if (post.id !== this.id) return null;
+      viewsCounter.updateViewsInfo(post.id);
       return (
         <div
           className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}
