@@ -26,7 +26,6 @@ class Author extends Component {
           </div>
           <div className={styles.authorInfo}>
             <div className={styles.authorName}>@{this.state.user.userName}</div>
-            <button onClick={viewsCounter.increment}>Counter</button>
             <div className={styles.authorPostDate}>{this.props.date}</div>
           </div>
         </div>

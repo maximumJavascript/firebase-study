@@ -4,39 +4,32 @@ import { updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import storageService from '../localStorageService/storageService';
 import { async } from '@firebase/util';
 import { useRef } from 'react';
+import { toJS } from 'mobx';
 
 class ViewsCounter {
   viewsCounter = 0;
+  mySet = new Set();
+  options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1.0,
+  };
   constructor() {
     makeAutoObservable(this);
   }
-  increment = () => {
-    this.viewsCounter = this.viewsCounter + 1;
-  };
-  updateViewsInfo = (postId) => {
-    let loggedAuthor = storageService.getUserIdFromStorage();
-    // console.log(post, loggedAuthor);
-    const test = async (e) => {
-      await updateDoc(doc(db, 'users', loggedAuthor), {
-        viewedPosts: arrayUnion(postId),
-      });
-    };
-    test();
-  };
 
-  //   const db = getFirestore();
-  // async (e) => { //...
-  //  await updateDoc(doc(db, "users", doc.id), {
-  //     foo: 'bar'
-  //   });
-  // //....
-
-  // updateDoc = async (docId) => {
-  // const comment = doc(db, 'posts', docId);
-  // await updateDoc(comment, {
-  // test: true,
-  // });
-  // };
+  updateInfo = (elements, info) => {
+    elements.forEach((post) => {
+      if (post.isIntersecting) {
+        console.log(post.target);
+      }
+    });
+  };
+  arrWithRefs = (arr) => {
+    let observer = new IntersectionObserver(this.updateInfo, this.options);
+    arr.forEach((element) => {
+      observer.observe(element);
+    });
+  };
 }
-
 export const viewsCounter = new ViewsCounter();

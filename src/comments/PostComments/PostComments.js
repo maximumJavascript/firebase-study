@@ -30,7 +30,6 @@ const PostComments = observer(
     render() {
       const post = commentsService.post;
       if (post.id !== this.id) return null;
-      viewsCounter.updateViewsInfo(post.id);
       return (
         <div
           className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}

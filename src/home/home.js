@@ -5,14 +5,22 @@ import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { toJS } from 'mobx';
+import { viewsCounter } from '../viewsCounter/ViewsCounter';
 const Home = observer(
   class Home extends Component {
+    constructor(props) {
+      super(props);
+      this.arr = [];
+    }
     componentDidMount() {
       void homeService.posts.getPosts();
       void userService.getUsers();
     }
-
+    setRef = (ref) => {
+      this.arr.push(ref);
+    };
     render() {
+      viewsCounter.arrWithRefs(this.arr);
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (
@@ -23,7 +31,13 @@ const Home = observer(
                 return user.userUid === post.author.id ? user : undefined;
               });
               return user !== undefined ? (
-                <PostItem key={post.id} post={post} user={user.user} date={post.date} />
+                <PostItem
+                  key={post.id}
+                  post={post}
+                  user={user.user}
+                  date={post.date}
+                  ref={this.setRef}
+                />
               ) : undefined;
             })}
           </div>
