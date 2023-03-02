@@ -38,7 +38,7 @@ const Home = observer(
                   user={user.user}
                   date={post.date}
                   ref={this.setRef}
-                  viewCounter={post.viewedBy.length}
+                  viewCounter={post.viewedBy?.length}
                 />
               ) : undefined;
             })}
