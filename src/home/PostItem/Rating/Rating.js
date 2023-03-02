@@ -11,7 +11,8 @@ const Rating = observer(
       this.state = {
         userCount: 0,
       };
-      this.service = new RatingService();
+
+      this.service = new RatingService(this.props.postId);
     }
 
     componentDidMount() {
@@ -19,7 +20,7 @@ const Rating = observer(
     }
 
     updateAvegareScore = () => {
-      this.service.getAverageScore(this.props.postId);
+      this.service.getAverageScore();
     };
 
     handleMouseChange = (userCount) => {
@@ -27,7 +28,7 @@ const Rating = observer(
     };
 
     handleAddRating = async (number) => {
-      await this.service.addRating(this.props.postId, number);
+      await this.service.addRating(number);
       this.setState({ userCount: 0 });
       this.updateAvegareScore();
     };
@@ -37,10 +38,10 @@ const Rating = observer(
     };
 
     render() {
-      const rating = this.service.averageRating;
-      if (rating.postId !== this.props.postId) return null;
+      const rating = this.service.averageScore;
+      if (rating < 0) return null;
       const userCount = this.state.userCount / 2;
-      const score = rating.score / 2;
+      const score = rating / 2;
       return (
         <div className={styles.postRaiting} onMouseLeave={this.handleMouseLeave}>
           {new Array(5).fill(0).map((item, index) => {

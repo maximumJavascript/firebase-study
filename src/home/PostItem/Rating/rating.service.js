@@ -12,29 +12,27 @@ import { db, auth } from '../../../firebase-config';
 
 class RatingService {
   _collection = collection(db, 'ratings');
-  averageRating = {};
+  averageScore = -1;
 
-  constructor() {
+  constructor(postId) {
     makeObservable(this, {
-      averageRating: observable,
+      averageScore: observable,
     });
+    this.postId = postId;
   }
 
-  getAverageScore = async (postId) => {
-    const ratings = await this.getRatings(postId);
+  getAverageScore = async () => {
+    const ratings = await this.getRatings(this.postId);
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     const score = sum / ratings.length;
     runInAction(() => {
-      return (this.averageRating = {
-        postId,
-        score: isFinite(score) ? score : 0,
-      });
+      return (this.averageScore = isFinite(score) ? score : 0);
     });
   };
 
-  getRatings = async (postId) => {
+  getRatings = async () => {
     const arr = [];
-    const q = query(this._collection, where('postId', '==', postId));
+    const q = query(this._collection, where('postId', '==', this.postId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       arr.push({ id: doc.id, ...doc.data() });
@@ -42,11 +40,11 @@ class RatingService {
     return arr;
   };
 
-  getSingleRating = async (postId, userId) => {
+  getSingleRating = async (userId) => {
     let obj;
     const q = query(
       this._collection,
-      where('postId', '==', postId),
+      where('postId', '==', this.postId),
       where('userId', '==', userId)
     );
     const querySnapshot = await getDocs(q);
@@ -64,16 +62,16 @@ class RatingService {
     await updateDoc(ref, { score: newScore });
   };
 
-  addRating = async (postId, score) => {
+  addRating = async (score) => {
     const userId = auth.currentUser.uid;
-    const userRating = await this.getSingleRating(postId, userId);
+    const userRating = await this.getSingleRating(userId);
     if (userRating) {
       await this.changeRating(userRating.id, score);
       // изменили
       return false;
     }
     await addDoc(this._collection, {
-      postId,
+      postId: this.postId,
       score,
       userId,
     });

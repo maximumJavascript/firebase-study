@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { authService } from '../../../../auth/auth.service';
 import { observer } from 'mobx-react';
-import { StarIcon } from '../../../../assets/icons/SvgStar';
+import { StarIcon } from '../../../../assets/icons/StarIcon';
 import styles from './Star.module.css';
 import classNames from 'classnames';
 
@@ -27,36 +27,34 @@ const Star = observer(
       this.props.onAddRating(score);
     };
 
-    render() {
-      const handlers = authService.isAuth
+    get handlers() {
+      return authService.isAuth
         ? {
             onMouseEnter: this.handleMouseEnter,
             onClick: this.handleClick,
             onMouseMove: this.handleMouseMove,
           }
         : {};
+    }
 
-      const userHovered = this.props.userHovered;
-      const percSelected = this.props.percSelected;
-      const percFilled = this.props.percFilled;
-      const starClass = classNames({
+    get starClass() {
+      return classNames({
         [styles.star]: true,
-        [styles.isSelected]: percSelected > 0,
-        [styles.isFilled]: percFilled > 0,
+        [styles.isSelected]: this.props.percSelected > 0,
+        [styles.isFilled]: this.props.percFilled > 0,
       });
+    }
 
-      if ((userHovered && percSelected) || (!userHovered && percFilled)) {
-        return (
-          <StarIcon
-            {...handlers}
-            filled={userHovered ? percSelected : percFilled}
-            className={starClass}
-            number={this.props.postId}
-          />
-        );
-      }
+    render() {
+      const { userHovered, percSelected, percFilled } = this.props;
+
       return (
-        <StarIcon {...handlers} number={this.props.postId} className={styles.star} />
+        <StarIcon
+          {...this.handlers}
+          filled={userHovered ? percSelected : percFilled}
+          number={this.props.postId}
+          className={this.starClass}
+        />
       );
     }
   }
