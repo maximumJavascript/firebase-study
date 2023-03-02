@@ -12,7 +12,7 @@ import React from 'react';
 const PostItem = React.forwardRef((props, ref) => {
   const src = props.post.base64Img;
   return (
-    <div className={styles.post} ref={ref}>
+    <div className={styles.post} ref={ref} postid={props.post.id}>
       {src && (
         <div className={styles.postImage}>
           <img src={src} alt="post: img" />

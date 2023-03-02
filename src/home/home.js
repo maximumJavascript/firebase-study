@@ -16,11 +16,13 @@ const Home = observer(
       void homeService.posts.getPosts();
       void userService.getUsers();
     }
-    setRef = (ref) => {
-      this.arr.push(ref);
+    setRef = (ref, id) => {
+      // console.log('1');
+      this.arr.push({ ref });
     };
     render() {
-      viewsCounter.arrWithRefs(this.arr);
+      // костыль. Без него работает не совсем так, как хотелось бы. Нужно обсудить
+      setTimeout(() => viewsCounter.arrWithRefs(this.arr), 0);
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (
