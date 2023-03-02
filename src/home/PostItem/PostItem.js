@@ -6,11 +6,13 @@ import styles from './PostItem.module.css';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 import { authService } from '../../auth/auth.service';
-
-export default function PostItem(props) {
+import { render } from 'react-dom';
+import { viewsCounter } from '../../viewsCounter/ViewsCounter';
+import React from 'react';
+const PostItem = React.forwardRef((props, ref) => {
   const src = props.post.base64Img;
   return (
-    <div className={styles.post}>
+    <div className={styles.post} ref={ref} postid={props.post.id}>
       {src && (
         <div className={styles.postImage}>
           <img src={src} alt="post: img" />
@@ -23,7 +25,7 @@ export default function PostItem(props) {
         </div>
         <div className={styles.postFooter}>
           <Author date={props.date} authorId={props.post.author.id} />
-          <Views />
+          <Views postId={props.post.id} viewCounter={props.viewCounter} />
           <Raiting />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>
@@ -36,4 +38,5 @@ export default function PostItem(props) {
       </div>
     </div>
   );
-}
+});
+export default PostItem;
