@@ -1,6 +1,5 @@
 .dropdownContainer {
   display: block;
-  margin: 10em auto;
   align-items: center;
   justify-content: center;
   background-color: #fff;
@@ -11,6 +10,7 @@
   text-align: left;
   border-radius: 4px;
   cursor: pointer;
+  position: relative;
 }
 
 .dropdownMenu {
@@ -22,12 +22,22 @@
   user-select: none;
 }
 
+.dropdownItems {
+  position: absolute;
+  background: #fff;
+  top: 29px;
+  width: calc(100% + 2px);
+  border: 1px solid #ccc;
+  left: -1px;
+  right: -1px;
+}
+
 .dropdownMenuValue {
   padding: 4px 12px;
   transition: background-color .2s linear;
 }
 
-.dropdownMenuValue:hover { 
+.dropdownMenuValue:hover {
   background-color: #F0F1F3;
 }
 

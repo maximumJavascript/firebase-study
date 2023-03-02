@@ -23,7 +23,7 @@ export class Dropdown extends React.Component {
           <SvgArrowDown />
         </div>
         {this.state.isOpen && (
-          <div>
+          <div className={styles.dropdownItems}>
             {this.props.optionsList.map((option) => (
               <Option
                 key={option.id}
