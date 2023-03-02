@@ -7,9 +7,7 @@ import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
-import { toJS } from 'mobx';
-import storageService from '../../localStorageService/storageService';
-import { viewsCounter } from '../../viewsCounter/ViewsCounter';
+
 const PostComments = observer(
   class PostComments extends Component {
     constructor(props) {

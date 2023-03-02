@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
-import { toJS } from 'mobx';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
+
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -38,7 +38,7 @@ const Home = observer(
                   user={user.user}
                   date={post.date}
                   ref={this.setRef}
-                  viewCounter={post.viewedBy.length}
+                  viewCounter={post.viewedBy?.length}
                 />
               ) : undefined;
             })}

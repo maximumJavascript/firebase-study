@@ -1,16 +1,14 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import { Button } from './sandbox/button/Button';
-import { Dropdown } from './sandbox/dropdown/Dropdown';
+import { Button } from './sandbox/button/';
+import { Dropdown } from './sandbox/dropdown/';
 import { authService } from './auth/auth.service';
-import { userService } from './usersService/UserService';
 import Comments from './comments/PostComments';
 
 function App() {

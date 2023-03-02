@@ -8,6 +8,7 @@ import TitleInput from '../controls/createPostForm/TitleInput/TitleInput';
 import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
 import PhotoUploader from '../photoUploader/PhotoUploader';
+
 function date() {
   let d = new Date();
   return (
@@ -28,8 +29,8 @@ export const CreatePost = observer(
     constructor(props) {
       super(props);
       this.state = {
-        titleValue: '',
-        areaValue: '',
+        title: '',
+        area: '',
         base64Img: null,
       };
     }
@@ -52,9 +53,11 @@ export const CreatePost = observer(
         [e.target.name]: e.target.value,
       });
     };
+
     getCode = (file) => {
       this.setState({ base64Img: file });
     };
+
     render() {
       if (!authService.isAuth) return <Navigate to="/login" />;
       return (
@@ -63,18 +66,18 @@ export const CreatePost = observer(
             <h2 className={styles.postTitle}>FORM</h2>
             <TitleInput
               onChange={this.handleInput}
-              value={this.state.titleValue}
+              value={this.state.title}
               placeholder="Title post"
               name="title"
             />
             <TextArea
               onChange={this.handleInput}
-              value={this.state.areaValue}
+              value={this.state.area}
               placeholder="Text post"
               name="area"
             />
             <PhotoUploader getCode={this.getCode} />
-            <CreatePostBtn />
+            <CreatePostBtn text={'SEND'} />
           </form>
         </div>
       );
