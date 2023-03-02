@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
-import { toJS } from 'mobx';
 
 const Home = observer(
   class Home extends Component {
@@ -21,7 +20,7 @@ const Home = observer(
           <div className={styles.homePage}>
             {postLists.map((post) => {
               let user = userList.find((user) => {
-                return user.user.userUid === post.author.id ? user : undefined;
+                return user.user?.userUid === post.author.id ? user : undefined;
               });
               return user !== undefined ? (
                 <PostItem key={post.id} post={post} user={user.user} date={post.date} />

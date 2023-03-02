@@ -7,16 +7,16 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, runInAction } from 'mobx';
 import { db, auth } from '../../../firebase-config';
 
 class RatingService {
   _collection = collection(db, 'ratings');
-  averageScore = {};
+  averageRating = {};
 
   constructor() {
     makeObservable(this, {
-      averageScore: observable,
+      averageRating: observable,
     });
   }
 
@@ -24,7 +24,12 @@ class RatingService {
     const ratings = await this.getRatings(postId);
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     const score = sum / ratings.length;
-    return isFinite(score) ? score : 0;
+    runInAction(() => {
+      return (this.averageRating = {
+        postId,
+        score: isFinite(score) ? score : 0,
+      });
+    });
   };
 
   getRatings = async (postId) => {
