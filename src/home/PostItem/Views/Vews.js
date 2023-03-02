@@ -6,15 +6,12 @@ import { db } from '../../../firebase-config';
 import { updateDoc, doc } from 'firebase/firestore';
 import { async } from '@firebase/util';
 export default observer(function Views(props) {
-  // console.log('внутри views c postId', props.postId);
-  // viewsCounter.updateDoc(props.postId);
-  let counter = viewsCounter.viewsCounter;
   return (
     <div className={styles.postViews}>
       <div className={styles.postViewsSvg}>
         <SvgEye />
       </div>
-      <div className={styles.postViewsCount}>{counter}</div>
+      <div className={styles.postViewsCount}>{props.viewCounter}</div>
     </div>
   );
 });

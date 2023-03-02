@@ -25,7 +25,7 @@ const PostItem = React.forwardRef((props, ref) => {
         </div>
         <div className={styles.postFooter}>
           <Author date={props.date} authorId={props.post.author.id} />
-          <Views postId={props.post.id} />
+          <Views postId={props.post.id} viewCounter={props.viewCounter} />
           <Raiting />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>

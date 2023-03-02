@@ -17,7 +17,6 @@ const Home = observer(
       void userService.getUsers();
     }
     setRef = (ref, id) => {
-      // console.log('1');
       this.arr.push({ ref });
     };
     render() {
@@ -39,6 +38,7 @@ const Home = observer(
                   user={user.user}
                   date={post.date}
                   ref={this.setRef}
+                  viewCounter={post.viewedBy.length}
                 />
               ) : undefined;
             })}

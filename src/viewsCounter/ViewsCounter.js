@@ -17,12 +17,9 @@ class ViewsCounter {
   constructor() {
     makeAutoObservable(this);
   }
-  // postid
+
   updateInfo = async (userId, postID) => {
     const postRef = doc(db, 'posts', postID);
-    // await updateDoc(postRef, {
-    // capital: true,
-    // });
     updateDoc(postRef, { viewedBy: [userId] });
   };
   consolidateInfo = (elements, info) => {
@@ -36,8 +33,6 @@ class ViewsCounter {
     });
   };
   arrWithRefs = (arr) => {
-    // arr.forEach((element) => console.log(element.children[1].key));
-    // console.log(arr);
     let observer = new IntersectionObserver(this.consolidateInfo, this.options);
     arr.forEach((element) => observer.observe(element.ref));
   };
