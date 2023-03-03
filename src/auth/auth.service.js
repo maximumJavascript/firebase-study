@@ -43,7 +43,7 @@ class AuthService {
       this.setSrc(value.user.photoURL);
       this.handleIsAuth();
       const isNewUser = async () => {
-        if ((await userService.isUserExist(value.user.uid)) !== false) {
+        if (!!(await userService.isUserExist(value.user.uid))) {
           // user exist
         } else {
           userService.handleAddUsers(value.user);
