@@ -10,24 +10,24 @@ const Home = observer(
   class Home extends Component {
     constructor(props) {
       super(props);
-      this.arr = [];
+      this.arrWithRefs = [];
     }
     componentDidMount() {
       void homeService.posts.getPosts();
       void userService.getUsers();
 
-      viewsCounter.arrWithRefs(this.arr);
+      viewsCounter.makePostsObservable(this.arrWithRefs);
     }
 
     componentDidUpdate() {
-      viewsCounter.arrWithRefs(this.arr);
+      viewsCounter.makePostsObservable(this.arrWithRefs);
     }
 
     setRef = (ref) => {
-      this.arr.push(ref);
+      this.arrWithRefs.push(ref);
     };
     render() {
-      this.arr = [];
+      this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (

@@ -7,10 +7,6 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 
 class PostItem extends React.Component {
-  get id() {
-    return this.props.post.id;
-  }
-
   ref = React.createRef();
   render() {
     const { props } = this;
