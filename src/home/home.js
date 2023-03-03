@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { homeService } from './home.service';
 import { observer } from 'mobx-react';
 import PostItem from './PostItem';
@@ -15,13 +15,19 @@ const Home = observer(
     componentDidMount() {
       void homeService.posts.getPosts();
       void userService.getUsers();
+
+      viewsCounter.arrWithRefs(this.arr);
     }
-    setRef = (ref, id) => {
-      this.arr.push({ ref });
+
+    componentDidUpdate() {
+      viewsCounter.arrWithRefs(this.arr);
+    }
+
+    setRef = (ref) => {
+      this.arr.push(ref);
     };
     render() {
-      // костыль. Без него работает не совсем так, как хотелось бы. Нужно обсудить
-      setTimeout(() => viewsCounter.arrWithRefs(this.arr), 0);
+      this.arr = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (

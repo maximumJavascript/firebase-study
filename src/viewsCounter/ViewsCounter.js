@@ -1,10 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { db } from '../firebase-config';
-import { updateDoc, doc, arrayUnion, setDoc } from 'firebase/firestore';
+import { updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import storageService from '../localStorageService/storageService';
-import { async } from '@firebase/util';
-import { useRef } from 'react';
-import { toJS } from 'mobx';
+import { authService } from '../auth/auth.service';
 
 class ViewsCounter {
   viewsCounter = 0;
@@ -20,7 +18,7 @@ class ViewsCounter {
 
   updateInfo = async (userId, postID) => {
     const postRef = doc(db, 'posts', postID);
-    updateDoc(postRef, { viewedBy: [userId] });
+    updateDoc(postRef, { viewedBy: arrayUnion(userId) });
   };
   consolidateInfo = (elements, info) => {
     elements.forEach((post) => {
@@ -33,8 +31,11 @@ class ViewsCounter {
     });
   };
   arrWithRefs = (arr) => {
+    if (!authService.isAuth) return;
     let observer = new IntersectionObserver(this.consolidateInfo, this.options);
-    arr.forEach((element) => observer.observe(element.ref));
+    arr.forEach((element) => {
+      observer.observe(element.ref?.current);
+    });
   };
 }
 export const viewsCounter = new ViewsCounter();
