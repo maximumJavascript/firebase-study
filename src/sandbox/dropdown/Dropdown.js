@@ -6,21 +6,25 @@ import Option from './Option';
 export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, selectedItemId: undefined };
+    this.state = { isOpen: false, isRotate: false, selectedItemId: undefined };
   }
 
   toggleIsOpen = () => {
     this.setState((prevState) => ({
       isOpen: !prevState.isOpen,
+      isRotate: !prevState.isRotate,
     }));
   };
+
 
   render() {
     return (
       <div className={styles.dropdownContainer}>
         <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
           <div>{this.props.selectedValue}</div>
-          <SvgArrowDown />
+          <SvgArrowDown className={this.state.isRotate ? 
+          styles.dropdownMenuIconRotate : styles.dropdownMenuIcon 
+          }/>
         </div>
         {this.state.isOpen && (
           <div className={styles.dropdownItems}>
