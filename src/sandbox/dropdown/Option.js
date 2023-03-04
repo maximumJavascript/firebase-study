@@ -6,7 +6,6 @@ export default class Option extends React.Component {
   handleClick = () => {
     this.props.onSelectItem(this.props.optionObj.id);
     this.props.onToggle();
-    this.props.setRotate();
   };
 
   render() {
