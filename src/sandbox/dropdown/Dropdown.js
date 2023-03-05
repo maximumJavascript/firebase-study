@@ -2,39 +2,23 @@ import React from 'react';
 import styles from './Dropdown.module.css';
 import { ReactComponent as SvgArrowDown } from '../../assets/icons/SvgArrowDown.svg';
 import Option from './Option';
-import PropTypes from "prop-types";
 
 export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.wrapperRef = React.createRef();
-    this.state = { isOpen: false, isRotate: false, selectedItemId: undefined };
+    this.state = {
+      isOpenState: this.props.isOpenState, 
+      isRotateState: this.props.isRotateState,  
+      selectedItemId: undefined };
   }
 
   toggleIsOpen = () => {
     this.setState((prevState) => ({
-      isOpen: !prevState.isOpen,
-      isRotate: !prevState.isRotate,
-
+      isOpenState: !prevState.isOpenState,
+      isRotateState: !prevState.isRotateState,
     }));
   };
-
-  componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
-  }
-
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState((prevState) => ({
-        isOpen: !prevState.isOpen,
-        isRotate: !prevState.isRotate,
-      }));
-    }
-  }
 
   render() {
     return (
@@ -55,7 +39,6 @@ export class Dropdown extends React.Component {
                 onSelectItem={this.props.onSelectItem}
                 onToggle={this.toggleIsOpen}
                 isSelected={this.props.selectedItemIdState === option.id}
-                selectedItemIdState={this.props.selectedItemIdState}
               />
             ))}
           </div>

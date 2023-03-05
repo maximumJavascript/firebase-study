@@ -10,6 +10,7 @@ import { Button } from './sandbox/button/Button';
 import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDropdown';
 import { authService } from './auth/auth.service';
 import Comments from './comments/PostComments';
+import { ClickOutside } from './sandbox/dropdown';
 
 function App() {
   const signUserOut = () => {
@@ -20,6 +21,16 @@ function App() {
     });
   };
 
+  function DisplaySandbox() {
+    return (
+      <>
+      <Button label={'Text button'} />
+      <ClickOutside />
+      <p>Test</p>
+      </>
+    )
+  }
+
 
   return (
     <Router>
@@ -29,10 +40,8 @@ function App() {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/comments/:id" element={<Comments />} />
+        <Route path="/sandbox" element={<DisplaySandbox />} />
       </Routes>
-      <Button label={'Text button'} />
-      <AnimalsDropdown />
-      <p>Test</p>
     </Router>
   );
 }
