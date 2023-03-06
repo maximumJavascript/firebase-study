@@ -35,6 +35,7 @@ class PostItem extends React.Component {
                 </div>
               </Link>
             )}
+            <button onClick={() => this.props.deletePostItem(props.post.id)}>DEL</button>
           </div>
         </div>
       </div>

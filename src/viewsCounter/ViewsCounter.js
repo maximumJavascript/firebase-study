@@ -31,9 +31,10 @@ class ViewsCounter {
   makePostsObservable = (arr) => {
     if (!authService.isAuth) return;
     const observer = new IntersectionObserver(this.consolidateInfo, this.options);
-    arr.forEach((element) => {
+    for (let element of arr) {
+      if (element === null) return;
       observer.observe(element.ref?.current);
-    });
+    }
   };
 }
 export const viewsCounter = new ViewsCounter();

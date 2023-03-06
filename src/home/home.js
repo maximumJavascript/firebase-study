@@ -5,6 +5,8 @@ import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase-config';
 
 const Home = observer(
   class Home extends Component {
@@ -26,6 +28,9 @@ const Home = observer(
     setRef = (ref) => {
       this.arrWithRefs.push(ref);
     };
+    deletePostItem = async (postId) => {
+      await deleteDoc(doc(db, 'posts', postId));
+    };
     render() {
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
@@ -45,6 +50,7 @@ const Home = observer(
                   date={post.date}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
+                  deletePostItem={this.deletePostItem}
                 />
               ) : undefined;
             })}
