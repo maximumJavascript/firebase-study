@@ -8,9 +8,10 @@ export class Dropdown extends React.Component {
     super(props);
     this.wrapperRef = React.createRef();
     this.state = {
-      isOpenState: this.props.isOpenState, 
-      isRotateState: this.props.isRotateState,  
-      selectedItemId: undefined };
+      isOpenState: this.props.isOpenState,
+      isRotateState: this.props.isRotateState,
+      selectedItemId: undefined,
+    };
   }
 
   toggleIsOpen = () => {
@@ -21,28 +22,33 @@ export class Dropdown extends React.Component {
   };
 
   render() {
+    console.log('dropdown', this.state.isOpenState);
     return (
       <div className={styles.dropdownContainer}>
-      <div ref={this.wrapperRef} onClick={this.handleClickOutside}>
-        <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
-          <div>{this.props.selectedValue}</div>
-          <SvgArrowDown className={this.state.isRotate ? 
-          styles.dropdownMenuIconRotate : styles.dropdownMenuIcon 
-          }/>
-        </div>
-        {this.state.isOpen && (
-          <div className={styles.dropdownItems}>
-            {this.props.optionsList.map((option) => (
-              <Option
-                key={option.id}
-                optionObj={option}
-                onSelectItem={this.props.onSelectItem}
-                onToggle={this.toggleIsOpen}
-                isSelected={this.props.selectedItemIdState === option.id}
-              />
-            ))}
+        <div ref={this.wrapperRef} onClick={this.handleClickOutside}>
+          <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
+            <div>{this.props.selectedValue}</div>
+            <SvgArrowDown
+              className={
+                this.state.isRotateState
+                  ? styles.dropdownMenuIconRotate
+                  : styles.dropdownMenuIcon
+              }
+            />
           </div>
-        )}
+          {this.state.isOpenState && (
+            <div className={styles.dropdownItems}>
+              {this.props.optionsList.map((option) => (
+                <Option
+                  key={option.id}
+                  optionObj={option}
+                  onSelectItem={this.props.onSelectItem}
+                  onToggle={this.toggleIsOpen}
+                  isSelected={this.props.selectedItemIdState === option.id}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );

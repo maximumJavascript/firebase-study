@@ -1,5 +1,5 @@
-import React from "react";
-import { AnimalsDropdown } from "./AnimalsDropdown"
+import React from 'react';
+import { AnimalsDropdown } from './AnimalsDropdown';
 
 export class ClickOutside extends React.Component {
   constructor(props) {
@@ -9,28 +9,31 @@ export class ClickOutside extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState((prevState) => ({
+      this.setState({
         isOpen: false,
         isRotate: false,
-      }));
+      });
     }
-  }
+  };
 
   render() {
-    return <div ref={this.wrapperRef}>
-    <AnimalsDropdown 
-    isOpenState={this.state.isOpen}
-    isRotateState={this.state.isRotate}/>
-    </div>;
+    console.log('clickOutside:', this.state.isOpen);
+    return (
+      <div ref={this.wrapperRef}>
+        <AnimalsDropdown
+          isOpenState={this.state.isOpen}
+          isRotateState={this.state.isRotate}
+        />
+      </div>
+    );
   }
 }
-
