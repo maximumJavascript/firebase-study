@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
 
@@ -12,7 +12,10 @@ class PostsService {
     });
     this.data = [];
   }
-
+  deletePostItem = async (postId) => {
+    await deleteDoc(doc(db, 'posts', postId));
+    this.data = this.data.filter((post) => post.id !== postId);
+  };
   getPosts = async () => {
     const data = await getDocs(this._collection);
     runInAction(() => {
