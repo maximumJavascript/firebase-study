@@ -7,7 +7,6 @@ import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
-import { toJS } from 'mobx';
 
 const PostComments = observer(
   class PostComments extends Component {
@@ -38,7 +37,7 @@ const PostComments = observer(
               post={post}
               isComments={true}
               viewCounter={post.viewedBy.length}
-              date={post.date}
+              date={post.date.seconds}
             />
           </div>
           <div>

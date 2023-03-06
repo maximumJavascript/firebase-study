@@ -1,6 +1,4 @@
 export class DateConverterService {
-  convetedDate = null;
-
   static convertDate = (UNIX_timestamp) => {
     const a = new Date(UNIX_timestamp * 1000);
     const months = [
@@ -23,7 +21,8 @@ export class DateConverterService {
     const hour = a.getHours();
     let min = a.getMinutes();
     min = min < 10 ? '0' + min : min;
-    const sec = a.getSeconds();
+    let sec = a.getSeconds();
+    sec = sec < 10 ? '0' + sec : sec;
     const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     return time;
   };
