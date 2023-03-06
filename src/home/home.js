@@ -22,7 +22,6 @@ const Home = observer(
     componentDidUpdate() {
       viewsCounter.makePostsObservable(this.arrWithRefs);
     }
-
     setRef = (ref) => {
       this.arrWithRefs.push(ref);
     };

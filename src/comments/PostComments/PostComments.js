@@ -7,6 +7,7 @@ import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
+import { toJS } from 'mobx';
 
 const PostComments = observer(
   class PostComments extends Component {
@@ -33,7 +34,7 @@ const PostComments = observer(
           className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}
         >
           <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
-            <PostItem post={post} isComments={true} />
+            <PostItem post={post} isComments={true} viewCounter={post.viewedBy.length} />
           </div>
           <div>
             <CreateComment postId={post.id} />
