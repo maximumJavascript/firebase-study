@@ -5,9 +5,7 @@ import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase-config';
-import { toJS } from 'mobx';
+import { postsService } from '../posts/posts.service';
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -28,15 +26,11 @@ const Home = observer(
     setRef = (ref) => {
       this.arrWithRefs.push(ref);
     };
-    deletePostItem = async (postId) => {
-      await deleteDoc(doc(db, 'posts', postId));
-      void homeService.posts.getPosts();
-    };
     render() {
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
-      console.log(toJS(postLists));
+      // console.log(toJS(postLists));
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
@@ -52,7 +46,7 @@ const Home = observer(
                   date={post.date}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
-                  deletePostItem={this.deletePostItem}
+                  deletePostItem={postsService.deletePostItem}
                 />
               ) : undefined;
             })}
