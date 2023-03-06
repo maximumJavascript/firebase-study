@@ -7,7 +7,7 @@ import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase-config';
-
+import { toJS } from 'mobx';
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -30,11 +30,13 @@ const Home = observer(
     };
     deletePostItem = async (postId) => {
       await deleteDoc(doc(db, 'posts', postId));
+      void homeService.posts.getPosts();
     };
     render() {
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
+      console.log(toJS(postLists));
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
