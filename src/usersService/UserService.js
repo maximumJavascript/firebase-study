@@ -1,14 +1,6 @@
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  query,
-  where,
-  setDoc,
-} from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase-config';
-import { makeObservable, observable, runInAction, toJS } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 
 class UserService {
   _collection = collection(db, 'users');

@@ -1,27 +1,34 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { homeService } from './home.service';
 import { observer } from 'mobx-react';
 import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
+import { postsService } from '../posts/posts.service';
+import { DateConverterService } from '../dateConverterService/DateConverterService';
 
 const Home = observer(
   class Home extends Component {
     constructor(props) {
       super(props);
-      this.arr = [];
+      this.arrWithRefs = [];
     }
     componentDidMount() {
       void homeService.posts.getPosts();
       void userService.getUsers();
+
+      viewsCounter.makePostsObservable(this.arrWithRefs);
     }
-    setRef = (ref, id) => {
-      this.arr.push({ ref });
+
+    componentDidUpdate() {
+      viewsCounter.makePostsObservable(this.arrWithRefs);
+    }
+    setRef = (ref) => {
+      this.arrWithRefs.push(ref);
     };
     render() {
-      // костыль. Без него работает не совсем так, как хотелось бы. Нужно обсудить
-      setTimeout(() => viewsCounter.arrWithRefs(this.arr), 0);
+      this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (
@@ -31,14 +38,16 @@ const Home = observer(
               let user = userList.find((user) => {
                 return user.userUid === post.author.id ? user : undefined;
               });
+              const dateOfPost = DateConverterService.convertDate(post.date.seconds);
               return user !== undefined ? (
                 <PostItem
                   key={post.id}
                   post={post}
                   user={user.user}
-                  date={post.date}
+                  date={dateOfPost}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
+                  deletePostItem={postsService.deletePostItem}
                 />
               ) : undefined;
             })}

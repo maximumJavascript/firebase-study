@@ -1,5 +1,3 @@
-import { autorun } from 'mobx';
-import { authService } from '../auth/auth.service';
 class StorageService {
   setAuthToStorage = (isAuth) => {
     window.localStorage.setItem('isAuth', isAuth);
