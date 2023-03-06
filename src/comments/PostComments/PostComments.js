@@ -34,7 +34,12 @@ const PostComments = observer(
           className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}
         >
           <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
-            <PostItem post={post} isComments={true} viewCounter={post.viewedBy.length} />
+            <PostItem
+              post={post}
+              isComments={true}
+              viewCounter={post.viewedBy.length}
+              date={post.date}
+            />
           </div>
           <div>
             <CreateComment postId={post.id} />
