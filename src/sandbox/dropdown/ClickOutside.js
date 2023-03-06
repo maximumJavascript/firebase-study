@@ -18,10 +18,10 @@ export class ClickOutside extends React.Component {
 
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState({
-        isOpen: false,
-        isRotate: false,
-      });
+      this.setState((prevState) => ({
+        isOpen: !prevState.isOpen,
+        isRotate: !prevState.isRotate,
+      }));
     }
   };
 
