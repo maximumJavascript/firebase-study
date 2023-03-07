@@ -8,7 +8,7 @@ export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.wrapperRef = React.createRef();
-    this.state = { isOpen: false, isRotate: false, selectedItemId: undefined };
+    this.state = { isOpen: false, isRotate: false };
   }
 
   toggleIsOpen = () => {
@@ -58,7 +58,6 @@ export class Dropdown extends React.Component {
                   onSelectItem={this.props.onSelectItem}
                   onToggle={this.toggleIsOpen}
                   isSelected={this.props.selectedItemIdState === option.id}
-                  selectedItemIdState={this.props.selectedItemIdState}
                 />
               ))}
             </div>

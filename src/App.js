@@ -20,7 +20,6 @@ function App() {
     });
   };
 
-
   return (
     <Router>
       <NavBar />
@@ -30,9 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/comments/:id" element={<Comments />} />
       </Routes>
-      <Button label={'Text button'} />
       <AnimalsDropdown />
-      <p>Test</p>
     </Router>
   );
 }
