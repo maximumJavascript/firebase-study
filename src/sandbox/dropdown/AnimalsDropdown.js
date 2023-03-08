@@ -31,7 +31,6 @@ export class AnimalsDropdown extends React.Component {
         onSelectItem={this.handleSelectItem}
         selectedValue={selectedValue}
         isOpenState={this.props.isOpenState}
-        isRotateState={this.props.isRotateState}
       />
     );
   }

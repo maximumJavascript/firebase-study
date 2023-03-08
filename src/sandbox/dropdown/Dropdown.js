@@ -2,35 +2,32 @@ import React from 'react';
 import styles from './Dropdown.module.css';
 import { ReactComponent as SvgArrowDown } from '../../assets/icons/SvgArrowDown.svg';
 import Option from './Option';
-import PropTypes from 'prop-types';
 
 export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.wrapperRef = React.createRef();
-    this.state = { isOpen: false, isRotate: false };
+    this.state = { isOpen: false};
   }
 
   toggleIsOpen = () => {
     this.setState((prevState) => ({
       isOpen: !prevState.isOpen,
-      isRotate: !prevState.isRotate,
     }));
   };
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
+    document.addEventListener('click', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
+    document.removeEventListener('click', this.handleClickOutside);
   }
 
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
       this.setState({
         isOpen: false,
-        isRotate: false,
       });
     }
   };
@@ -43,7 +40,7 @@ export class Dropdown extends React.Component {
             <div>{this.props.selectedValue}</div>
             <SvgArrowDown
               className={
-                this.state.isRotate
+                this.state.isOpen
                   ? styles.dropdownMenuIconRotate
                   : styles.dropdownMenuIcon
               }
