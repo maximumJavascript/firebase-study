@@ -6,7 +6,6 @@ import Option from './Option';
 export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.wrapperRef = React.createRef();
     this.state = { isOpen: false };
   }
 
@@ -24,13 +23,17 @@ export class Dropdown extends React.Component {
     document.removeEventListener('click', this.handleClickOutside);
   }
 
-  handleClickOutside(event) {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+  setWrapperRef = (node) => {
+    this.wrapperRef = node;
+  };
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.setState({
         isOpen: false,
       });
     }
-  }
+  };
 
   render() {
     const selectedValue = !this.state.selectedItemId
@@ -39,7 +42,7 @@ export class Dropdown extends React.Component {
 
     return (
       <div className={styles.dropdownContainer}>
-        <div ref={this.wrapperRef}>
+        <div ref={this.setWrapperRef}>
           <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
             <div>{selectedValue}</div>
             <SvgArrowDown

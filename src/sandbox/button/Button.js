@@ -13,7 +13,7 @@ export class Button extends React.Component {
 
     return (
       <button className={buttonClass}>
-        {this.renderIcon()}
+        {/* {this.renderIcon()} */}
         {this.props.label}
       </button>
     );

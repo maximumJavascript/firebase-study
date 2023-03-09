@@ -4,7 +4,7 @@ import { ReactComponent as SvgHeaderHome } from '../../../src/assets/icons/SvgHe
 import { ReactComponent as SvgHeaderLogin } from '../../../src/assets/icons/SvgHeaderLogin.svg';
 import { ReactComponent as SvgLogOut } from '../../../src/assets/icons/SvgLogOut.svg';
 
-export class Button extends React.Component {
+export class RenderIcon extends React.Component {
   renderIcon() {
     switch (this.props.label) {
       case 'Home':
@@ -18,12 +18,12 @@ export class Button extends React.Component {
     }
   }
 
-  render() {
-    return (
-      <button className={buttonClass}>
-        {this.renderIcon()}
-        {this.props.label}
-      </button>
-    );
-  }
+  // render() {
+  //   return (
+  //     <button className={buttonClass}>
+  //       {this.renderIcon()}
+  //       {this.props.label}
+  //     </button>
+  //   );
+  // }
 }
