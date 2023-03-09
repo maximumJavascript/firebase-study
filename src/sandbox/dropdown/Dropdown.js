@@ -7,7 +7,7 @@ export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.wrapperRef = React.createRef();
-    this.state = { isOpen: false};
+    this.state = { isOpen: false };
   }
 
   toggleIsOpen = () => {
@@ -24,20 +24,24 @@ export class Dropdown extends React.Component {
     document.removeEventListener('click', this.handleClickOutside);
   }
 
-  handleClickOutside = (event) => {
+  handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
       this.setState({
         isOpen: false,
       });
     }
-  };
+  }
 
   render() {
+    const selectedValue = !this.state.selectedItemId
+      ? 'Placeholder...'
+      : this.optionsList.find((elem) => elem.id === this.state.selectedItemId).label;
+
     return (
       <div className={styles.dropdownContainer}>
         <div ref={this.wrapperRef}>
           <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
-            <div>{this.props.selectedValue}</div>
+            <div>{selectedValue}</div>
             <SvgArrowDown
               className={
                 this.state.isOpen
@@ -54,7 +58,7 @@ export class Dropdown extends React.Component {
                   optionObj={option}
                   onSelectItem={this.props.onSelectItem}
                   onToggle={this.toggleIsOpen}
-                  isSelected={this.props.selectedItemIdState === option.id}
+                  isSelected={this.props.selectedItemId === option.id}
                 />
               ))}
             </div>
