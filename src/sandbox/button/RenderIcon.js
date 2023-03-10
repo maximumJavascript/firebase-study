@@ -18,12 +18,12 @@ export class RenderIcon extends React.Component {
     }
   }
 
-  // render() {
-  //   return (
-  //     <button className={buttonClass}>
-  //       {this.renderIcon()}
-  //       {this.props.label}
-  //     </button>
-  //   );
-  // }
+  render() {
+    return (
+      <button className={buttonClass}>
+        {this.renderIcon()}
+        {this.props.label}
+      </button>
+    );
+  }
 }

@@ -36,9 +36,10 @@ export class Dropdown extends React.Component {
   };
 
   render() {
-    const selectedValue = !this.state.selectedItemId
+    const selectedValue = !this.props.selectedItemId
       ? 'Placeholder...'
-      : this.optionsList.find((elem) => elem.id === this.state.selectedItemId).label;
+      : this.props.optionsList.find((elem) => elem.id === this.props.selectedItemId)
+          .label;
 
     return (
       <div className={styles.dropdownContainer}>

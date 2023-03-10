@@ -13,15 +13,19 @@ export class AnimalsDropdown extends React.Component {
     { id: 3, value: 'Frontender', label: 'Frontender' },
   ];
 
-  handleSelectItem = (optionsList) => {
+  handleSelectItem = (selectedItemId) => {
     this.setState({
-      optionsList,
+      selectedItemId,
     });
   };
 
   render() {
     return (
-      <Dropdown optionsList={this.optionsList} onSelectItem={this.handleSelectItem} />
+      <Dropdown
+        optionsList={this.optionsList}
+        selectedItemId={this.state.selectedItemId}
+        onSelectItem={this.handleSelectItem}
+      />
     );
   }
 }
