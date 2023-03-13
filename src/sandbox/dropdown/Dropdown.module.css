@@ -1,8 +1,8 @@
 .dropdownContainer {
   display: block;
-  margin: 10em auto;
   align-items: center;
   justify-content: center;
+  margin: 5em auto;
   background-color: #fff;
   border: 1px solid #ccc;
   color: #0F1416;
@@ -11,15 +11,37 @@
   text-align: left;
   border-radius: 4px;
   cursor: pointer;
+  position: relative;
 }
 
 .dropdownMenu {
+  position: relative;
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
-  user-select: none;
+}
+
+.dropdownMenuIcon {
+  transform: rotate(0deg);
+  transition: all .2s linear;
+}
+
+.dropdownMenuIconRotate {
+  transform: rotate(180deg);
+  transition: all .2s linear;
+}
+
+.dropdownItems {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: 0px;
+  top: 24px;
+  min-width: 100.8%;
+  left: -1px;
+  right: 0;
+  border-radius: 0px 0px 4px 4px;
 }
 
 .dropdownMenuValue {
@@ -27,7 +49,7 @@
   transition: background-color .2s linear;
 }
 
-.dropdownMenuValue:hover { 
+.dropdownMenuValue:hover {
   background-color: #F0F1F3;
 }
 
