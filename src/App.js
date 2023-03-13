@@ -6,11 +6,9 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import { Button } from './sandbox/button/Button';
 import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDropdown';
 import { authService } from './auth/auth.service';
 import Comments from './comments/PostComments';
-import { ClickOutside } from './sandbox/dropdown';
 
 function App() {
   const signUserOut = () => {
@@ -25,13 +23,12 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/firebase-study" element={<Home />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/comments/:id" element={<Comments />} />
-        <Route path="/sandbox" element={<DisplaySandbox />} />
+        <Route path="/sandbox" element={<AnimalsDropdown />} />
       </Routes>
-      <AnimalsDropdown />
     </Router>
   );
 }

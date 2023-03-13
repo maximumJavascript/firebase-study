@@ -12,7 +12,7 @@ const CentrNavbar = observer(
       let isAuth = authService.isAuth;
       return (
         <div className={styles.centerLinks}>
-          <Link to="/" className={styles.homeContainer}>
+          <Link to="/firebase-study" className={styles.homeContainer}>
             <Button label={'Home'} />
           </Link>
           {!isAuth ? (
