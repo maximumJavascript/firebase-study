@@ -62,7 +62,6 @@ export class Dropdown extends React.Component {
                   optionObj={option}
                   onSelectItem={this.props.onSelectItem}
                   onToggle={this.toggleIsOpen}
-                  isSelected={this.props.selectedItemId === option.id}
                 />
               ))}
             </div>
