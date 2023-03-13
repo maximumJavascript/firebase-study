@@ -84,6 +84,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 50px;
 }
 
 .newsLink {
@@ -95,6 +96,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 30px;
 }
 
 .newsLeft,
@@ -139,6 +141,8 @@
 }
 
 .homeContainer {
+  width: 100%;
+  min-width: 100px;
   margin-right: 0px;
 }
 

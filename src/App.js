@@ -21,27 +21,17 @@ function App() {
     });
   };
 
-  function DisplaySandbox() {
-    return (
-      <>
-      <Button label={'Text button'} />
-      <ClickOutside />
-      <p>Test</p>
-      </>
-    )
-  }
-
-
   return (
     <Router>
       <NavBar />
       <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Home />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/comments/:id" element={<Comments />} />
         <Route path="/sandbox" element={<DisplaySandbox />} />
       </Routes>
+      <AnimalsDropdown />
     </Router>
   );
 }

@@ -1,28 +1,28 @@
 .button {
   display: flex;
   align-items:center;
-  justify-content: center;
-  margin: 0 auto;
+  justify-content: space-evenly;
   color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'Playfair Display', sans-serif;
+  font-weight: 700;
   width: 100%;
+  min-width: 80px;
   border-radius: 4px;
-  padding: 6px 16px;
+  padding: 8px 16px;
   border: 0;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 21px;
   cursor: pointer;
   transition: background-color .2s linear;
 }
 
 .button:hover {
-  background-color: #004F79;
+  background-color: #7173e4;
   transition: background-color .2s linear;
 }
 
 .button:active {
-  background-color: #003D5E;
+  background-color: #5d5fef;
 }
 
 .small {
@@ -34,5 +34,12 @@
 }
 
 .primary {
-  background-color: #006297;
+  background-color: #5d5fef;
+}
+
+.headerIcons {
+  width: 20px;
+  height: 20px;
+  fill:#fff;
+  margin-right: 5px;
 }

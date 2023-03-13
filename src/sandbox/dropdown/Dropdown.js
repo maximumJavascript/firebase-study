@@ -6,37 +6,56 @@ import Option from './Option';
 export class Dropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.wrapperRef = React.createRef();
-    this.state = {
-      isOpenState: this.props.isOpenState,
-      isRotateState: this.props.isRotateState,
-      selectedItemId: undefined,
-    };
+    this.state = { isOpen: false };
   }
 
   toggleIsOpen = () => {
     this.setState((prevState) => ({
-      isOpenState: !prevState.isOpenState,
-      isRotateState: !prevState.isRotateState,
+      isOpen: !prevState.isOpen,
     }));
   };
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
+  }
+
+  setWrapperRef = (node) => {
+    this.wrapperRef = node;
+  };
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({
+        isOpen: false,
+      });
+    }
+  };
+
   render() {
+    const selectedValue = !this.props.selectedItemId
+      ? 'Placeholder...'
+      : this.props.optionsList.find((elem) => elem.id === this.props.selectedItemId)
+          .label;
+
     console.log('dropdown', this.state.isOpenState);
     return (
       <div className={styles.dropdownContainer}>
-        <div ref={this.wrapperRef} onClick={this.handleClickOutside}>
+        <div ref={this.setWrapperRef}>
           <div className={styles.dropdownMenu} onClick={this.toggleIsOpen}>
-            <div>{this.props.selectedValue}</div>
+            <div>{selectedValue}</div>
             <SvgArrowDown
               className={
-                this.state.isRotateState
+                this.state.isOpen
                   ? styles.dropdownMenuIconRotate
                   : styles.dropdownMenuIcon
               }
             />
           </div>
-          {this.state.isOpenState && (
+          {this.state.isOpen && (
             <div className={styles.dropdownItems}>
               {this.props.optionsList.map((option) => (
                 <Option
@@ -44,7 +63,6 @@ export class Dropdown extends React.Component {
                   optionObj={option}
                   onSelectItem={this.props.onSelectItem}
                   onToggle={this.toggleIsOpen}
-                  isSelected={this.props.selectedItemIdState === option.id}
                 />
               ))}
             </div>

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
 import { storageService } from '../../localStorageService/storageService';
+import { Button } from '../../../src/sandbox/button/Button';
+
 const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
     render() {
@@ -11,13 +13,11 @@ const CentrNavbar = observer(
       return (
         <div className={styles.centerLinks}>
           <Link to="/" className={styles.homeContainer}>
-            <span className={(styles.navText, styles.homeText)}>Home</span>
+            <Button label={'Home'} />
           </Link>
           {!isAuth ? (
-            <Link to="/login">
-              <button className={styles.loginBtn}>
-                <span className={(styles.navText, styles.loginText)}>Login</span>
-              </button>
+            <Link to="/login" className={styles.homeContainer}>
+              <Button label={'Login'} />
             </Link>
           ) : (
             <>
@@ -26,9 +26,11 @@ const CentrNavbar = observer(
                   Create Post
                 </span>
               </Link>
-              <button onClick={authService.handleLogOut} className={styles.logOutBtn}>
-                <span className={styles.logOutBtnText}>Log Out</span>
-              </button>
+              <Button
+                onClick={authService.handleLogOut}
+                className={styles.logOutBtn}
+                label={'Log out'}
+              />
             </>
           )}
         </div>

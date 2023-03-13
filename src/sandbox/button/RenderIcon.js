@@ -1,16 +1,10 @@
 import React from 'react';
 import styles from './Button.module.css';
-import cn from 'classnames';
 import { ReactComponent as SvgHeaderHome } from '../../../src/assets/icons/SvgHeaderHome.svg';
 import { ReactComponent as SvgHeaderLogin } from '../../../src/assets/icons/SvgHeaderLogin.svg';
 import { ReactComponent as SvgLogOut } from '../../../src/assets/icons/SvgLogOut.svg';
 
-export class Button extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+export class RenderIcon extends React.Component {
   renderIcon() {
     switch (this.props.label) {
       case 'Home':
@@ -25,8 +19,6 @@ export class Button extends React.Component {
   }
 
   render() {
-    const buttonClass = cn(styles.button, styles.medium, styles.primary);
-
     return (
       <button className={buttonClass}>
         {this.renderIcon()}
@@ -35,7 +27,3 @@ export class Button extends React.Component {
     );
   }
 }
-
-Button.defaultProps = {
-  label: 'Empty button',
-};

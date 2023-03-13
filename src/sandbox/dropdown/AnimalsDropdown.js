@@ -20,18 +20,11 @@ export class AnimalsDropdown extends React.Component {
   };
 
   render() {
-    const selectedValue = !this.state.selectedItemId
-      ? 'Placeholder...'
-      : this.optionsList.find((elem) => elem.id === this.state.selectedItemId).label;
-
     return (
       <Dropdown
         optionsList={this.optionsList}
-        selectedItemIdState={this.state.selectedItemId}
+        selectedItemId={this.state.selectedItemId}
         onSelectItem={this.handleSelectItem}
-        selectedValue={selectedValue}
-        isOpenState={this.props.isOpenState}
-        isRotateState={this.props.isRotateState}
       />
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../Navbar.module.css';
+import { Button } from '../../../src/sandbox/button/Button';
 
 class LeftNavbar extends React.Component {
   render() {
@@ -7,7 +8,7 @@ class LeftNavbar extends React.Component {
       <ul className={styles.leftLinks}>
         <li className={styles.newsLink}>
           <a href="#" className={styles.news}>
-            News
+            <Button label={'News'} />
           </a>
         </li>
         <li>
