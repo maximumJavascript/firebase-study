@@ -20,7 +20,6 @@ const Home = observer(
       this.arr.push({ ref });
     };
     render() {
-      // костыль. Без него работает не совсем так, как хотелось бы. Нужно обсудить
       setTimeout(() => viewsCounter.arrWithRefs(this.arr), 0);
       const postLists = homeService.posts.data;
       const userList = userService.data;

@@ -1,7 +1,7 @@
 import SvgNext from '../../assets/icons/SvgNext';
 import Author from './Author';
 import Views from './Views';
-import Raiting from './Raiting';
+import Rating from './Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -23,7 +23,7 @@ const PostItem = React.forwardRef((props, ref) => {
         <div className={styles.postFooter}>
           <Author date={props.date} authorId={props.post.author.id} />
           <Views postId={props.post.id} viewCounter={props.viewCounter} />
-          <Raiting />
+          <Rating />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>
               <div className={styles.postShowMore}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Dropdown.module.css';
 import { ReactComponent as SvgArrowDown } from '../../assets/icons/SvgArrowDown.svg';
-import Option from './Option';
+import Option from './option';
 
 export class Dropdown extends React.Component {
   constructor(props) {

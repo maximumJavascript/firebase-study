@@ -6,3 +6,8 @@
   line-height: 21px;
   color: #515151;
 }
+
+.postViewsSvg {
+  display: flex;
+  align-items: center;
+}
