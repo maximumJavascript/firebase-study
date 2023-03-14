@@ -4,31 +4,26 @@ import Views from './Views';
 import Rating from './Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
-import { RatingService } from './Rating/rating.service';
+import React from 'react';
 
-export default function PostItem(props) {
-  const ratingService = new RatingService();
+const PostItem = React.forwardRef((props, ref) => {
+  const src = props.post.base64Img;
   return (
-    <div className={styles.post}>
-      <div className={styles.postImage}>
-        <img
-          src="https://shop.funlymc.ru/image/unsplash_EhTcC9sYXsw.jpg"
-          alt="post: img"
-        />
-      </div>
+    <div className={styles.post} ref={ref} postid={props.post.id}>
+      {src && (
+        <div className={styles.postImage}>
+          <img src={src} alt="post: img" />
+        </div>
+      )}
       <div className={styles.postContainer}>
         <div className={styles.postBodyText}>
           <div className={styles.postTitle}>{props.post.title}</div>
           <div className={styles.postTextContainer}>{props.post.text}</div>
         </div>
         <div className={styles.postFooter}>
-          <Author
-            userPhoto={props.user.userPhoto}
-            userName={props.user.userName}
-            date={props.date}
-          />
-          <Views />
-          <Rating postId={props.post.id} service={ratingService} />
+          <Author date={props.date} authorId={props.post.author.id} />
+          <Views postId={props.post.id} viewCounter={props.viewCounter} />
+          <Rating />
           {!props.isComments && (
             <Link to={`/comments/${props.post.id}`}>
               <div className={styles.postShowMore}>
@@ -40,4 +35,6 @@ export default function PostItem(props) {
       </div>
     </div>
   );
-}
+});
+
+export default PostItem;

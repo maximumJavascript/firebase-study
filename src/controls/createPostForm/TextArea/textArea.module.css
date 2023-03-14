@@ -5,6 +5,7 @@
   border-radius: 4px;
   border: 1px solid #006297;
   resize: none;
+  margin-bottom: 10px;
 }
 .createPostTextArea::placeholder {
   color: #bdc1c3;

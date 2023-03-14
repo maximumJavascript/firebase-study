@@ -22,7 +22,6 @@ class CommentsListService {
       });
     });
     runInAction(() => {
-      // postId чтобы потом сравнивать с текущим постом
       return (this.comments = { postId, comments });
     });
   };
