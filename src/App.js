@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import CreatePost from './posts';
@@ -25,17 +25,19 @@ function App() {
     { id: 3, value: 'Frontender', label: 'Frontender' },
   ];
 
+  const basePath = '/firebase-study';
+
   return (
-    <Router>
+    <BrowserRouter basename={`${basePath}`}>
       <NavBar />
       <Routes>
-        <Route path="/firebase-study" element={<Home />} />
-        <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/comments/:id" element={<Comments />} />
-        {/* <Route path="/sandbox" element={<AnimalsDropdown />} /> */}
+        <Route path={`${basePath}/`} element={<Home />} />
+        <Route path={`${basePath}/createpost`} element={<CreatePost />} />
+        <Route path={`${basePath}/login`} element={<Login />} />
+        <Route path={`${basePath}/comments/:id`} element={<Comments />} />
+        {/* <Route exact={`${basePath}/sandbox`} component={<AnimalsDropdown />} /> */}
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
