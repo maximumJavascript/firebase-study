@@ -6,6 +6,7 @@ import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
+
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -29,7 +30,6 @@ const Home = observer(
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
-      // console.log(toJS(postLists));
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>

@@ -6,12 +6,12 @@ import { auth } from '../firebase-config';
 
 class ViewsCounter {
   viewsCounter = 0;
-  mySet = new Set();
   options = {
     root: null,
     rootMargin: '0px',
     threshold: 1.0,
   };
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -21,6 +21,7 @@ class ViewsCounter {
     const postRef = doc(db, 'posts', postID);
     updateDoc(postRef, { viewedBy: arrayUnion(loginedUserUid) });
   };
+
   consolidateInfo = (elements) => {
     elements.forEach((post) => {
       if (post.isIntersecting) {
@@ -28,13 +29,16 @@ class ViewsCounter {
       }
     });
   };
+
   makePostsObservable = (arr) => {
     if (!authService.isAuth) return;
     const observer = new IntersectionObserver(this.consolidateInfo, this.options);
+
     for (let element of arr) {
       if (element === null) return;
       observer.observe(element.ref?.current);
     }
   };
 }
+
 export const viewsCounter = new ViewsCounter();
