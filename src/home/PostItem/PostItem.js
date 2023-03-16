@@ -13,7 +13,7 @@ class PostItem extends React.Component {
     const src = props.post.base64Img;
 
     return (
-      <div className={styles.post} postid={props.post.id} ref={this.ref}>
+      <div className={styles.post} data-postid={props.post.id} ref={this.ref}>
         {src && (
           <div className={styles.postImage}>
             <img src={src} alt="post: img" />

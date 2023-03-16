@@ -24,7 +24,7 @@ class ViewsCounter {
   consolidateInfo = (elements) => {
     elements.forEach((post) => {
       if (post.isIntersecting) {
-        this.updateInfo(post.target.getAttribute('postid'));
+        this.updateInfo(post.target.getAttribute('data-postid'));
       }
     });
   };
