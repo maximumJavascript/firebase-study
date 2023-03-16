@@ -1,14 +1,14 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-// import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 import { authService } from './auth/auth.service';
 import Comments from './comments/PostComments';
+// import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 function App() {
   const signUserOut = () => {
@@ -27,17 +27,21 @@ function App() {
 
   const basePath = '/firebase-study';
 
+  if (!window.location.pathname.includes(`${basePath}/`)) {
+    window.location.replace(`${basePath}/`);
+  }
+
   return (
-    <BrowserRouter basename={`${basePath}`}>
+    <Router>
       <NavBar />
       <Routes>
-        <Route path={`${basePath}/`} element={<Home />} />
-        <Route path={`${basePath}/createpost`} element={<CreatePost />} />
-        <Route path={`${basePath}/login`} element={<Login />} />
-        <Route path={`${basePath}/comments/:id`} element={<Comments />} />
-        {/* <Route exact={`${basePath}/sandbox`} component={<AnimalsDropdown />} /> */}
+        <Route path={basePath} element={<Home />} />
+        <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/comments/:id" element={<Comments />} />
+        {/* <AnimalsDropdown /> */}
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
