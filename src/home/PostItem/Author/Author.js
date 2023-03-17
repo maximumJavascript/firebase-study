@@ -1,6 +1,7 @@
 import styles from './Author.module.css';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
+import { DateConverterService } from '../../../dateConverterService/DateConverterService';
 
 class Author extends Component {
   constructor() {
@@ -13,6 +14,7 @@ class Author extends Component {
   }
   render() {
     if (this.state.user == null) return null;
+    const postDate = DateConverterService.convertDate(this.props.date);
     return (
       <div className={styles.postAuthor}>
         <div className={styles.authorImg}>
@@ -24,7 +26,7 @@ class Author extends Component {
         </div>
         <div className={styles.authorInfo}>
           <div className={styles.authorName}>@{this.state.user.userName}</div>
-          <div className={styles.authorPostDate}>{this.props.date}</div>
+          <div className={styles.authorPostDate}>{postDate}</div>
         </div>
       </div>
     );

@@ -5,6 +5,8 @@ import PostItem from './PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
+import { postsService } from '../posts/posts.service';
+import { DateConverterService } from '../dateConverterService/DateConverterService';
 
 const Home = observer(
   class Home extends Component {
@@ -22,7 +24,6 @@ const Home = observer(
     componentDidUpdate() {
       viewsCounter.makePostsObservable(this.arrWithRefs);
     }
-
     setRef = (ref) => {
       this.arrWithRefs.push(ref);
     };
@@ -37,14 +38,16 @@ const Home = observer(
               let user = userList.find((user) => {
                 return user.userUid === post.author.id ? user : undefined;
               });
+              const dateOfPost = DateConverterService.convertDate(post.date.seconds);
               return user !== undefined ? (
                 <PostItem
                   key={post.id}
                   post={post}
                   user={user.user}
-                  date={post.date}
+                  date={dateOfPost}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
+                  deletePostItem={postsService.deletePostItem}
                 />
               ) : undefined;
             })}
