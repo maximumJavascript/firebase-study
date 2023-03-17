@@ -1,10 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { db } from '../firebase-config';
-import { updateDoc, doc, arrayUnion, setDoc } from 'firebase/firestore';
-import storageService from '../localStorageService/storageService';
-import { async } from '@firebase/util';
-import { useRef } from 'react';
-import { toJS } from 'mobx';
+import { updateDoc, doc, arrayUnion } from 'firebase/firestore';
+import { authService } from '../auth/auth.service';
+import { auth } from '../firebase-config';
 
 class ViewsCounter {
   viewsCounter = 0;
@@ -18,23 +16,24 @@ class ViewsCounter {
     makeAutoObservable(this);
   }
 
-  updateInfo = async (userId, postID) => {
+  updateInfo = async (postID) => {
+    const loginedUserUid = auth.currentUser.uid;
     const postRef = doc(db, 'posts', postID);
-    updateDoc(postRef, { viewedBy: [userId] });
+    updateDoc(postRef, { viewedBy: arrayUnion(loginedUserUid) });
   };
-  consolidateInfo = (elements, info) => {
+  consolidateInfo = (elements) => {
     elements.forEach((post) => {
       if (post.isIntersecting) {
-        this.updateInfo(
-          storageService.getUserIdFromStorage(),
-          post.target.getAttribute('postid')
-        );
+        this.updateInfo(post.target.getAttribute('data-postid'));
       }
     });
   };
-  arrWithRefs = (arr) => {
-    let observer = new IntersectionObserver(this.consolidateInfo, this.options);
-    arr.forEach((element) => observer.observe(element.ref));
+  makePostsObservable = (arr) => {
+    if (!authService.isAuth) return;
+    const observer = new IntersectionObserver(this.consolidateInfo, this.options);
+    arr.forEach((element) => {
+      observer.observe(element.ref?.current);
+    });
   };
 }
 export const viewsCounter = new ViewsCounter();

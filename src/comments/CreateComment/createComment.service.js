@@ -1,4 +1,4 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { commentsListService } from '../CommentsList/commentsList.service';
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { homeService } from './home.service';
 import { observer } from 'mobx-react';
 import PostItem from './PostItem';
@@ -10,17 +10,24 @@ const Home = observer(
   class Home extends Component {
     constructor(props) {
       super(props);
-      this.arr = [];
+      this.arrWithRefs = [];
     }
     componentDidMount() {
       void homeService.posts.getPosts();
       void userService.getUsers();
+
+      viewsCounter.makePostsObservable(this.arrWithRefs);
     }
-    setRef = (ref, id) => {
-      this.arr.push({ ref });
+
+    componentDidUpdate() {
+      viewsCounter.makePostsObservable(this.arrWithRefs);
+    }
+
+    setRef = (ref) => {
+      this.arrWithRefs.push(ref);
     };
     render() {
-      setTimeout(() => viewsCounter.arrWithRefs(this.arr), 0);
+      this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
       return (
