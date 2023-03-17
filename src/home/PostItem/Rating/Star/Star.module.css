@@ -1,0 +1,14 @@
+.star {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  color: #515151;
+}
+
+.isFilled {
+  color: #9fa1ff;
+}
+
+.isSelected {
+  color: #5900ff;
+}

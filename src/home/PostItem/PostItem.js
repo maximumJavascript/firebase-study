@@ -1,7 +1,7 @@
 import SvgNext from '../../assets/icons/SvgNext';
 import Author from './Author';
 import Views from './Views';
-import Raiting from './Raiting';
+import Rating from './Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
