@@ -4,7 +4,7 @@ import { action, makeObservable, observable, reaction, autorun } from 'mobx';
 import { signOut } from 'firebase/auth';
 import { userService } from '../usersService/UserService';
 import storageService from '../localStorageService/storageService';
-import { toJS } from 'mobx';
+
 class AuthService {
   photoSrc = null;
   isAuth = false;
