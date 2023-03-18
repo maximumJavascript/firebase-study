@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { homeService } from './home.service';
 import { observer } from 'mobx-react';
-import PostItem from './PostItem';
+import PostItem from './PostItem/PostItem';
 import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';

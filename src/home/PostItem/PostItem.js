@@ -26,7 +26,7 @@ class PostItem extends React.Component {
           <div className={styles.postFooter}>
             <Author date={this.props.post.date.seconds} authorId={props.post.author.id} />
             <Views postId={props.post.id} viewCounter={props.viewCounter} />
-            <Raiting />
+            <Rating />
             {!props.isComments && (
               <Link to={`/comments/${props.post.id}`}>
                 <div className={styles.postShowMore}>

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { commentsService } from './postComments.service';
 import { matchPath } from 'react-router-dom';
-import PostItem from '../../home/PostItem';
+import PostItem from '../../home/PostItem/PostItem';
 import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
