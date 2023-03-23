@@ -36,9 +36,9 @@ export class Dropdown extends React.Component {
   };
 
   render() {
-    const selectedValue = !this.props.selectedItemId
+    const selectedValue = !this.props?.selectedItemId
       ? 'Placeholder...'
-      : this.props.optionsList.find((elem) => elem.id === this.props.selectedItemId)
+      : this.props.optionsList.find((elem) => elem.id === this.props?.selectedItemId)
           .label;
 
     console.log('dropdown', this.state.isOpenState);
@@ -61,6 +61,7 @@ export class Dropdown extends React.Component {
                 <Option
                   key={option.id}
                   optionObj={option}
+                  isSelected={this.props.selectedItemId === option.id}
                   onSelectItem={this.props.onSelectItem}
                   onToggle={this.toggleIsOpen}
                 />

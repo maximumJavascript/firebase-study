@@ -15,7 +15,7 @@ export class AnimalsDropdown extends React.Component {
 
   handleSelectItem = (selectedItemId) => {
     this.setState({
-      selectedItemId,
+      test: 'test1',
     });
   };
 
@@ -29,3 +29,6 @@ export class AnimalsDropdown extends React.Component {
     );
   }
 }
+const selectedValue = !this.props?.selectedItemId
+  ? 'Placeholder...'
+  : this.props.optionsList.find((elem) => elem.id === this.props?.selectedItemId).label;
