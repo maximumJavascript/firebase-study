@@ -6,11 +6,6 @@ import { ReactComponent as SvgHeaderLogin } from '../../../src/assets/icons/SvgH
 import { ReactComponent as SvgLogOut } from '../../../src/assets/icons/SvgLogOut.svg';
 
 export class Button extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   renderIcon() {
     switch (this.props.label) {
       case 'Home':

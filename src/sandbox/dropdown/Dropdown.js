@@ -16,11 +16,11 @@ export class Dropdown extends React.Component {
   };
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('click', this.handleClickOutside, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('click', this.handleClickOutside, true);
   }
 
   setWrapperRef = (node) => {
@@ -29,6 +29,7 @@ export class Dropdown extends React.Component {
 
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      console.log('test:', event.eventPhase); // 1
       this.setState({
         isOpen: false,
       });
@@ -41,7 +42,6 @@ export class Dropdown extends React.Component {
       : this.props.optionsList.find((elem) => elem.id === this.props?.selectedItemId)
           .label;
 
-    console.log('dropdown', this.state.isOpenState);
     return (
       <div className={styles.dropdownContainer}>
         <div ref={this.setWrapperRef}>
