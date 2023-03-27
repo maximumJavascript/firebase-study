@@ -13,6 +13,7 @@ class UserService {
     });
     this.data = [];
   }
+
   handleAddUsers = async (user) => {
     await setDoc(doc(db, 'users', user.uid), {
       userUid: user.uid,
@@ -22,16 +23,19 @@ class UserService {
       viewedPosts: [],
     });
   };
+
   getUsers = async () => {
     const data = await getDocs(this._collection);
     return (this.data = data.docs.map((doc) => ({
       ...doc.data(),
     })));
   };
+
   isUserExist = async (uid) => {
     const docRef = doc(db, 'users', uid);
     const data = await getDoc(docRef);
     return data.exists() ? data.data() : false;
   };
 }
+
 export const userService = new UserService();

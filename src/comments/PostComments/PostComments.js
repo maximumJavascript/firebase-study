@@ -7,6 +7,7 @@ import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
+import classNames from 'classnames';
 
 const PostComments = observer(
   class PostComments extends Component {
@@ -28,10 +29,13 @@ const PostComments = observer(
     render() {
       const post = commentsService.post;
       if (post.id !== this.id) return null;
+      const postStyles = classNames(
+        homeStyles.container,
+        homeStyles.home,
+        styles.commentsWrap
+      );
       return (
-        <div
-          className={`${homeStyles.container} ${homeStyles.home} ${styles.commentsWrap}`}
-        >
+        <div className={postStyles}>
           <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
             <PostItem
               post={post}
