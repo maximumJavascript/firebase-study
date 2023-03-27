@@ -6,7 +6,7 @@ const Comment = class Comment extends Component {
   render() {
     return (
       <div className={styles.comment}>
-        <Author authorId={this.props.data.authorId} />
+        <Author authorId={this.props.data.authorId} date={this.props.data.date.seconds} />
         <div className={styles.commentText}>{this.props.data.text}</div>
       </div>
     );

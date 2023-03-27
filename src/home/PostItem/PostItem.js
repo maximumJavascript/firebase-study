@@ -11,7 +11,6 @@ class PostItem extends React.Component {
   render() {
     const { props } = this;
     const src = props.post.base64Img;
-
     return (
       <div className={styles.post} data-postid={props.post.id} ref={this.ref}>
         {src && (
@@ -25,7 +24,7 @@ class PostItem extends React.Component {
             <div className={styles.postTextContainer}>{props.post.text}</div>
           </div>
           <div className={styles.postFooter}>
-            <Author date={props.date} authorId={props.post.author.id} />
+            <Author date={this.props.post.date.seconds} authorId={props.post.author.id} />
             <Views postId={props.post.id} viewCounter={props.viewCounter} />
             <Raiting />
             {!props.isComments && (
