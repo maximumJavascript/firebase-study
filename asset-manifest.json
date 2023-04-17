@@ -1,14 +1,13 @@
 {
   "files": {
-    "main.css": "/firebase-study/static/css/main.ce23db24.css",
-    "main.js": "/firebase-study/static/js/main.9287ea2d.js",
+    "main.css": "/firebase-study/static/css/main.db1065e3.css",
+    "main.js": "/firebase-study/static/js/main.fc2f9c2f.js",
     "index.html": "/firebase-study/index.html",
-    "static/media/SvgArrowDown.svg": "/firebase-study/static/media/SvgArrowDown.9d234e0ba913592fa32e2e6c271593f2.svg",
-    "main.ce23db24.css.map": "/firebase-study/static/css/main.ce23db24.css.map",
-    "main.9287ea2d.js.map": "/firebase-study/static/js/main.9287ea2d.js.map"
+    "main.db1065e3.css.map": "/firebase-study/static/css/main.db1065e3.css.map",
+    "main.fc2f9c2f.js.map": "/firebase-study/static/js/main.fc2f9c2f.js.map"
   },
   "entrypoints": [
-    "static/css/main.ce23db24.css",
-    "static/js/main.9287ea2d.js"
+    "static/css/main.db1065e3.css",
+    "static/js/main.fc2f9c2f.js"
   ]
 }
