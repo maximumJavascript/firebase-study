@@ -6,7 +6,6 @@ import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
-
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -35,16 +34,16 @@ const Home = observer(
           <div className={styles.homePage}>
             {postLists.map((post) => {
               let user = userList.find((user) => {
-                return user.userUid === post.author.id ? user : undefined;
+                return user.userUid === post.doc.author.id ? user : undefined;
               });
               return user !== undefined ? (
                 <PostItem
                   key={post.id}
                   post={post}
-                  user={user.user}
-                  date={post.date}
+                  user={user}
+                  date={post.doc.date}
                   ref={this.setRef}
-                  viewCounter={post.viewedBy?.length}
+                  viewCounter={post.doc.viewedBy?.length}
                   deletePostItem={postsService.deletePostItem}
                 />
               ) : undefined;

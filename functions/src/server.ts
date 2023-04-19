@@ -30,7 +30,7 @@ export function attachRoutes() {
       });
   });
 
-  app.get('/zopa', async (req, res) => {
+  app.get('/users', async (req, res) => {
     try {
       const collectionRef = db.collection('users');
       const snapshot = await collectionRef.get();
@@ -41,6 +41,23 @@ export function attachRoutes() {
       });
 
       res.send(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
+  });
+
+  app.get('/posts', async (req, res) => {
+    try {
+      const collectionRef = db.collection('posts');
+      const snapshot = await collectionRef.get();
+
+      let posts: any = [];
+      posts = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      res.send(posts);
     } catch (error) {
       console.log(error);
       res.status(500).send(error);

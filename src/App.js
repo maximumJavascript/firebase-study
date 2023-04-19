@@ -11,13 +11,23 @@ import Comments from './comments/PostComments';
 import { useEffect } from 'react';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
-async function fetchZopa(url) {
+async function getPosts(url) {
   try {
     const response = await fetch(url, {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await response.json();
-    console.log(data);
+  } catch {
+    console.log('нихуя не вышло');
+  }
+}
+
+async function getUsers(url) {
+  try {
+    const response = await fetch(url, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
   } catch {
     console.log('нихуя не вышло');
   }
@@ -25,7 +35,8 @@ async function fetchZopa(url) {
 
 function App() {
   useEffect(() => {
-    fetchZopa('http://localhost:3001/zopa');
+    getUsers('http://localhost:3001/users');
+    getPosts('http://localhost:3001/posts');
   });
 
   const signUserOut = () => {

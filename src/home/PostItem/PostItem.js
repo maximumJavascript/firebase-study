@@ -5,7 +5,7 @@ import { Rating } from './Rating/Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
-
+import { toJS } from 'mobx';
 class PostItem extends React.Component {
   ref = React.createRef();
   render() {
@@ -25,8 +25,8 @@ class PostItem extends React.Component {
           </div>
           <div className={styles.postFooter}>
             <Author
-              date={this.props.post.date?.seconds}
-              authorId={props.post.author?.id}
+              date={props.post.doc.date}
+              authorId={props.post.doc.author?.id}
             />
             <Views postId={props.post.id} viewCounter={props.viewCounter} />
             <Rating postId={props.post.id} />

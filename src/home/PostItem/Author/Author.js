@@ -2,7 +2,7 @@ import styles from './Author.module.css';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { DateConverterService } from '../../../dateConverterService/DateConverterService';
-
+import { toJS } from 'mobx';
 class Author extends Component {
   constructor() {
     super();
@@ -14,6 +14,7 @@ class Author extends Component {
   }
   render() {
     if (this.state.user == null) return null;
+    console.log('this.props.date', toJS(this.props.date));
     const postDate = DateConverterService.convertDate(this.props.date);
     return (
       <div className={styles.postAuthor}>
@@ -21,7 +22,7 @@ class Author extends Component {
           <img
             className={styles.authorImg__img}
             src={this.state.user.userPhoto}
-            alt="img: Photo author post"
+            alt='img: Photo author post'
           />
         </div>
         <div className={styles.authorInfo}>
