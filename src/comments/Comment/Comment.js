@@ -4,7 +4,6 @@ import styles from './Comment.module.css';
 
 const Comment = class Comment extends Component {
   render() {
-    console.log('comment JS');
     return (
       <div className={styles.comment}>
         <Author

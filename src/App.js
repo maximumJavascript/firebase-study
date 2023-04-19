@@ -8,9 +8,26 @@ import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import { authService } from './auth/auth.service';
 import Comments from './comments/PostComments';
+import { useEffect } from 'react';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
+async function fetchZopa(url) {
+  try {
+    const response = await fetch(url, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch {
+    console.log('нихуя не вышло');
+  }
+}
+
 function App() {
+  useEffect(() => {
+    fetchZopa('http://localhost:3001/zopa');
+  });
+
   const signUserOut = () => {
     signOut(auth).then(() => {
       authService.setSrc(null);

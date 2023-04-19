@@ -37,20 +37,13 @@ class AuthService {
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
-  handleLogin = () => {
-    signInWithPopup(auth, provider).then((value) => {
-      this.setUserId(value.user.uid);
-      this.setSrc(value.user.photoURL);
-      this.handleIsAuth();
-      const isNewUser = async () => {
-        if (!!(await userService.isUserExist(value.user.uid))) {
-          // user exist
-        } else {
-          userService.handleAddUsers(value.user);
-        }
-      };
-      isNewUser();
-    });
+  handleLogin = async () => {
+    const value = await signInWithPopup(auth, provider);
+    this.setUserId(value.user.uid);
+    this.setSrc(value.user.photoURL);
+    this.handleIsAuth();
+    // каждый раз добавляем юзера в базу. Если он уже там есть, то просто обновятся его поля, которые он мог поменять ( имя, картинка профиля и т.д.)
+    userService.handleAddUsers(value.user);
   };
 
   handleLogOut = () => {
