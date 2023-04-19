@@ -29,6 +29,7 @@ class UserService {
     })));
   };
   isUserExist = async (uid) => {
+    if (uid === undefined) return;
     const docRef = doc(db, 'users', uid);
     const data = await getDoc(docRef);
     return data.exists() ? data.data() : false;

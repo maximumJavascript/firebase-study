@@ -1,4 +1,10 @@
-import { collection, getDocs, getDoc, doc, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  deleteDoc,
+} from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
 
@@ -27,6 +33,7 @@ class PostsService {
   };
 
   getSinglePost = async (id) => {
+    if (id === undefined) return;
     const docRef = doc(db, 'posts', id);
     const data = await getDoc(docRef);
     return data.exists() ? data.data() : undefined;

@@ -12,6 +12,8 @@ const CommentsList = observer(
     render() {
       const commentList = commentsListService.comments;
       if (commentList.postId !== this.props.postId) return null;
+      if (commentList.comments === undefined) return null;
+      if (this.props.postId === undefined) return null;
       return (
         <>
           {commentList.comments.map((comment) => (

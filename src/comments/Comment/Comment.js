@@ -4,9 +4,13 @@ import styles from './Comment.module.css';
 
 const Comment = class Comment extends Component {
   render() {
+    console.log('comment JS');
     return (
       <div className={styles.comment}>
-        <Author authorId={this.props.data.authorId} date={this.props.data.date.seconds} />
+        <Author
+          authorId={this.props.data.authorId}
+          date={this.props.data.date.seconds}
+        />
         <div className={styles.commentText}>{this.props.data.text}</div>
       </div>
     );

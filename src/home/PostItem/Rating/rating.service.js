@@ -23,6 +23,7 @@ class RatingService {
 
   getAverageScore = async () => {
     const ratings = await this.getRatings(this.postId);
+    if (ratings === undefined) return;
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     const score = sum / ratings.length;
     runInAction(() => {
@@ -32,6 +33,7 @@ class RatingService {
 
   getRatings = async () => {
     const arr = [];
+    if (this.postId === undefined) return;
     const q = query(this._collection, where('postId', '==', this.postId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

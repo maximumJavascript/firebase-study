@@ -12,6 +12,8 @@ class CommentsListService {
   }
 
   getComments = async (postId) => {
+    if (postId === undefined) return;
+    if (!Object.keys(postId).length) return;
     const comments = [];
     const q = query(collection(db, 'comments'), where('postId', '==', postId));
     const querySnapshot = await getDocs(q);

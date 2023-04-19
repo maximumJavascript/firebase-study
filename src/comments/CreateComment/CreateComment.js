@@ -44,15 +44,18 @@ const CreateComment = observer(
           />
         );
       return (
-        <form onSubmit={this.handleSendComment} className={styles.CreateComment}>
+        <form
+          onSubmit={this.handleSendComment}
+          className={styles.CreateComment}
+        >
           <TextArea
             className={styles.commentInput}
-            placeholder="Comment text"
+            placeholder='Comment text'
             value={this.state.areaValue}
             onChange={this.handleAreaChange}
           />
           <div>
-            <CreatePostBtn className={styles.commentButton} text="Send" />
+            <CreatePostBtn className={styles.commentButton} text='Send' />
           </div>
         </form>
       );
