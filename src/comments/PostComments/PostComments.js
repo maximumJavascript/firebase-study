@@ -47,7 +47,7 @@ const PostComments = observer(
               post={post}
               isComments={true}
               viewCounter={post.viewedBy?.length}
-              date={post.date?.seconds}
+              date={post.date._seconds}
             />
           </div>
           <div>

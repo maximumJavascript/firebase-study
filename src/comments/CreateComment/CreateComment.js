@@ -6,7 +6,8 @@ import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginBu
 import TextArea from '../../controls/createPostForm/TextArea/TextArea';
 import CreatePostBtn from '../../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './CreateComment.module.css';
-
+import { auth } from '../../firebase-config';
+import { Timestamp } from '@firebase/firestore';
 const CreateComment = observer(
   class CreateComment extends Component {
     constructor(props) {
@@ -26,11 +27,16 @@ const CreateComment = observer(
 
     handleSendComment = (e) => {
       e.preventDefault();
+      console.log('state in CreateComment', this.state.areaValue);
       this.setState((state) => {
-        createCommentService.createComment({
-          text: state.areaValue,
-          postId: this.props.postId,
-        });
+        createCommentService
+          .createComment({
+            text: state.areaValue,
+            postId: this.props.postId,
+            data: Timestamp.fromDate(new Date()),
+            authorId: auth.currentUser.uid,
+          })
+          .then((res) => console.log(res.json()));
         return { areaValue: '' };
       });
     };

@@ -11,34 +11,7 @@ import Comments from './comments/PostComments';
 import { useEffect } from 'react';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
-async function getPosts(url) {
-  try {
-    const response = await fetch(url, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const data = await response.json();
-  } catch {
-    console.log('нихуя не вышло');
-  }
-}
-
-async function getUsers(url) {
-  try {
-    const response = await fetch(url, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const data = await response.json();
-  } catch {
-    console.log('нихуя не вышло');
-  }
-}
-
 function App() {
-  useEffect(() => {
-    getUsers('http://localhost:3001/users');
-    getPosts('http://localhost:3001/posts');
-  });
-
   const signUserOut = () => {
     signOut(auth).then(() => {
       authService.setSrc(null);

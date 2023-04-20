@@ -1,5 +1,7 @@
 import * as express from 'express';
+// import * as admin from 'firebase-admin';
 import { db } from './config';
+// import { getDoc, doc, getFirestore } from 'firebase/firestore';
 
 export const app = express();
 
@@ -57,9 +59,29 @@ export function attachRoutes() {
         ...doc.data(),
         id: doc.id,
       }));
+
       res.send(posts);
     } catch (error) {
-      console.log(error);
+      res.status(500).send(error);
+    }
+  });
+  app.get('/posts/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const collectionRef = db.collection('posts');
+      const existingDocRef = collectionRef.doc(id);
+      existingDocRef.get().then((result) => res.send(result.data()));
+    } catch (err) {
+      console.log('нихуя не выншло', err);
+    }
+  });
+
+  app.post('/comments', async (req, res) => {
+    try {
+      // console.log(req.body);
+      await db.collection('comments').add(req.body); // Добавляем документ в коллекцию
+    } catch (error) {
+      console.error(error);
       res.status(500).send(error);
     }
   });

@@ -6,12 +6,17 @@ class CreateCommentService {
   _collection = collection(db, 'comments');
 
   createComment = async (commentData) => {
-    await addDoc(this._collection, {
-      authorId: auth.currentUser.uid,
-      date: Timestamp.fromDate(new Date()),
-      ...commentData,
-    });
-    void (await commentsListService.getComments(commentData.postId));
+    // console.log(commentData);
+    try {
+      const response = await fetch(`http://localhost:3001/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(commentData),
+      });
+      return await response.json();
+    } catch (err) {
+      throw new Error('нихуя не вышло');
+    }
   };
 }
 

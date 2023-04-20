@@ -1,3 +1,4 @@
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import {
   collection,
   getDocs,
@@ -7,7 +8,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
-
+import { toJS } from 'mobx';
 class PostsService {
   _collection = collection(db, 'posts');
   data = [];
@@ -31,19 +32,22 @@ class PostsService {
       runInAction(() => {
         return (this.data = data.map((doc) => ({
           ...doc,
-          // id: doc.id,
         })));
       });
     } catch (err) {
       console.log('нихуя не вышло', err);
     }
   };
-
   getSinglePost = async (id) => {
-    if (id === undefined) return;
-    const docRef = doc(db, 'posts', id);
-    const data = await getDoc(docRef);
-    return data.exists() ? data.data() : undefined;
+    try {
+      const response = await fetch(`http://localhost:3001/posts/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log('нихуя не вышло', err);
+    }
   };
 }
 

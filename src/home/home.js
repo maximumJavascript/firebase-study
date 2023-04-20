@@ -7,6 +7,7 @@ import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
 import { toJS } from 'mobx';
+
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -29,7 +30,6 @@ const Home = observer(
     render() {
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
-      console.log(toJS(postLists));
       const userList = userService.data;
       return (
         <div className={`${styles.container} ${styles.home}`}>
@@ -43,7 +43,7 @@ const Home = observer(
                   key={post.id}
                   post={post}
                   user={user}
-                  date={post.date}
+                  date={post.date._seconds}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
                   deletePostItem={postsService.deletePostItem}
