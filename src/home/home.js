@@ -6,6 +6,7 @@ import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
+import { toJS } from 'mobx';
 const Home = observer(
   class Home extends Component {
     constructor(props) {
@@ -28,22 +29,23 @@ const Home = observer(
     render() {
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
+      console.log(toJS(postLists));
       const userList = userService.data;
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
             {postLists.map((post) => {
               let user = userList.find((user) => {
-                return user.userUid === post.doc.author.id ? user : undefined;
+                return user.userUid === post.author.id ? user : undefined;
               });
               return user !== undefined ? (
                 <PostItem
                   key={post.id}
                   post={post}
                   user={user}
-                  date={post.doc.date}
+                  date={post.date}
                   ref={this.setRef}
-                  viewCounter={post.doc.viewedBy?.length}
+                  viewCounter={post.viewedBy?.length}
                   deletePostItem={postsService.deletePostItem}
                 />
               ) : undefined;

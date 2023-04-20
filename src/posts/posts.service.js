@@ -30,20 +30,13 @@ class PostsService {
       const data = await response.json();
       runInAction(() => {
         return (this.data = data.map((doc) => ({
-          doc,
-          id: doc.id,
+          ...doc,
+          // id: doc.id,
         })));
       });
     } catch (err) {
       console.log('нихуя не вышло', err);
     }
-    // const data = await getDocs(this._collection);
-    // runInAction(() => {
-    //   return (this.data = data.docs.map((doc) => ({
-    //     ...doc.data(),
-    //     id: doc.id,
-    //   })));
-    // });
   };
 
   getSinglePost = async (id) => {

@@ -14,7 +14,6 @@ class Author extends Component {
   }
   render() {
     if (this.state.user == null) return null;
-    console.log('this.props.date', toJS(this.props.date));
     const postDate = DateConverterService.convertDate(this.props.date);
     return (
       <div className={styles.postAuthor}>
