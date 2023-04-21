@@ -20,7 +20,18 @@ class PostsService {
     this.data = [];
   }
   deletePostItem = async (postId) => {
-    await deleteDoc(doc(db, 'posts', postId));
+    // await deleteDoc(doc(db, 'posts', postId));
+    try {
+      const response = await fetch(
+        `http://localhost:3001/deletePost/${postId}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'DELETE',
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
     this.data = this.data.filter((post) => post.id !== postId);
   };
   getPosts = async () => {

@@ -97,9 +97,24 @@ export function attachRoutes() {
   });
 
   app.put('/postsT/:postId', (req, res) => {
-    const postId = req.params.postId;
-    const userId = req.body.userId;
-    const postRef = db.collection('posts').doc(postId);
-    postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
+    try {
+      const postId = req.params.postId;
+      const userId = req.body.userId;
+      const postRef = db.collection('posts').doc(postId);
+      postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+  app.delete('/deletePost/:postId', async (req, res) => {
+    try {
+      const postId = req.params.postId;
+      const collectionRef = db.collection('posts');
+      const existingDocRef = collectionRef.doc(postId);
+      existingDocRef.delete();
+      res.status(201).json(req.body);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   });
 }
