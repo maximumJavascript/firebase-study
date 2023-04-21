@@ -6,7 +6,6 @@ import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
-import { toJS } from 'mobx';
 
 const Home = observer(
   class Home extends Component {

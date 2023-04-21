@@ -1,14 +1,7 @@
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import {
-  collection,
-  getDocs,
-  getDoc,
-  doc,
-  deleteDoc,
-} from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
-import { toJS } from 'mobx';
+
 class PostsService {
   _collection = collection(db, 'posts');
   data = [];
@@ -20,7 +13,6 @@ class PostsService {
     this.data = [];
   }
   deletePostItem = async (postId) => {
-    // await deleteDoc(doc(db, 'posts', postId));
     try {
       const response = await fetch(
         `http://localhost:3001/deletePost/${postId}`,
@@ -34,6 +26,7 @@ class PostsService {
     }
     this.data = this.data.filter((post) => post.id !== postId);
   };
+
   getPosts = async () => {
     try {
       const response = await fetch('http://localhost:3001/posts', {
@@ -49,6 +42,7 @@ class PostsService {
       console.log('нихуя не вышло', err);
     }
   };
+
   getSinglePost = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/posts/${id}`, {

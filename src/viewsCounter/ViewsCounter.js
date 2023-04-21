@@ -1,6 +1,4 @@
 import { makeAutoObservable } from 'mobx';
-import { db } from '../firebase-config';
-import { updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import { authService } from '../auth/auth.service';
 import { auth } from '../firebase-config';
 

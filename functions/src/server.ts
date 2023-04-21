@@ -39,7 +39,6 @@ export function attachRoutes() {
       snapshot.forEach((doc) => {
         users.push(doc.data());
       });
-
       res.send(users);
     } catch (error) {
       res.status(500).send(error);
@@ -50,6 +49,7 @@ export function attachRoutes() {
     try {
       const collectionRef = db.collection('posts');
       const snapshot = await collectionRef.get();
+
       const posts = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -66,6 +66,7 @@ export function attachRoutes() {
       const id = req.params.id;
       const collectionRef = db.collection('posts');
       const existingDocRef = collectionRef.doc(id);
+
       existingDocRef.get().then((result) => res.send(result.data()));
     } catch (error) {
       res.status(500).send(error);
@@ -74,7 +75,7 @@ export function attachRoutes() {
 
   app.post('/comment', async (req, res) => {
     try {
-      await db.collection('comments').add(req.body); // Добавляем документ в коллекцию
+      await db.collection('comments').add(req.body);
       res.status(201).json(req.body);
     } catch (error) {
       res.status(500).send(error);
@@ -87,6 +88,7 @@ export function attachRoutes() {
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', id);
       let comments: any = [];
+
       query.get().then((qurySnapshot) => {
         qurySnapshot.forEach((doc) => comments.push(doc.data()));
         res.send(comments);
@@ -112,6 +114,7 @@ export function attachRoutes() {
       const collectionRef = db.collection('posts');
       const existingDocRef = collectionRef.doc(postId);
       existingDocRef.delete();
+
       res.status(201).json(req.body);
     } catch (error) {
       res.status(500).send(error);

@@ -5,12 +5,28 @@ import { Rating } from './Rating/Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { toJS } from 'mobx';
+import { auth } from '../../firebase-config';
+import { onAuthStateChanged } from 'firebase/auth';
+import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginButton';
+
 class PostItem extends React.Component {
   ref = React.createRef();
+  constructor(props) {
+    super(props);
+    this.state = { currentUsserUid: null };
+  }
+  componentDidMount() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.setState({ currentUsserUid: user.uid });
+      } else {
+      }
+    });
+  }
   render() {
     const { props } = this;
     const src = props.post.base64Img;
+    const postUserUid = props.post.author.id;
     return (
       <div className={styles.post} data-postid={props.post.id} ref={this.ref}>
         {src && (
@@ -34,9 +50,13 @@ class PostItem extends React.Component {
                 </div>
               </Link>
             )}
-            <button onClick={() => this.props.deletePostItem(props.post.id)}>
-              DEL
-            </button>
+
+            {this.state.currentUsserUid === postUserUid ? (
+              <CommentLoginButton
+                onClick={() => this.props.deletePostItem(props.post.id)}
+                text={'DEL'}
+              />
+            ) : null}
           </div>
         </div>
       </div>

@@ -5,7 +5,11 @@ export default class CommentLoginButton extends Component {
   render() {
     return (
       <div className={styles.loginBtnWrapper}>
-        <button onClick={this.props.onClick} className={styles.loginBtn} type="button">
+        <button
+          onClick={this.props.onClick}
+          className={styles.loginBtn}
+          type='button'
+        >
           {this.props.text}
         </button>
       </div>
