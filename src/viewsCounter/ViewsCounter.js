@@ -17,9 +17,18 @@ class ViewsCounter {
   }
 
   updateInfo = async (postID) => {
-    const loginedUserUid = auth.currentUser.uid;
-    const postRef = doc(db, 'posts', postID);
-    updateDoc(postRef, { viewedBy: arrayUnion(loginedUserUid) });
+    const userIdObj = { userId: auth.currentUser.uid };
+    try {
+      const response = await fetch(`http://localhost:3001/postsT/${postID}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'PUT',
+        body: JSON.stringify(userIdObj),
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log('нихуя не вышло', err);
+    }
   };
 
   consolidateInfo = (elements) => {
@@ -32,7 +41,10 @@ class ViewsCounter {
 
   makePostsObservable = (arr) => {
     if (!authService.isAuth) return;
-    const observer = new IntersectionObserver(this.consolidateInfo, this.options);
+    const observer = new IntersectionObserver(
+      this.consolidateInfo,
+      this.options
+    );
 
     for (let element of arr) {
       if (element === null) return;
@@ -40,5 +52,4 @@ class ViewsCounter {
     }
   };
 }
-
 export const viewsCounter = new ViewsCounter();

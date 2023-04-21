@@ -1,8 +1,6 @@
 import * as express from 'express';
-// import * as admin from 'firebase-admin';
 import { db } from './config';
-// import { getDoc, doc, getFirestore } from 'firebase/firestore';
-
+import { FieldValue } from 'firebase-admin/firestore';
 export const app = express();
 
 export function attachRoutes() {
@@ -44,7 +42,6 @@ export function attachRoutes() {
 
       res.send(users);
     } catch (error) {
-      console.log(error);
       res.status(500).send(error);
     }
   });
@@ -53,9 +50,7 @@ export function attachRoutes() {
     try {
       const collectionRef = db.collection('posts');
       const snapshot = await collectionRef.get();
-
-      let posts: any = [];
-      posts = snapshot.docs.map((doc) => ({
+      const posts = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
@@ -65,24 +60,46 @@ export function attachRoutes() {
       res.status(500).send(error);
     }
   });
+
   app.get('/posts/:id', async (req, res) => {
     try {
       const id = req.params.id;
       const collectionRef = db.collection('posts');
       const existingDocRef = collectionRef.doc(id);
       existingDocRef.get().then((result) => res.send(result.data()));
-    } catch (err) {
-      console.log('нихуя не выншло', err);
+    } catch (error) {
+      res.status(500).send(error);
     }
   });
 
-  app.post('/comments', async (req, res) => {
+  app.post('/comment', async (req, res) => {
     try {
-      // console.log(req.body);
       await db.collection('comments').add(req.body); // Добавляем документ в коллекцию
+      res.status(201).json(req.body);
     } catch (error) {
-      console.error(error);
       res.status(500).send(error);
     }
+  });
+
+  app.get('/comments/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const collectionRef = db.collection('comments');
+      const query = collectionRef.where('postId', '==', id);
+      let comments: any = [];
+      query.get().then((qurySnapshot) => {
+        qurySnapshot.forEach((doc) => comments.push(doc.data()));
+        res.send(comments);
+      });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.put('/postsT/:postId', (req, res) => {
+    const postId = req.params.postId;
+    const userId = req.body.userId;
+    const postRef = db.collection('posts').doc(postId);
+    postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
   });
 }

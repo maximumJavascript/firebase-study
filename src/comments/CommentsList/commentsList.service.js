@@ -1,6 +1,4 @@
-import { makeObservable, observable, runInAction, toJS } from 'mobx';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase-config';
+import { makeObservable, observable, runInAction } from 'mobx';
 
 class CommentsListService {
   comments = {};
@@ -14,18 +12,18 @@ class CommentsListService {
   getComments = async (postId) => {
     if (postId === undefined) return;
     if (!Object.keys(postId).length) return;
-    const comments = [];
-    const q = query(collection(db, 'comments'), where('postId', '==', postId));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      comments.push({
-        id: doc.id,
-        ...doc.data(),
+    try {
+      const response = await fetch(`http://localhost:3001/comments/${postId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
       });
-    });
-    runInAction(() => {
-      return (this.comments = { postId, comments });
-    });
+      const data = await response.json();
+      runInAction(() => {
+        this.comments = { postId, comments: data };
+      });
+    } catch (err) {
+      console.log('нихуя не вышло', err);
+    }
   };
 }
 

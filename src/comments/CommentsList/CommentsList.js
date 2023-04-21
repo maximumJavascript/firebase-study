@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Comment } from '../Comment/Comment';
 import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 const CommentsList = observer(
   class CommentsList extends Component {

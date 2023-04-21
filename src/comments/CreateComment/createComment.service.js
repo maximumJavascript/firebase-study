@@ -1,14 +1,12 @@
-import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
-import { auth, db } from '../../firebase-config';
-import { commentsListService } from '../CommentsList/commentsList.service';
+import { collection } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 class CreateCommentService {
   _collection = collection(db, 'comments');
 
   createComment = async (commentData) => {
-    // console.log(commentData);
     try {
-      const response = await fetch(`http://localhost:3001/comments`, {
+      const response = await fetch(`http://localhost:3001/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(commentData),
