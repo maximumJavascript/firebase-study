@@ -45,6 +45,15 @@ export function attachRoutes() {
     }
   });
 
+  app.post('/users/create', async (req, res) => {
+    try {
+      await db.collection('users').doc(req.body.uid).set(req.body);
+      res.sendStatus(201);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
   app.get('/posts', async (req, res) => {
     try {
       const collectionRef = db.collection('posts');

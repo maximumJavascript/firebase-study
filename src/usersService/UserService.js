@@ -1,6 +1,7 @@
 import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable } from 'mobx';
+import { baseUrl } from '../constants/api';
 
 class UserService {
   _collection = collection(db, 'users');
@@ -11,17 +12,19 @@ class UserService {
       data: observable,
       users: observable,
     });
-    this.data = [];
   }
 
   handleAddUsers = async (user) => {
-    await setDoc(doc(db, 'users', user.uid), {
-      userUid: user.uid,
-      userName: user.displayName,
-      userPhoto: user.photoURL,
-      userEmail: user.email,
-      viewedPosts: [],
-    });
+    try {
+      const res = await fetch(`${baseUrl}/users/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user),
+      });
+      if (res.status !== 201) throw new Error('User not created');
+    } catch (e) {
+      throw e;
+    }
   };
 
   getUsers = async () => {
