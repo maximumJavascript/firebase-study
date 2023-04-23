@@ -1,6 +1,7 @@
 import { collection } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
+import { baseUrl } from '../constants/api';
 
 class PostsService {
   _collection = collection(db, 'posts');
@@ -14,13 +15,10 @@ class PostsService {
   }
   deletePostItem = async (postId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/deletePost/${postId}`,
-        {
-          headers: { 'Content-Type': 'application/json' },
-          method: 'DELETE',
-        }
-      );
+      const response = await fetch(`${baseUrl}/deletePost/${postId}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'DELETE',
+      });
     } catch (error) {
       throw new Error(error);
     }
@@ -29,7 +27,7 @@ class PostsService {
 
   getPosts = async () => {
     try {
-      const response = await fetch('http://localhost:3001/posts', {
+      const response = await fetch(`${baseUrl}/posts`, {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
@@ -45,7 +43,7 @@ class PostsService {
 
   getSinglePost = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/posts/${id}`, {
+      const response = await fetch(`${baseUrl}/posts/${id}`, {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();

@@ -1,4 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx';
+import { baseUrl } from '../../constants/api';
 
 class CommentsListService {
   comments = {};
@@ -13,7 +14,7 @@ class CommentsListService {
     if (postId === undefined) return;
     if (!Object.keys(postId).length) return;
     try {
-      const response = await fetch(`http://localhost:3001/comments/${postId}`, {
+      const response = await fetch(`${baseUrl}/comments/${postId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

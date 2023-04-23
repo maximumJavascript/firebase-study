@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { authService } from '../auth/auth.service';
 import { auth } from '../firebase-config';
+import { baseUrl } from '../constants/api';
 
 class ViewsCounter {
   viewsCounter = 0;
@@ -17,7 +18,7 @@ class ViewsCounter {
   updateInfo = async (postID) => {
     const userIdObj = { userId: auth.currentUser.uid };
     try {
-      const response = await fetch(`http://localhost:3001/postsT/${postID}`, {
+      const response = await fetch(`${baseUrl}/postsT/${postID}`, {
         headers: { 'Content-Type': 'application/json' },
         method: 'PUT',
         body: JSON.stringify(userIdObj),
@@ -39,10 +40,7 @@ class ViewsCounter {
 
   makePostsObservable = (arr) => {
     if (!authService.isAuth) return;
-    const observer = new IntersectionObserver(
-      this.consolidateInfo,
-      this.options
-    );
+    const observer = new IntersectionObserver(this.consolidateInfo, this.options);
 
     for (let element of arr) {
       if (element === null) return;
