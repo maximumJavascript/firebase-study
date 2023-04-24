@@ -28,17 +28,27 @@ class UserService {
   };
 
   getUsers = async () => {
-    const data = await getDocs(this._collection);
-    return (this.data = data.docs.map((doc) => ({
-      ...doc.data(),
-    })));
+    try {
+      const res = await fetch(`${baseUrl}/users`);
+      if (res.status !== 200) throw new Error('Error while retrieving users');
+      const data = await res.json();
+      return (this.data = data);
+    } catch (e) {
+      throw e;
+    }
   };
 
   isUserExist = async (uid) => {
-    if (uid === undefined) return;
-    const docRef = doc(db, 'users', uid);
-    const data = await getDoc(docRef);
-    return data.exists() ? data.data() : false;
+    // сначала проверку на uid? или можно оставить на сервере?
+    const url = new URL(`${baseUrl}/user`);
+    url.searchParams.append('uid', uid);
+    try {
+      const res = await fetch(url);
+      const json = await res.json();
+      return json.isUserExist;
+    } catch (e) {
+      throw e;
+    }
   };
 }
 

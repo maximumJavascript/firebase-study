@@ -6,6 +6,7 @@ import styles from './home.module.css';
 import { userService } from '../usersService/UserService';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
+import { toJS } from 'mobx';
 
 const Home = observer(
   class Home extends Component {
@@ -30,6 +31,7 @@ const Home = observer(
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
+
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>

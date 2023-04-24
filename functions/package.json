@@ -8,7 +8,8 @@
     "start": "ts-node src/ts-node.ts",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "start:nodemon": "nodemon src/ts-node.ts"
+    "start:nodemon": "nodemon src/ts-node.ts",
+    "dev": "nodemon src/ts-node.ts"
   },
   "main": "lib/index.js",
   "engines": {

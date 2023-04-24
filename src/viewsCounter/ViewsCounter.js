@@ -16,7 +16,7 @@ class ViewsCounter {
   }
 
   updateInfo = async (postID) => {
-    const userIdObj = { userId: auth.currentUser.uid };
+    const userIdObj = { userId: auth.currentUser?.uid };
     try {
       const response = await fetch(`${baseUrl}/postsT/${postID}`, {
         headers: { 'Content-Type': 'application/json' },

@@ -39,7 +39,7 @@ export function attachRoutes() {
       snapshot.forEach((doc) => {
         users.push(doc.data());
       });
-      res.send(users);
+      res.status(200).json(users);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -49,6 +49,18 @@ export function attachRoutes() {
     try {
       await db.collection('users').doc(req.body.uid).set(req.body);
       res.sendStatus(201);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.get('/user', async (req, res) => {
+    try {
+      const uid = String(req.query.uid);
+      if (!uid) throw new Error('Uid not received');
+      const doc = await db.collection('users').doc(uid).get();
+      const isUserExist = doc.exists;
+      res.status(200).json({ isUserExist });
     } catch (error) {
       res.status(500).send(error);
     }
