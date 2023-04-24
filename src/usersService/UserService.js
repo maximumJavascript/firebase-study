@@ -6,11 +6,9 @@ import { baseUrl } from '../constants/api';
 class UserService {
   _collection = collection(db, 'users');
   data = [];
-  users = {};
   constructor() {
     makeObservable(this, {
       data: observable,
-      users: observable,
     });
   }
 
