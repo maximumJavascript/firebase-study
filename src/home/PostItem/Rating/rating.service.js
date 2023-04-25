@@ -1,5 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { db, auth } from '../../../firebase-config';
+import { auth } from '../../../firebase-config';
 import { baseUrl } from '../../../constants/api';
 
 class RatingService {

@@ -1,10 +1,7 @@
-import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase-config';
 import { makeObservable, observable } from 'mobx';
 import { baseUrl } from '../constants/api';
 
 class UserService {
-  _collection = collection(db, 'users');
   data = [];
   constructor() {
     makeObservable(this, {

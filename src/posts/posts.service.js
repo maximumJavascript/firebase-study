@@ -1,10 +1,7 @@
-import { collection } from 'firebase/firestore';
-import { auth, db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
 
 class PostsService {
-  _collection = collection(db, 'posts');
   data = [];
 
   constructor() {
