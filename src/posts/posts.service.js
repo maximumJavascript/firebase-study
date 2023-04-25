@@ -17,28 +17,29 @@ class PostsService {
     const url = new URL(`${baseUrl}/posts/delete`);
     url.searchParams.append('postId', postId);
     try {
-      const response = await fetch(url, {
+      const res = await fetch(url, {
         method: 'DELETE',
       });
-      if (response.status !== 204) throw new Error('Not deleted');
+      if (!res.ok) throw new Error(res.statusText);
       // стоит вместо этого сделать обращение к апи на получение всех постов?
       this.data = this.data.filter((post) => post.id !== postId);
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      throw e;
     }
   };
 
   getPosts = async () => {
     try {
-      const response = await fetch(`${baseUrl}/posts`);
-      const data = await response.json();
+      const res = await fetch(`${baseUrl}/posts`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       runInAction(() => {
         return (this.data = data.map((doc) => ({
           ...doc,
         })));
       });
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      throw e;
     }
   };
 
@@ -46,12 +47,12 @@ class PostsService {
     const url = new URL(`${baseUrl}/posts/getSinglePost`);
     url.searchParams.append('id', id);
     try {
-      const response = await fetch(url);
-      if (response.status !== 200) throw new Error(response.statusText);
-      const data = await response.json();
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       return data;
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      throw e;
     }
   };
 }

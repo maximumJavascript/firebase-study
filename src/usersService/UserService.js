@@ -19,7 +19,7 @@ class UserService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
       });
-      if (res.status !== 201) throw new Error('User not created');
+      if (!res.ok) throw new Error(res.statusText);
     } catch (e) {
       throw e;
     }
@@ -28,7 +28,7 @@ class UserService {
   getUsers = async () => {
     try {
       const res = await fetch(`${baseUrl}/users`);
-      if (res.status !== 200) throw new Error('Error while retrieving users');
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       return (this.data = data);
     } catch (e) {
@@ -42,6 +42,7 @@ class UserService {
     url.searchParams.append('uid', uid);
     try {
       const res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
       const json = await res.json();
       return json.isUserExist;
     } catch (e) {

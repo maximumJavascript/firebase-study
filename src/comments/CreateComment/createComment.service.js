@@ -7,14 +7,14 @@ class CreateCommentService {
 
   createComment = async (commentData) => {
     try {
-      const response = await fetch(`${baseUrl}/comment`, {
+      const res = await fetch(`${baseUrl}/comments/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(commentData),
       });
-      return await response.json();
-    } catch (err) {
-      throw new Error('нихуя не вышло');
+      if (!res.ok) return await res.json();
+    } catch (e) {
+      throw e;
     }
   };
 }

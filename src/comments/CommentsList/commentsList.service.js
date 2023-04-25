@@ -22,8 +22,8 @@ class CommentsListService {
       runInAction(() => {
         this.comments = { postId, comments: data };
       });
-    } catch (err) {
-      console.log('нихуя не вышло', err);
+    } catch (e) {
+      throw e;
     }
   };
 }

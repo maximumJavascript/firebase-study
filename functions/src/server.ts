@@ -136,7 +136,76 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/comment', async (req, res) => {
+  app.get('/ratings', async (req, res) => {
+    try {
+      const postId = req.query.postId as string;
+      const query = db.collection('ratings').where('postId', '==', postId);
+      const querySnapshot = await query.get();
+      const ratings = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      res.status(200).json({ ratings });
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
+    }
+  });
+
+  app.get('/ratings/getSingleRating', async (req, res) => {
+    try {
+      const postId = (req.query.postId || '') as string;
+      const userId = (req.query.userId || '') as string;
+      const query = db
+        .collection('ratings')
+        .where('postId', '==', postId)
+        .where('userId', '==', userId);
+      const querySnapshot = await query.get();
+      if (!querySnapshot.size) throw new Error('Rating not found');
+      const doc = querySnapshot.docs[0];
+      res.status(200).json({ id: doc.id, ...doc.data() });
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      if (error.message === 'Rating not found') {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+
+  app.post('/ratings/change', async (req, res) => {
+    // Проверка на авторизацию, или что это именно пользователь меняет
+    // Проверка на валидность данных
+    try {
+      const docId = (req.body.docId || '') as string;
+      let score = Number(req.body.score);
+      if (score < 1 || score > 10) throw new Error('Invalid rating score');
+      await db.collection('ratings').doc(docId).update({ score });
+      res.sendStatus(200);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
+    }
+  });
+
+  app.post('/ratings/create', async (req, res) => {
+    // Проверка на авторизацию, или что это именно пользователь меняет
+    // Проверка на валидность данных
+    try {
+      const postId = (req.body.postId || '') as string;
+      const userId = (req.body.userId || '') as string;
+      let score = Number(req.body.score);
+      if (score < 1 || score > 10) throw new Error('Invalid rating score');
+      await db.collection('ratings').add({ postId, userId, score });
+      res.sendStatus(201);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
+    }
+  });
+
+  app.post('/comments/create', async (req, res) => {
     try {
       await db.collection('comments').add(req.body);
       res.status(201).json(req.body);

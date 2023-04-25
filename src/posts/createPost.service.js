@@ -18,8 +18,7 @@ class CreatePostService {
         },
         body: JSON.stringify({ ...postData, author: this.#authorData }),
       });
-      if (res.status !== 201) throw new Error('Post not created');
-      return true;
+      if (!res.ok) throw new Error(res.statusText);
     } catch (e) {
       throw e;
     }

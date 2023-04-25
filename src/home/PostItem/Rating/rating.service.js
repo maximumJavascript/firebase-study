@@ -9,6 +9,7 @@ import {
 } from 'firebase/firestore';
 import { makeObservable, observable, runInAction } from 'mobx';
 import { db, auth } from '../../../firebase-config';
+import { baseUrl } from '../../../constants/api';
 
 class RatingService {
   _collection = collection(db, 'ratings');
@@ -32,45 +33,72 @@ class RatingService {
   };
 
   getRatings = async () => {
-    const arr = [];
     if (this.postId === undefined) return;
-    const q = query(this._collection, where('postId', '==', this.postId));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      arr.push({ id: doc.id, ...doc.data() });
-    });
-    return arr;
+    const url = new URL(`${baseUrl}/ratings`);
+    url.searchParams.append('postId', this.postId);
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
+      const json = await res.json();
+      return json.ratings;
+    } catch (e) {
+      throw e;
+    }
   };
 
   getSingleRating = async (userId) => {
-    let obj;
-    const q = query(
-      this._collection,
-      where('postId', '==', this.postId),
-      where('userId', '==', userId)
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      obj = {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-    return obj;
+    const url = new URL(`${baseUrl}/ratings/getSingleRating`);
+    url.searchParams.append('postId', this.postId);
+    url.searchParams.append('userId', userId);
+    try {
+      const res = await fetch(url);
+      if (res.status === 404) return false;
+      if (!res.ok) throw new Error(res.statusText);
+      const rating = await res.json();
+      return rating;
+    } catch (e) {
+      throw e;
+    }
   };
 
-  changeRating = async (docId, newScore) => {
-    const ref = doc(db, 'ratings', docId);
-    await updateDoc(ref, { score: newScore });
+  changeRating = async (docId, score) => {
+    try {
+      const res = await fetch(`${baseUrl}/ratings/change`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ docId, score }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+    } catch (e) {
+      throw e;
+    }
   };
 
   addRating = async (score) => {
     const userId = auth.currentUser.uid;
     const userRating = await this.getSingleRating(userId);
+    console.log(userRating);
     if (userRating) {
       await this.changeRating(userRating.id, score);
       // изменили
       return false;
+    }
+    const url = new URL();
+    try {
+      const res = await fetch(`${baseUrl}/ratings/create`, {
+        headers: {
+          'Content-Type': 'application/json',
+          method: 'POST',
+        },
+        body: JSON.stringify({ postId: this.postId, score, userId }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      return true;
+    } catch (e) {
+      throw e;
     }
     await addDoc(this._collection, {
       postId: this.postId,
@@ -78,7 +106,6 @@ class RatingService {
       userId,
     });
     // успешно добавили
-    return true;
   };
 }
 
