@@ -1,12 +1,31 @@
 import * as express from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
+// import { admin } from './config';
 export const app = express();
+
+// function authenticatedRequest(req: any, res: any, next: any)  {
+//   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+//     res.status(403).send('Unauthorized');
+//     return;
+//   }
+//   const idToken = req.headers.authorization.split('Bearer ')[1];
+//   admin.auth().verifyIdToken(idToken)
+//     .then((claims) => {
+//       req.user = claims;
+//       return next();
+//     })
+//     .catch((error) => {
+//       console.error('Ошибка при проверке токена:', error);
+//       res.status(401).send('Не удалось аутентифицировать пользователя');
+//     });
+// }
 
 export function attachRoutes() {
   app.get('/echo', (req, res) => res.status(200).send('Hey there!'));
 
   app.get('/aboba', (req, res) => {
+    console.log(req.headers);
     const comments = db.collection('comments');
     void comments
       .count()
@@ -34,14 +53,11 @@ export function attachRoutes() {
     try {
       const collectionRef = db.collection('users');
       const snapshot = await collectionRef.get();
-
-      const users: any = [];
-      snapshot.forEach((doc) => {
-        users.push(doc.data());
-      });
+      const users = snapshot.docs.map((doc) => doc.data());
       res.status(200).json(users);
-    } catch (error) {
-      res.status(500).send(error);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
     }
   });
 
@@ -49,20 +65,21 @@ export function attachRoutes() {
     try {
       await db.collection('users').doc(req.body.uid).set(req.body);
       res.sendStatus(201);
-    } catch (error) {
-      res.status(500).send(error);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
     }
   });
 
-  app.get('/user', async (req, res) => {
+  app.get('/users/userExist', async (req, res) => {
     try {
-      const uid = String(req.query.uid);
-      if (!uid) throw new Error('Uid not received');
+      const uid = req.query.uid as string;
       const doc = await db.collection('users').doc(uid).get();
       const isUserExist = doc.exists;
       res.status(200).json({ isUserExist });
-    } catch (error) {
-      res.status(500).send(error);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
     }
   });
 
@@ -70,27 +87,39 @@ export function attachRoutes() {
     try {
       const collectionRef = db.collection('posts');
       const snapshot = await collectionRef.get();
-
       const posts = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
+      res.status(200).send(posts);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
+    }
+  });
 
-      res.send(posts);
-    } catch (error) {
+  app.delete('/posts/delete', async (req, res) => {
+    try {
+      const postId = req.query.postId as string;
+      await db.collection('posts').doc(postId).delete();
+      res.sendStatus(204);
+    } catch (error: any) {
+      res.statusMessage = error.message;
       res.status(500).send(error);
     }
   });
 
-  app.get('/posts/:id', async (req, res) => {
+  app.get('/posts/getSinglePost', async (req, res) => {
     try {
-      const id = req.params.id;
+      const id = req.query.id as string;
       const collectionRef = db.collection('posts');
-      const existingDocRef = collectionRef.doc(id);
-
-      existingDocRef.get().then((result) => res.send(result.data()));
-    } catch (error) {
-      res.status(500).send(error);
+      const foundPost = await collectionRef.doc(id).get();
+      if (!foundPost.exists) throw new Error('Post not found');
+      const data = foundPost.data();
+      res.status(200).json(data);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.sendStatus(500);
     }
   });
 
@@ -125,18 +154,6 @@ export function attachRoutes() {
       const userId = req.body.userId;
       const postRef = db.collection('posts').doc(postId);
       postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
-  app.delete('/deletePost/:postId', async (req, res) => {
-    try {
-      const postId = req.params.postId;
-      const collectionRef = db.collection('posts');
-      const existingDocRef = collectionRef.doc(postId);
-      existingDocRef.delete();
-
-      res.status(201).json(req.body);
     } catch (error) {
       res.status(500).send(error);
     }

@@ -9,6 +9,7 @@ import styles from './CreateComment.module.css';
 import { auth } from '../../firebase-config';
 import { Timestamp } from '@firebase/firestore';
 import { commentsListService } from '../CommentsList/commentsList.service';
+
 const CreateComment = observer(
   class CreateComment extends Component {
     constructor(props) {
@@ -49,18 +50,15 @@ const CreateComment = observer(
           />
         );
       return (
-        <form
-          onSubmit={this.handleSendComment}
-          className={styles.CreateComment}
-        >
+        <form onSubmit={this.handleSendComment} className={styles.CreateComment}>
           <TextArea
             className={styles.commentInput}
-            placeholder='Comment text'
+            placeholder="Comment text"
             value={this.state.areaValue}
             onChange={this.handleAreaChange}
           />
           <div>
-            <CreatePostBtn className={styles.commentButton} text='Send' />
+            <CreatePostBtn className={styles.commentButton} text="Send" />
           </div>
         </form>
       );

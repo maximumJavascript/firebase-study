@@ -38,7 +38,7 @@ class UserService {
 
   isUserExist = async (uid) => {
     // сначала проверку на uid? или можно оставить на сервере?
-    const url = new URL(`${baseUrl}/user`);
+    const url = new URL(`${baseUrl}/users/userExist`);
     url.searchParams.append('uid', uid);
     try {
       const res = await fetch(url);
