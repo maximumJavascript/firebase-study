@@ -62,6 +62,7 @@ export function attachRoutes() {
   });
 
   app.post('/users/create', async (req, res) => {
+    // Проверку на авторизацию или что-то похожее
     try {
       await db.collection('users').doc(req.body.uid).set(req.body);
       res.sendStatus(201);
@@ -99,10 +100,22 @@ export function attachRoutes() {
   });
 
   app.delete('/posts/delete', async (req, res) => {
+    // Проверку на авторизацию
     try {
       const postId = req.query.postId as string;
       await db.collection('posts').doc(postId).delete();
       res.sendStatus(204);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.status(500).send(error);
+    }
+  });
+
+  app.post('/posts/create', async (req, res) => {
+    // Проверку на авторизацию
+    try {
+      await db.collection('posts').add(req.body);
+      res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
       res.status(500).send(error);

@@ -31,7 +31,6 @@ const Home = observer(
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       const userList = userService.data;
-
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
