@@ -161,16 +161,16 @@ export function attachRoutes() {
         .where('postId', '==', postId)
         .where('userId', '==', userId);
       const querySnapshot = await query.get();
-      if (!querySnapshot.size) throw new Error('Rating not found');
+      if (!querySnapshot.size) {
+        res.statusMessage = 'Rating not found';
+        res.sendStatus(404);
+        return;
+      }
       const doc = querySnapshot.docs[0];
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
       res.statusMessage = error.message;
-      if (error.message === 'Rating not found') {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(500);
-      }
+      res.sendStatus(500);
     }
   });
 

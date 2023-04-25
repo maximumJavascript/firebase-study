@@ -1,18 +1,8 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
 import { makeObservable, observable, runInAction } from 'mobx';
 import { db, auth } from '../../../firebase-config';
 import { baseUrl } from '../../../constants/api';
 
 class RatingService {
-  _collection = collection(db, 'ratings');
   averageScore = -1;
 
   constructor(postId) {
@@ -80,32 +70,26 @@ class RatingService {
   addRating = async (score) => {
     const userId = auth.currentUser.uid;
     const userRating = await this.getSingleRating(userId);
-    console.log(userRating);
     if (userRating) {
       await this.changeRating(userRating.id, score);
       // изменили
       return false;
     }
-    const url = new URL();
+
     try {
       const res = await fetch(`${baseUrl}/ratings/create`, {
         headers: {
           'Content-Type': 'application/json',
-          method: 'POST',
         },
+        method: 'POST',
         body: JSON.stringify({ postId: this.postId, score, userId }),
       });
       if (!res.ok) throw new Error(res.statusText);
+      // успешно добавили
       return true;
     } catch (e) {
       throw e;
     }
-    await addDoc(this._collection, {
-      postId: this.postId,
-      score,
-      userId,
-    });
-    // успешно добавили
   };
 }
 
