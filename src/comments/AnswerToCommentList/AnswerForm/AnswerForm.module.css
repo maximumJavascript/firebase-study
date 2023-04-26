@@ -5,3 +5,16 @@
   margin: 15px 0px;
   width: 100%;
 }
+.btnSend {
+  padding: 10px;
+  background: #5d5fef;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.9;
+  border: none;
+  color: white;
+  font-weight: 700;
+}
+.btnSend:hover {
+  opacity: 1;
+}

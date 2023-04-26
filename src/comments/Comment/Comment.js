@@ -17,7 +17,6 @@ const Comment = class Comment extends Component {
   };
 
   render() {
-    // console.log(toJS(this.props.data));
     return (
       <>
         <div className={styles.comment}>

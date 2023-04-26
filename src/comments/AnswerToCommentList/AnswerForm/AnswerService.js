@@ -17,7 +17,6 @@ class AnswerService {
   };
 
   getAnswers = async (commentId) => {
-    // console.log('this.answers', toJS(this.answers));
     if (this.answers.length != 0) {
       this.answers = [];
     }

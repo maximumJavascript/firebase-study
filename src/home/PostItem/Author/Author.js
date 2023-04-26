@@ -2,7 +2,6 @@ import styles from './Author.module.css';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { DateConverterService } from '../../../dateConverterService/DateConverterService';
-import { Button } from '../../../sandbox/button';
 import AnswerForm from '../../../comments/AnswerToCommentList/AnswerForm/AnswerForm';
 import { toJS } from 'mobx';
 
@@ -29,12 +28,14 @@ class Author extends Component {
     }));
   };
   render() {
-    // console.log('пропсы в коммпоненте автора', toJS(this.props));
     const typeOfBtn = this.state.openComments === false ? 'Open' : 'Close';
     if (this.state.user == null) return null;
     const showAnswersBtn =
       this.props.fromComment === true ? (
-        <button onClick={this.handleShowAnswerOnButton}>
+        <button
+          onClick={this.handleShowAnswerOnButton}
+          className={styles.showAnswersBtn}
+        >
           {' '}
           {typeOfBtn} Answers
         </button>

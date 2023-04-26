@@ -4,23 +4,20 @@ import { answerService } from './AnswerService';
 import { auth } from '../../../firebase-config';
 import { Timestamp } from 'firebase/firestore';
 import { toJS } from 'mobx';
+
 class AnswerForm extends Component {
   constructor(props) {
     super(props);
     this.state = { value: '' };
   }
-  // toJS(this.props.commentInfo) - инфа о том комментарии, под которым мы пишем ответ
   handleSendAnswer = (e) => {
     e.preventDefault();
-    // console.log(this.state.value);
-    // console.log('auth.currentUser.uid', auth.currentUser.uid);
     answerService.createAnswer({
       answerAuthorId: auth.currentUser.uid,
       answerText: this.state.value,
       date: Timestamp.fromDate(new Date()),
       commentId: this.props.commentInfo.id,
     });
-    // e.reset();
   };
   render() {
     return (
@@ -32,7 +29,7 @@ class AnswerForm extends Component {
           onChange={(e) => this.setState({ value: e.target.value })}
           className={styles.inputAnswer}
         />
-        <button>Отправить</button>
+        <button className={styles.btnSend}>Отправить</button>
       </form>
     );
   }

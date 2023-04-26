@@ -16,10 +16,7 @@ const AnswerToCommentList = observer(
     }
 
     render() {
-      // console.log('this.props.commentInfo', toJS(this.props.commentInfo));
       const answers = answerService.answers;
-      // console.log('answers', toJS(answers));
-      console.log(toJS(answers));
       return (
         <div className={styles.answersField}>
           <ul>
