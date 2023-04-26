@@ -38,11 +38,8 @@ class RatingService {
   };
 
   getSingleRating = async (userId) => {
-    const url = new URL(`${baseUrl}/ratings/getSingleRating`);
-    url.searchParams.append('postId', this.postId);
-    url.searchParams.append('userId', userId);
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${baseUrl}/ratings/${this.postId}/${userId}`);
       if (res.status === 404) return false;
       if (!res.ok) throw new Error(res.statusText);
       const rating = await res.json();
@@ -54,11 +51,11 @@ class RatingService {
 
   changeRating = async (docId, score) => {
     try {
-      const res = await fetch(`${baseUrl}/ratings/change`, {
+      const res = await fetch(`${baseUrl}/ratings`, {
         headers: {
           'Content-Type': 'application/json',
         },
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify({ docId, score }),
       });
       if (!res.ok) throw new Error(res.statusText);
@@ -77,7 +74,7 @@ class RatingService {
     }
 
     try {
-      const res = await fetch(`${baseUrl}/ratings/create`, {
+      const res = await fetch(`${baseUrl}/ratings`, {
         headers: {
           'Content-Type': 'application/json',
         },

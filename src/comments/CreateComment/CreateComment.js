@@ -34,7 +34,7 @@ const CreateComment = observer(
           .createComment({
             text: state.areaValue,
             postId: this.props.postId,
-            data: Timestamp.fromDate(new Date()),
+            date: Timestamp.fromDate(new Date()),
             authorId: auth.currentUser.uid,
           })
           .then((res) => commentsListService.getComments(res.postId));

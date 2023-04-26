@@ -11,7 +11,7 @@ class UserService {
 
   handleAddUsers = async (user) => {
     try {
-      const res = await fetch(`${baseUrl}/users/create`, {
+      const res = await fetch(`${baseUrl}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
@@ -35,10 +35,8 @@ class UserService {
 
   isUserExist = async (uid) => {
     // сначала проверку на uid? или можно оставить на сервере?
-    const url = new URL(`${baseUrl}/users/userExist`);
-    url.searchParams.append('uid', uid);
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${baseUrl}/users/${uid}`);
       if (!res.ok) throw new Error(res.statusText);
       const json = await res.json();
       return json.isUserExist;

@@ -11,10 +11,8 @@ class PostsService {
   }
 
   deletePostItem = async (postId) => {
-    const url = new URL(`${baseUrl}/posts/delete`);
-    url.searchParams.append('postId', postId);
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${baseUrl}/posts/${postId}`, {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error(res.statusText);
@@ -41,10 +39,8 @@ class PostsService {
   };
 
   getSinglePost = async (id) => {
-    const url = new URL(`${baseUrl}/posts/getSinglePost`);
-    url.searchParams.append('id', id);
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${baseUrl}/posts/${id}`);
       if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       return data;

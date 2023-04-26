@@ -11,14 +11,13 @@ class CommentsListService {
   }
 
   getComments = async (postId) => {
-    if (postId === undefined) return;
-    if (!Object.keys(postId).length) return;
+    if (!postId) return;
+    const url = new URL(`${baseUrl}/comments`);
+    url.searchParams.append('postId', postId);
     try {
-      const response = await fetch(`${baseUrl}/comments/${postId}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const data = await response.json();
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       runInAction(() => {
         this.comments = { postId, comments: data };
       });

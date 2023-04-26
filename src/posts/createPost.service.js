@@ -11,7 +11,7 @@ class CreatePostService {
 
   createPost = async (postData) => {
     try {
-      const res = await fetch(`${baseUrl}/posts/create`, {
+      const res = await fetch(`${baseUrl}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

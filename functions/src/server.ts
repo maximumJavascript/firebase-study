@@ -1,7 +1,6 @@
 import * as express from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
-// import { admin } from './config';
 export const app = express();
 
 // function authenticatedRequest(req: any, res: any, next: any)  {
@@ -61,7 +60,7 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/users/create', async (req, res) => {
+  app.post('/users', async (req, res) => {
     // Проверку на авторизацию или что-то похожее
     try {
       await db.collection('users').doc(req.body.uid).set(req.body);
@@ -72,9 +71,9 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/users/userExist', async (req, res) => {
+  app.get('/users/:uid', async (req, res) => {
     try {
-      const uid = req.query.uid as string;
+      const uid = req.params.uid as string;
       const doc = await db.collection('users').doc(uid).get();
       const isUserExist = doc.exists;
       res.status(200).json({ isUserExist });
@@ -99,32 +98,9 @@ export function attachRoutes() {
     }
   });
 
-  app.delete('/posts/delete', async (req, res) => {
-    // Проверку на авторизацию
+  app.get('/posts/:id', async (req, res) => {
     try {
-      const postId = req.query.postId as string;
-      await db.collection('posts').doc(postId).delete();
-      res.sendStatus(204);
-    } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
-    }
-  });
-
-  app.post('/posts/create', async (req, res) => {
-    // Проверку на авторизацию
-    try {
-      await db.collection('posts').add(req.body);
-      res.sendStatus(201);
-    } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
-    }
-  });
-
-  app.get('/posts/getSinglePost', async (req, res) => {
-    try {
-      const id = req.query.id as string;
+      const id = req.params.id || '';
       const collectionRef = db.collection('posts');
       const foundPost = await collectionRef.doc(id).get();
       if (!foundPost.exists) throw new Error('Post not found');
@@ -133,6 +109,29 @@ export function attachRoutes() {
     } catch (error: any) {
       res.statusMessage = error.message;
       res.sendStatus(500);
+    }
+  });
+
+  app.delete('/posts/:postId', async (req, res) => {
+    // Проверку на авторизацию
+    try {
+      const postId = req.params.postId || '';
+      await db.collection('posts').doc(postId).delete();
+      res.sendStatus(204);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.status(500).send(error);
+    }
+  });
+
+  app.post('/posts', async (req, res) => {
+    // Проверку на авторизацию
+    try {
+      await db.collection('posts').add(req.body);
+      res.sendStatus(201);
+    } catch (error: any) {
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -152,10 +151,10 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/ratings/getSingleRating', async (req, res) => {
+  app.get('/ratings/:postId/:userId', async (req, res) => {
     try {
-      const postId = (req.query.postId || '') as string;
-      const userId = (req.query.userId || '') as string;
+      const postId = req.params.postId || '';
+      const userId = req.params.userId || '';
       const query = db
         .collection('ratings')
         .where('postId', '==', postId)
@@ -174,13 +173,14 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/ratings/change', async (req, res) => {
+  app.put('/ratings', async (req, res) => {
     // Проверка на авторизацию, или что это именно пользователь меняет
     // Проверка на валидность данных
     try {
       const docId = (req.body.docId || '') as string;
-      let score = Number(req.body.score);
-      if (score < 1 || score > 10) throw new Error('Invalid rating score');
+      const score = Number(req.body.score);
+      if (score < 1 || score > 10 || !Number.isFinite(score))
+        throw new Error('Invalid rating score');
       await db.collection('ratings').doc(docId).update({ score });
       res.sendStatus(200);
     } catch (error: any) {
@@ -189,14 +189,15 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/ratings/create', async (req, res) => {
+  app.post('/ratings', async (req, res) => {
     // Проверка на авторизацию, или что это именно пользователь меняет
     // Проверка на валидность данных
     try {
       const postId = (req.body.postId || '') as string;
       const userId = (req.body.userId || '') as string;
-      let score = Number(req.body.score);
-      if (score < 1 || score > 10) throw new Error('Invalid rating score');
+      const score = Number(req.body.score);
+      if (score < 1 || score > 10 || !Number.isFinite(score))
+        throw new Error('Invalid rating score');
       await db.collection('ratings').add({ postId, userId, score });
       res.sendStatus(201);
     } catch (error: any) {
@@ -205,26 +206,35 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/comments/create', async (req, res) => {
+  app.post('/comments', async (req, res) => {
+    // Проверка на авторизацию
+    // Валидация данных
+    // Мб какая-то ещё проверк, спам и т.п.
     try {
-      await db.collection('comments').add(req.body);
-      res.status(201).json(req.body);
+      const text = req.body.text as string;
+      const postId = req.body.postId as string;
+      const date = req.body.date as Object;
+      const authorId = req.body.authorId as string;
+      console.log(text, postId, date, authorId);
+      const docRef = await db
+        .collection('comments')
+        .add({ text, postId, date, authorId });
+      const doc = await docRef.get();
+      res.status(201).json(doc.data());
     } catch (error) {
+      console.log(error);
       res.status(500).send(error);
     }
   });
 
-  app.get('/comments/:id', async (req, res) => {
+  app.get('/comments', async (req, res) => {
     try {
-      const id = req.params.id;
+      const postId = req.query.postId as string;
       const collectionRef = db.collection('comments');
-      const query = collectionRef.where('postId', '==', id);
-      let comments: any = [];
-
-      query.get().then((qurySnapshot) => {
-        qurySnapshot.forEach((doc) => comments.push(doc.data()));
-        res.send(comments);
-      });
+      const query = collectionRef.where('postId', '==', postId);
+      const querySnapshot = await query.get();
+      const comments = querySnapshot.docs.map((doc) => doc.data());
+      res.status(200).json(comments);
     } catch (error) {
       res.status(500).send(error);
     }
