@@ -27,7 +27,15 @@
 }
 
 .authorImg__img {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.answerBtn {
+  min-width: 96px;
+  margin-left: 5px;
+}
+.answerFormStyle {
+  width: 100%;
+  color: red;
 }

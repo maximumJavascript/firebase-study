@@ -15,7 +15,7 @@ class PostItem extends React.Component {
       <div className={styles.post} data-postid={props.post.id} ref={this.ref}>
         {src && (
           <div className={styles.postImage}>
-            <img src={src} alt="post: img" />
+            <img src={src} alt='post: img' />
           </div>
         )}
         <div className={styles.postContainer}>
@@ -24,9 +24,12 @@ class PostItem extends React.Component {
             <div className={styles.postTextContainer}>{props.post.text}</div>
           </div>
           <div className={styles.postFooter}>
-            <Author date={this.props.post.date.seconds} authorId={props.post.author.id} />
+            <Author
+              date={this.props.post.date.seconds}
+              authorId={props.post.author.id}
+            />
             <Views postId={props.post.id} viewCounter={props.viewCounter} />
-            <Raiting />
+            <Rating />
             {!props.isComments && (
               <Link to={`/comments/${props.post.id}`}>
                 <div className={styles.postShowMore}>
@@ -34,7 +37,9 @@ class PostItem extends React.Component {
                 </div>
               </Link>
             )}
-            <button onClick={() => this.props.deletePostItem(props.post.id)}>DEL</button>
+            <button onClick={() => this.props.deletePostItem(props.post.id)}>
+              DEL
+            </button>
           </div>
         </div>
       </div>

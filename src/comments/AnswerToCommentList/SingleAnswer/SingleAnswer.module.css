@@ -1,0 +1,25 @@
+.singleAnswerImg {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.answerHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* justify-content: center; */
+}
+.answerNick {
+  color: black;
+  font-weight: 700;
+}
+.answerDate {
+  font-size: 15px;
+  color: gray;
+}
+/* .answerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+} */

@@ -1,7 +1,8 @@
 .comment {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   column-gap: 20px;
+  flex-direction: column;
 }
 
 .commentText {
