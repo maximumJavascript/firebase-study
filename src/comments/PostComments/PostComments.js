@@ -19,7 +19,8 @@ const PostComments = observer(
         },
         window.location.pathname
       );
-      this.id = match?.params.id;
+      this.id = window.location.hash.split('/').at(-1);
+      // this.id = match?.params.id;
     }
 
     componentDidMount() {
