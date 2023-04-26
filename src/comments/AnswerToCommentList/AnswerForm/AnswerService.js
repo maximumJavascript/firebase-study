@@ -17,13 +17,15 @@ class AnswerService {
   };
 
   getAnswers = async (commentId) => {
+    // console.log('this.answers', toJS(this.answers));
+    if (this.answers.length != 0) {
+      this.answers = [];
+    }
     const q = query(
       collection(db, 'answers'),
       where('commentId', '==', commentId)
     );
     const querySnapshot = await getDocs(q);
-    // const answers = [];
-    if (querySnapshot.size === this.answers.length) return null;
     querySnapshot.forEach((doc) => {
       this.answers.push({ id: doc.id, ...doc.data() });
     });

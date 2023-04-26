@@ -22,7 +22,6 @@ class CommentsListService {
       });
     });
     runInAction(() => {
-      console.log('this.comments', toJS(this.comments));
       return (this.comments = { postId, comments });
     });
   };

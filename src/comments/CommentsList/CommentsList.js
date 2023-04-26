@@ -12,7 +12,6 @@ const CommentsList = observer(
 
     render() {
       const commentList = commentsListService.comments;
-      console.log(toJS(commentList));
       if (commentList.postId !== this.props.postId) return null;
       return (
         <>
