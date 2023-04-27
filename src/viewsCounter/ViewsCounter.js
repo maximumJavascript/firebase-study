@@ -16,17 +16,15 @@ class ViewsCounter {
   }
 
   updateInfo = async (postID) => {
-    const userIdObj = { userId: auth.currentUser?.uid };
+    const userId = auth.currentUser?.uid || '';
     try {
-      const response = await fetch(`${baseUrl}/postsT/${postID}`, {
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch(`${baseUrl}/views/${postID}/$${userId}`, {
         method: 'PUT',
-        body: JSON.stringify(userIdObj),
       });
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.log('нихуя не вышло', err);
+      if (!res.ok) throw new Error(res.statusText);
+      return true;
+    } catch (e) {
+      throw e;
     }
   };
 

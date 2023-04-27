@@ -3,6 +3,7 @@ import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
 export const app = express();
 
+// тестовая функция на проверку авторизации
 // function authenticatedRequest(req: any, res: any, next: any)  {
 //   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
 //     res.status(403).send('Unauthorized');
@@ -135,9 +136,9 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/ratings', async (req, res) => {
+  app.get('/ratings/:postId', async (req, res) => {
     try {
-      const postId = req.query.postId as string;
+      const postId = req.params.postId || '';
       const query = db.collection('ratings').where('postId', '==', postId);
       const querySnapshot = await query.get();
       const ratings = querySnapshot.docs.map((doc) => ({
@@ -227,9 +228,9 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/comments', async (req, res) => {
+  app.get('/comments/:postId', async (req, res) => {
     try {
-      const postId = req.query.postId as string;
+      const postId = req.params.postId || '';
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
@@ -240,12 +241,14 @@ export function attachRoutes() {
     }
   });
 
-  app.put('/postsT/:postId', (req, res) => {
+  app.put('/views/:postId/:userId', async (req, res) => {
+    // мб проверку на авторизацию
     try {
-      const postId = req.params.postId;
-      const userId = req.body.userId;
+      const postId = req.params.postId || '';
+      const userId = req.params.userId || '';
       const postRef = db.collection('posts').doc(postId);
-      postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
+      await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
+      res.sendStatus(200);
     } catch (error) {
       res.status(500).send(error);
     }

@@ -24,11 +24,8 @@ class RatingService {
 
   getRatings = async () => {
     if (this.postId === undefined) return;
-    const url = new URL(`${baseUrl}/ratings`);
-    url.searchParams.append('postId', this.postId);
-
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${baseUrl}/ratings/${this.postId}`);
       if (!res.ok) throw new Error(res.statusText);
       const json = await res.json();
       return json.ratings;

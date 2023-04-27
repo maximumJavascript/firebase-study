@@ -12,10 +12,8 @@ class CommentsListService {
 
   getComments = async (postId) => {
     if (!postId) return;
-    const url = new URL(`${baseUrl}/comments`);
-    url.searchParams.append('postId', postId);
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${baseUrl}/comments/${postId}`);
       if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       runInAction(() => {
