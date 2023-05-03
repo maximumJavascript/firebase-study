@@ -8,6 +8,7 @@ import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import { authService } from './auth/auth.service';
 import Comments from './comments/PostComments';
+import { useEffect } from 'react';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
     signOut(auth).then(() => {
       authService.setSrc(null);
       authService.handleIsAuth();
-      window.location.pathname = '/login';
+      window.location.pathname = '/firebase-study';
     });
   };
 
@@ -30,15 +31,14 @@ function App() {
   if (!window.location.pathname.includes(`${basePath}/`)) {
     window.location.replace(`${basePath}/`);
   }
-
   return (
     <Router>
       <NavBar />
       <Routes>
         <Route path={basePath} element={<Home />} />
-        <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/comments/:id" element={<Comments />} />
+        <Route path='/createpost' element={<CreatePost />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/comments/:id' element={<Comments />} />
         {/* <AnimalsDropdown /> */}
       </Routes>
     </Router>

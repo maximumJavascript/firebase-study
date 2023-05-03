@@ -1,17 +1,20 @@
-import { addDoc, collection, getDoc, Timestamp } from 'firebase/firestore';
-import { auth, db } from '../../firebase-config';
-import { commentsListService } from '../CommentsList/commentsList.service';
+import { collection } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 class CreateCommentService {
   _collection = collection(db, 'comments');
 
   createComment = async (commentData) => {
-    await addDoc(this._collection, {
-      authorId: auth.currentUser.uid,
-      date: Timestamp.fromDate(new Date()),
-      ...commentData,
-    });
-    void (await commentsListService.getComments(commentData.postId));
+    try {
+      const response = await fetch(`http://localhost:3001/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(commentData),
+      });
+      return await response.json();
+    } catch (err) {
+      throw new Error('нихуя не вышло');
+    }
   };
 }
 

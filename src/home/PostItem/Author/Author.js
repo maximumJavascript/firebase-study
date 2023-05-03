@@ -2,7 +2,7 @@ import styles from './Author.module.css';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { DateConverterService } from '../../../dateConverterService/DateConverterService';
-
+import { toJS } from 'mobx';
 class Author extends Component {
   constructor() {
     super();
@@ -21,7 +21,7 @@ class Author extends Component {
           <img
             className={styles.authorImg__img}
             src={this.state.user.userPhoto}
-            alt="img: Photo author post"
+            alt='img: Photo author post'
           />
         </div>
         <div className={styles.authorInfo}>

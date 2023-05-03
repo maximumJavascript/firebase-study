@@ -41,8 +41,8 @@ const Home = observer(
                 <PostItem
                   key={post.id}
                   post={post}
-                  user={user.user}
-                  date={post.date}
+                  user={user}
+                  date={post.date._seconds}
                   ref={this.setRef}
                   viewCounter={post.viewedBy?.length}
                   deletePostItem={postsService.deletePostItem}

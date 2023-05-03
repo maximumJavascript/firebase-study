@@ -7,19 +7,25 @@ import homeStyles from '../../home/home.module.css';
 import styles from './PostComments.module.css';
 import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
+import { toJS } from 'mobx';
 import classNames from 'classnames';
-
 const PostComments = observer(
   class PostComments extends Component {
     constructor(props) {
       super(props);
-      const match = matchPath(
-        {
-          path: '/comments/:id',
-        },
-        window.location.pathname
-      );
-      this.id = match?.params.id;
+      // const match = matchPath(
+      //   {
+      //     path: '/comments/:id',
+      //   },
+      //   window.location.pathname
+      // );
+      // console.log(
+      //   'window.location.pathname',
+      //   window.location.hash.split('/').at(-1)
+      // );
+      // console.log('match', match);
+      // this.id = match?.params.id;
+      this.id = window.location.hash.split('/').at(-1);
     }
 
     componentDidMount() {
@@ -40,8 +46,8 @@ const PostComments = observer(
             <PostItem
               post={post}
               isComments={true}
-              viewCounter={post.viewedBy.length}
-              date={post.date.seconds}
+              viewCounter={post.viewedBy?.length}
+              date={post.date._seconds}
             />
           </div>
           <div>

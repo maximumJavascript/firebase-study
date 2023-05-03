@@ -43,7 +43,10 @@ const Rating = observer(
       const userCount = this.state.userCount / 2;
       const score = rating / 2;
       return (
-        <div className={styles.postRaiting} onMouseLeave={this.handleMouseLeave}>
+        <div
+          className={styles.postRaiting}
+          onMouseLeave={this.handleMouseLeave}
+        >
           {new Array(5).fill(0).map((item, index) => {
             const percSelected = userCount - index;
             let percFilled = score - index;
