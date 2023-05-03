@@ -1,57 +1,51 @@
-import { collection } from 'firebase/firestore';
-import { db } from '../firebase-config';
 import { makeObservable, observable, runInAction } from 'mobx';
+import { baseUrl } from '../constants/api';
 
 class PostsService {
-  _collection = collection(db, 'posts');
   data = [];
 
   constructor() {
     makeObservable(this, {
       data: observable,
     });
-    this.data = [];
   }
+
   deletePostItem = async (postId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/deletePost/${postId}`,
-        {
-          headers: { 'Content-Type': 'application/json' },
-          method: 'DELETE',
-        }
-      );
-    } catch (error) {
-      throw new Error(error);
+      const res = await fetch(`${baseUrl}/posts/${postId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      // стоит вместо этого сделать обращение к апи на получение всех постов?
+      this.data = this.data.filter((post) => post.id !== postId);
+    } catch (e) {
+      throw e;
     }
-    this.data = this.data.filter((post) => post.id !== postId);
   };
 
   getPosts = async () => {
     try {
-      const response = await fetch('http://localhost:3001/posts', {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const data = await response.json();
+      const res = await fetch(`${baseUrl}/posts`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       runInAction(() => {
         return (this.data = data.map((doc) => ({
           ...doc,
         })));
       });
-    } catch (err) {
-      console.log('нихуя не вышло', err);
+    } catch (e) {
+      throw e;
     }
   };
 
   getSinglePost = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/posts/${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const data = await response.json();
+      const res = await fetch(`${baseUrl}/posts/${id}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       return data;
-    } catch (err) {
-      console.log('нихуя не вышло', err);
+    } catch (e) {
+      throw e;
     }
   };
 }

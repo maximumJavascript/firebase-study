@@ -1,4 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx';
+import { baseUrl } from '../../constants/api';
 
 class CommentsListService {
   comments = {};
@@ -10,19 +11,16 @@ class CommentsListService {
   }
 
   getComments = async (postId) => {
-    if (postId === undefined) return;
-    if (!Object.keys(postId).length) return;
+    if (!postId) return;
     try {
-      const response = await fetch(`http://localhost:3001/comments/${postId}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const data = await response.json();
+      const res = await fetch(`${baseUrl}/comments/${postId}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
       runInAction(() => {
         this.comments = { postId, comments: data };
       });
-    } catch (err) {
-      console.log('нихуя не вышло', err);
+    } catch (e) {
+      throw e;
     }
   };
 }

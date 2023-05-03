@@ -1,9 +1,7 @@
-import { addDoc, collection } from 'firebase/firestore';
-import { auth, db } from '../firebase-config';
+import { auth } from '../firebase-config';
+import { baseUrl } from '../constants/api';
 
 class CreatePostService {
-  #collection = collection(db, 'posts');
-
   get #authorData() {
     return {
       name: auth.currentUser.displayName,
@@ -12,10 +10,18 @@ class CreatePostService {
   }
 
   createPost = async (postData) => {
-    await addDoc(this.#collection, {
-      ...postData,
-      author: this.#authorData,
-    });
+    try {
+      const res = await fetch(`${baseUrl}/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...postData, author: this.#authorData }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+    } catch (e) {
+      throw e;
+    }
   };
 }
 

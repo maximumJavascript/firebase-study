@@ -8,11 +8,12 @@
     "start": "ts-node src/ts-node.ts",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "start:nodemon": "nodemon src/ts-node.ts"
+    "start:nodemon": "nodemon src/ts-node.ts",
+    "dev": "nodemon src/ts-node.ts"
   },
   "main": "lib/index.js",
   "engines": {
-    "node": "18"
+    "node": "16"
   },
   "dependencies": {
     "@firebase/app-types": "^0.9.0",

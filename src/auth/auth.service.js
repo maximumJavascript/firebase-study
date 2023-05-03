@@ -37,6 +37,7 @@ class AuthService {
   handleIsAuth = () => {
     this.isAuth = !this.isAuth;
   };
+
   handleLogin = async () => {
     const value = await signInWithPopup(auth, provider);
     this.setUserId(value.user.uid);

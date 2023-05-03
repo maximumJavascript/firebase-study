@@ -1,41 +1,48 @@
-import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase-config';
 import { makeObservable, observable } from 'mobx';
+import { baseUrl } from '../constants/api';
 
 class UserService {
-  _collection = collection(db, 'users');
   data = [];
-  users = {};
   constructor() {
     makeObservable(this, {
       data: observable,
-      users: observable,
     });
-    this.data = [];
   }
 
   handleAddUsers = async (user) => {
-    await setDoc(doc(db, 'users', user.uid), {
-      userUid: user.uid,
-      userName: user.displayName,
-      userPhoto: user.photoURL,
-      userEmail: user.email,
-      viewedPosts: [],
-    });
+    try {
+      const res = await fetch(`${baseUrl}/users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+    } catch (e) {
+      throw e;
+    }
   };
 
   getUsers = async () => {
-    const data = await getDocs(this._collection);
-    return (this.data = data.docs.map((doc) => ({
-      ...doc.data(),
-    })));
+    try {
+      const res = await fetch(`${baseUrl}/users`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      return (this.data = data);
+    } catch (e) {
+      throw e;
+    }
   };
 
   isUserExist = async (uid) => {
-    if (uid === undefined) return;
-    const docRef = doc(db, 'users', uid);
-    const data = await getDoc(docRef);
-    return data.exists() ? data.data() : false;
+    // сначала проверку на uid? или можно оставить на сервере?
+    try {
+      const res = await fetch(`${baseUrl}/users/${uid}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const json = await res.json();
+      return json.isUserExist;
+    } catch (e) {
+      throw e;
+    }
   };
 }
 
