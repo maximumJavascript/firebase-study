@@ -2,7 +2,7 @@ import * as express from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
 export const app = express();
-
+import { baseOrigin } from './constants/api';
 // тестовая функция на проверку авторизации
 // function authenticatedRequest(req: any, res: any, next: any)  {
 //   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
@@ -22,10 +22,12 @@ export const app = express();
 // }
 
 export function attachRoutes() {
-  app.get('/echo', (req, res) => res.status(200).send('Hey there!'));
+  app.get('/echo', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'https://maximumjavascript.github.io');
+    res.status(200).send(`${baseOrigin} 28`);
+  });
 
   app.get('/aboba', (req, res) => {
-    console.log(req.headers);
     const comments = db.collection('comments');
     void comments
       .count()
@@ -57,7 +59,7 @@ export function attachRoutes() {
       res.status(200).json(users);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -68,7 +70,7 @@ export function attachRoutes() {
       res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error.message);
     }
   });
 
@@ -80,7 +82,7 @@ export function attachRoutes() {
       res.status(200).json({ isUserExist });
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -95,7 +97,7 @@ export function attachRoutes() {
       res.status(200).send(posts);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -109,7 +111,7 @@ export function attachRoutes() {
       res.status(200).json(data);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -148,7 +150,7 @@ export function attachRoutes() {
       res.status(200).json({ ratings });
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -170,7 +172,7 @@ export function attachRoutes() {
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -186,7 +188,7 @@ export function attachRoutes() {
       res.sendStatus(200);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -203,7 +205,7 @@ export function attachRoutes() {
       res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
