@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from './auth.service';
 
 function Login({ setIsAuth }) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const signInWithGoogle = () => {
     authService.handleLogin();
     navigate('/');

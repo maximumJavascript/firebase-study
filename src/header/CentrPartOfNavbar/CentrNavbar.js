@@ -3,14 +3,14 @@ import styles from '../Navbar.module.css';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
-import { storageService } from '../../localStorageService/storageService';
+
 const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
     render() {
-      let isAuth = authService.isAuth;
+      const isAuth = authService.isAuth;
       return (
         <div className={styles.centerLinks}>
-          <Link to="/firebase-study" className={styles.homeContainer}>
+          <Link to="/" className={styles.homeContainer}>
             <span className={(styles.navText, styles.homeText)}>Home</span>
           </Link>
           {!isAuth ? (
