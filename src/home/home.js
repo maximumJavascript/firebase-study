@@ -28,7 +28,6 @@ const Home = observer(
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       if (!postLists.length) return null;
-
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <ErrorBoundary>
@@ -38,7 +37,7 @@ const Home = observer(
                   <ErrorBoundary key={post.id} slotError={true}>
                     <PostItem
                       post={post}
-                      date={post.date._seconds}
+                      date={post.date.seconds}
                       ref={this.setRef}
                       viewCounter={post.viewedBy?.length}
                       deletePostItem={postsService.deletePostItem}

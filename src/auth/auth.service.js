@@ -44,14 +44,18 @@ class AuthService {
     this.setSrc(value.user.photoURL);
     this.handleIsAuth();
     // каждый раз добавляем юзера в базу. Если он уже там есть, то просто обновятся его поля, которые он мог поменять ( имя, картинка профиля и т.д.)
-    userService.handleAddUsers(value.user);
+    userService.handleAddUsers({
+      userUid: value.user.uid,
+      userName: value.user.displayName,
+      userPhoto: value.user.photoURL,
+      userEmail: value.user.email,
+    });
   };
 
   handleLogOut = () => {
     signOut(auth).then(() => {
       this.handleIsAuth();
       this.isLogOut = true;
-      window.location.pathname = '/login';
     });
   };
 }

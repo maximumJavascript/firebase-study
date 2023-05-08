@@ -26,9 +26,11 @@ const CentrNavbar = observer(
                   Create Post
                 </span>
               </Link>
-              <button onClick={authService.handleLogOut} className={styles.logOutBtn}>
-                <span className={styles.logOutBtnText}>Log Out</span>
-              </button>
+              <Link to="/login">
+                <button onClick={authService.handleLogOut} className={styles.logOutBtn}>
+                  <span className={styles.logOutBtnText}>Log Out</span>
+                </button>
+              </Link>
             </>
           )}
         </div>

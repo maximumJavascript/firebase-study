@@ -11,18 +11,18 @@ import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginBu
 
 class PostItem extends React.Component {
   ref = React.createRef();
+
   constructor(props) {
     super(props);
     this.state = { currentUsserUid: null };
   }
+
   componentDidMount() {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.setState({ currentUsserUid: user.uid });
-      } else {
-      }
+      if (user) this.setState({ currentUsserUid: user.uid });
     });
   }
+
   render() {
     const { props } = this;
     const src = props.post.base64Img;
@@ -31,7 +31,7 @@ class PostItem extends React.Component {
       <div className={styles.post} data-postid={props.post.id} ref={this.ref}>
         {src && (
           <div className={styles.postImage}>
-            <img src={src} alt='post: img' />
+            <img src={src} alt="post: img" />
           </div>
         )}
         <div className={styles.postContainer}>
