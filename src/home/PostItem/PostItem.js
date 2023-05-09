@@ -40,7 +40,7 @@ class PostItem extends React.Component {
             <div className={styles.postTextContainer}>{props.post.text}</div>
           </div>
           <div className={styles.postFooter}>
-            <Author date={props.date} authorId={props.post.author?.id} />
+            <Author date={props.date} authorId={props.post.author.id} />
             <Views postId={props.post.id} viewCounter={props.viewCounter} />
             <Rating postId={props.post.id} />
             {!props.isComments && (

@@ -9,6 +9,7 @@ import CommentsList from '../CommentsList';
 import CreateComment from '../CreateComment';
 import { toJS } from 'mobx';
 import classNames from 'classnames';
+
 const PostComments = observer(
   class PostComments extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ const PostComments = observer(
               post={post}
               isComments={true}
               viewCounter={post.viewedBy?.length}
-              date={post.date._seconds}
+              date={post.date.seconds}
             />
           </div>
           <div>

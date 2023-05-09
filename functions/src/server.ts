@@ -240,7 +240,7 @@ export function attachRoutes() {
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
-      const comments = querySnapshot.docs.map((doc) => doc.data());
+      const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       res.status(200).json(comments);
     } catch (error) {
       res.status(500).send(error);

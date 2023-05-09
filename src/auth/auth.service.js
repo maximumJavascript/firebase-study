@@ -22,8 +22,6 @@ class AuthService {
       setSrc: action,
       handleIsAuth: action,
     });
-    this.photoSrc = null;
-    this.isAuth = false;
   }
 
   setSrc = (src) => {
@@ -34,15 +32,15 @@ class AuthService {
     this.userId = id;
   };
 
-  handleIsAuth = () => {
-    this.isAuth = !this.isAuth;
+  handleIsAuth = (bool) => {
+    this.isAuth = bool;
   };
 
   handleLogin = async () => {
     const value = await signInWithPopup(auth, provider);
     this.setUserId(value.user.uid);
     this.setSrc(value.user.photoURL);
-    this.handleIsAuth();
+    this.handleIsAuth(true);
     // каждый раз добавляем юзера в базу. Если он уже там есть, то просто обновятся его поля, которые он мог поменять ( имя, картинка профиля и т.д.)
     userService.handleAddUsers({
       userUid: value.user.uid,
@@ -53,10 +51,11 @@ class AuthService {
   };
 
   handleLogOut = () => {
-    signOut(auth).then(() => {
-      this.handleIsAuth();
-      this.isLogOut = true;
-    });
+    this.handleIsAuth(false);
+    this.isLogOut = true;
+    storageService.clearStorage();
+    this.setSrc(null);
+    signOut(auth);
   };
 }
 export const authService = new AuthService();
@@ -68,7 +67,7 @@ autorun(() => {
     storageService.setUserIdToStorage(authService.userId);
   }
   if (authService.isAuth === false && storageService.isStorageAuth()) {
-    authService.handleIsAuth();
+    authService.handleIsAuth(true);
     authService.setSrc(storageService.getSrcFromStorage());
     authService.setUserId(storageService.getUserIdFromStorage());
   }

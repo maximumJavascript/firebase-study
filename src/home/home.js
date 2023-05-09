@@ -30,23 +30,21 @@ const Home = observer(
       if (!postLists.length) return null;
       return (
         <div className={`${styles.container} ${styles.home}`}>
-          <ErrorBoundary>
-            <div className={styles.homePage}>
-              {postLists.map((post) => {
-                return (
-                  <ErrorBoundary key={post.id} slotError={true}>
-                    <PostItem
-                      post={post}
-                      date={post.date.seconds}
-                      ref={this.setRef}
-                      viewCounter={post.viewedBy?.length}
-                      deletePostItem={postsService.deletePostItem}
-                    />
-                  </ErrorBoundary>
-                );
-              })}
-            </div>
-          </ErrorBoundary>
+          <div className={styles.homePage}>
+            {postLists.map((post) => {
+              return (
+                <ErrorBoundary key={post.id} slotError={true}>
+                  <PostItem
+                    post={post}
+                    date={post.date.seconds}
+                    ref={this.setRef}
+                    viewCounter={post.viewedBy?.length}
+                    deletePostItem={postsService.deletePostItem}
+                  />
+                </ErrorBoundary>
+              );
+            })}
+          </div>
         </div>
       );
     }

@@ -5,6 +5,7 @@ import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
 import Comments from './comments/PostComments';
+import { ErrorBoundary } from './errorBoundary';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 function App() {
@@ -17,13 +18,15 @@ function App() {
   return (
     <Router basename="/">
       <NavBar />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/comments/:id" element={<Comments />} />
-        {/* <AnimalsDropdown /> */}
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/comments/:id" element={<Comments />} />
+          {/* <AnimalsDropdown /> */}
+        </Routes>
+      </ErrorBoundary>
     </Router>
   );
 }
