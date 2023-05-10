@@ -1,5 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 import { baseUrl } from '../constants/api';
+import { auth } from '../firebase-config';
 
 class UserService {
   data = [];
@@ -10,39 +11,33 @@ class UserService {
   }
 
   handleAddUsers = async (user) => {
-    try {
-      const res = await fetch(`${baseUrl}/users`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-    } catch (e) {
-      throw e;
-    }
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(user),
+    });
+    if (!res.ok) throw new Error(res.statusText);
   };
 
   getUsers = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/users`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      return (this.data = data);
-    } catch (e) {
-      throw e;
-    }
+    // пока не используется где-то
+    const res = await fetch(`${baseUrl}/users`);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return (this.data = data);
   };
 
   isUserExist = async (uid) => {
     // сначала проверку на uid? или можно оставить на сервере?
-    try {
-      const res = await fetch(`${baseUrl}/users/${uid}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const json = await res.json();
-      return json;
-    } catch (e) {
-      throw e;
-    }
+    const res = await fetch(`${baseUrl}/users/${uid}`);
+    if (!res.ok) throw new Error(res.statusText);
+    const json = await res.json();
+    return json;
   };
 }
 

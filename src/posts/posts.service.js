@@ -1,5 +1,6 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
+import { auth } from '../firebase-config';
 
 class PostsService {
   data = [];
@@ -11,31 +12,27 @@ class PostsService {
   }
 
   deletePostItem = async (postId) => {
-    try {
-      const res = await fetch(`${baseUrl}/posts/${postId}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      // стоит вместо этого сделать обращение к апи на получение всех постов?
-      this.data = this.data.filter((post) => post.id !== postId);
-    } catch (e) {
-      throw e;
-    }
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    this.data = this.data.filter((post) => post.id !== postId);
   };
 
   getPosts = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/posts`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      runInAction(() => {
-        return (this.data = data.map((doc) => ({
-          ...doc,
-        })));
-      });
-    } catch (e) {
-      throw e;
-    }
+    const res = await fetch(`${baseUrl}/posts`);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    runInAction(() => {
+      return (this.data = data.map((doc) => ({
+        ...doc,
+      })));
+    });
   };
 
   getSinglePost = async (id) => {

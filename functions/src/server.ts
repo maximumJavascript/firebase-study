@@ -8,7 +8,7 @@ import { admin } from './config';
 
 export const app = express();
 
-// тестовая функция на проверку авторизации
+// функция на проверку авторизации
 async function authenticatedRequest(req: any, res: any, next: any) {
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
     res.status(403).send('Unauthorized');
@@ -55,20 +55,19 @@ export function attachRoutes() {
       });
   });
 
-  app.get('/users', async (req, res) => {
-    try {
-      const collectionRef = db.collection('users');
-      const snapshot = await collectionRef.get();
-      const users = snapshot.docs.map((doc) => doc.data());
-      res.status(200).json(users);
-    } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
-    }
-  });
+  // app.get('/users', async (req, res) => {
+  //   try {
+  //     const collectionRef = db.collection('users');
+  //     const snapshot = await collectionRef.get();
+  //     const users = snapshot.docs.map((doc) => doc.data());
+  //     res.status(200).json(users);
+  //   } catch (error: any) {
+  //     res.statusMessage = error.message;
+  //     res.status(500).send(error);
+  //   }
+  // });
 
-  app.post('/users', async (req, res) => {
-    // Проверку на авторизацию или что-то похожее
+  app.post('/users', authenticatedRequest, async (req, res) => {
     try {
       const user = {
         userUid: req.body.userUid || '',
@@ -125,8 +124,7 @@ export function attachRoutes() {
     }
   });
 
-  app.delete('/posts/:postId', async (req, res) => {
-    // Проверку на авторизацию
+  app.delete('/posts/:postId', authenticatedRequest, async (req, res) => {
     try {
       const postId = req.params.postId || '';
       await db.collection('posts').doc(postId).delete();
@@ -137,8 +135,7 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/posts', async (req, res) => {
-    // Проверку на авторизацию
+  app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
       await db.collection('posts').add(req.body);
       res.sendStatus(201);
@@ -187,7 +184,7 @@ export function attachRoutes() {
   });
 
   app.put('/ratings', authenticatedRequest, async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+    // Проверка что это именно пользователь меняет
     // Проверка на валидность данных
     try {
       const docId = (req.body.docId || '') as string;
@@ -202,8 +199,8 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/ratings', async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+  app.post('/ratings', authenticatedRequest, async (req, res) => {
+    // Проверка что это именно пользователь добавляет
     // Проверка на валидность данных
     try {
       const postId = (req.body.postId || '') as string;
@@ -219,8 +216,7 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/comments', async (req, res) => {
-    // Проверка на авторизацию
+  app.post('/comments', authenticatedRequest, async (req, res) => {
     // Валидация данных
     // Мб какая-то ещё проверк, спам и т.п.
     try {
@@ -254,10 +250,11 @@ export function attachRoutes() {
   });
 
   app.put('/views/:postId/:userId', async (req, res) => {
-    // мб проверку на авторизацию
+    // мб проверку на валидность данных
     try {
-      const postId = req.params.postId || '';
-      const userId = req.params.userId || '';
+      const postId = req.params.postId;
+      const userId = req.params.userId;
+      if (!postId || !userId) throw new Error('Empty params');
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
       res.sendStatus(200);
