@@ -1,7 +1,6 @@
-import cors = require('cors');
+import * as cors from 'cors';
 import { app, attachRoutes } from './server';
 import { json } from 'express';
-
 // function errorHandler(req: any, res: any, next: () => void) {
 //   console.log('Time:', new Date());
 //   next();
@@ -9,7 +8,12 @@ import { json } from 'express';
 
 // app.use(errorHandler);
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
+
 attachRoutes();
 
 app.listen(3001);
