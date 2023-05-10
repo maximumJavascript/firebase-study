@@ -39,7 +39,7 @@ class UserService {
       const res = await fetch(`${baseUrl}/users/${uid}`);
       if (!res.ok) throw new Error(res.statusText);
       const json = await res.json();
-      return json.isUserExist;
+      return json;
     } catch (e) {
       throw e;
     }

@@ -2,18 +2,17 @@ import styles from './Author.module.css';
 import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { DateConverterService } from '../../../dateConverterService/DateConverterService';
-import { toJS } from 'mobx';
+
 class Author extends Component {
-  constructor() {
-    super();
-    this.state = { user: null };
-  }
+  state = { user: null };
+
   componentDidMount() {
     const user = userService.isUserExist(this.props.authorId);
     user.then((author) => this.setState({ user: author }));
   }
+
   render() {
-    if (this.state.user == null) return null;
+    if (!this.state.user) return null;
     const postDate = DateConverterService.convertDate(this.props.date);
     return (
       <div className={styles.postAuthor}>
