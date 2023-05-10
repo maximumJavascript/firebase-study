@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as cors from 'cors';
+import { json } from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
-import { baseOrigin } from './constants/api';
+import { baseOrigin, isProd } from './constants/api';
 import { admin } from './config';
 
 export const app = express();
@@ -267,9 +268,19 @@ export function attachRoutes() {
 }
 
 export function configureApp() {
+  if (isProd) {
+    app.use(
+      cors({
+        origin: baseOrigin,
+      })
+    );
+    return;
+  }
+
+  app.use(json());
   app.use(
     cors({
-      origin: baseOrigin,
+      origin: '*',
     })
   );
 }
