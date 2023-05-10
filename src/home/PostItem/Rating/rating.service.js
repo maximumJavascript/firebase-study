@@ -48,9 +48,11 @@ class RatingService {
 
   changeRating = async (docId, score) => {
     try {
+      const token = await auth.currentUser?.getIdToken();
       const res = await fetch(`${baseUrl}/ratings`, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + (token ? token : ''),
         },
         method: 'PUT',
         body: JSON.stringify({ docId, score }),

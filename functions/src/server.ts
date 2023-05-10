@@ -1,25 +1,28 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
-export const app = express();
 import { baseOrigin } from './constants/api';
+import { admin } from './config';
+
+export const app = express();
+
 // тестовая функция на проверку авторизации
-// function authenticatedRequest(req: any, res: any, next: any)  {
-//   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-//     res.status(403).send('Unauthorized');
-//     return;
-//   }
-//   const idToken = req.headers.authorization.split('Bearer ')[1];
-//   admin.auth().verifyIdToken(idToken)
-//     .then((claims) => {
-//       req.user = claims;
-//       return next();
-//     })
-//     .catch((error) => {
-//       console.error('Ошибка при проверке токена:', error);
-//       res.status(401).send('Не удалось аутентифицировать пользователя');
-//     });
-// }
+async function authenticatedRequest(req: any, res: any, next: any) {
+  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+    res.status(403).send('Unauthorized');
+    return;
+  }
+  try {
+    const idToken = req.headers.authorization.split('Bearer ')[1];
+    const claims = await admin.auth().verifyIdToken(idToken);
+    req.user = claims;
+    return next();
+  } catch (error: any) {
+    const statusText = 'Не удалось аутентифицировать пользователя';
+    res.status(401).send(statusText);
+  }
+}
 
 export function attachRoutes() {
   app.get('/echo', (req, res) => {
@@ -182,7 +185,7 @@ export function attachRoutes() {
     }
   });
 
-  app.put('/ratings', async (req, res) => {
+  app.put('/ratings', authenticatedRequest, async (req, res) => {
     // Проверка на авторизацию, или что это именно пользователь меняет
     // Проверка на валидность данных
     try {
@@ -261,4 +264,12 @@ export function attachRoutes() {
       res.status(500).send(error);
     }
   });
+}
+
+export function configureApp() {
+  app.use(
+    cors({
+      origin: baseOrigin,
+    })
+  );
 }
