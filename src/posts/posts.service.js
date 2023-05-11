@@ -1,9 +1,11 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
 import { auth } from '../firebase-config';
+import { FetchService } from '../fetchService/fetchService';
 
 class PostsService {
   data = [];
+  fetchService = new FetchService('/posts');
 
   constructor() {
     makeObservable(this, {
@@ -25,14 +27,20 @@ class PostsService {
   };
 
   getPosts = async () => {
-    const res = await fetch(`${baseUrl}/posts`);
-    if (!res.ok) throw new Error(res.statusText);
-    const data = await res.json();
+    const data = await this.fetchService.sendRequest();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,
       })));
     });
+    // const res = await fetch(`${baseUrl}/posts`);
+    // if (!res.ok) throw new Error(res.statusText);
+    // const data = await res.json();
+    // runInAction(() => {
+    //   return (this.data = data.map((doc) => ({
+    //     ...doc,
+    //   })));
+    // });
   };
 
   getSinglePost = async (id) => {
