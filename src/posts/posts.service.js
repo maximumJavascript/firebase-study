@@ -27,7 +27,7 @@ class PostsService {
   };
 
   getPosts = async () => {
-    const data = await this.fetchService.sendRequest();
+    const data = await this.fetchService.fetchRequest();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,

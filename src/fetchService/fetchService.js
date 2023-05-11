@@ -19,7 +19,7 @@ export class FetchService {
     }
   }
 
-  async sendRequest(
+  async fetchRequest(
     body,
     { requiredAuth, method, content_type, params, route } = {
       requiredAuth: false,
@@ -27,8 +27,8 @@ export class FetchService {
       params: {},
     }
   ) {
-    this.#requestService.createRequest(arguments);
-    const res = await fetch(this.#requestService.request);
+    const request = this.#requestService.createRequest(arguments);
+    const res = await fetch(request);
     FetchService.checkResponse(res);
     const result = await (res.headers.get('Content-Type').includes('application/json')
       ? res.json()

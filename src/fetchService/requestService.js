@@ -12,7 +12,6 @@ export class RequestService {
   constructor(basePathRoute) {
     // этакая защита
     this.basePathRoute = new URL(basePathRoute);
-    this.request = new Request(basePathRoute);
   }
 
   withUrlParams(params, route) {
@@ -54,6 +53,6 @@ export class RequestService {
     const headers = HeadersService.createHeaders(objHeaders);
     const objOptions = this.createObjOptions({ body, method }, headers);
     const url = this.withUrlParams(params, route);
-    this.request = new Request(url, objOptions);
+    return new Request(url, objOptions);
   }
 }
