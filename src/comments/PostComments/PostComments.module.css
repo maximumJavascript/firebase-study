@@ -1,15 +1,25 @@
 .commentsWrap {
   display: flex;
-  flex-direction: column;
-  row-gap: 60px;
+  column-gap: 60px;
+  margin: 0 auto;
+  padding-top: 25px;
 }
 
 .commentsPost {
   min-height: auto;
+  padding-top: 0;
 }
 
 .commentsList {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+}
+
+.commentsActionWrap {
+  display: flex;
+  row-gap: 30px;
+  margin: 0 auto;
+  flex-direction: column;
+  width: 100%;
 }
