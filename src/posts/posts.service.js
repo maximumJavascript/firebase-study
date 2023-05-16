@@ -27,20 +27,13 @@ class PostsService {
   };
 
   getPosts = async () => {
-    const data = await this.fetchService.fetchRequest();
+    const fetchEntity = this.fetchService.getFetchEntity();
+    const data = await fetchEntity.getFetchResult();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,
       })));
     });
-    // const res = await fetch(`${baseUrl}/posts`);
-    // if (!res.ok) throw new Error(res.statusText);
-    // const data = await res.json();
-    // runInAction(() => {
-    //   return (this.data = data.map((doc) => ({
-    //     ...doc,
-    //   })));
-    // });
   };
 
   getSinglePost = async (id) => {

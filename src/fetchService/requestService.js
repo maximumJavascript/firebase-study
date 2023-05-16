@@ -1,16 +1,8 @@
 import { HeadersService } from './headersService';
 import { auth } from '../firebase-config';
 
-/*
-  params = 
-  {
-    userId: 1234
-  }
-*/
-
 export class RequestService {
   constructor(basePathRoute) {
-    // этакая защита
     this.basePathRoute = new URL(basePathRoute);
   }
 
@@ -28,32 +20,32 @@ export class RequestService {
     return 'Bearer ' + auth.currentUser.getIdToken();
   }
 
-  createObjHeaders({ requiredAuth, content_type }) {
-    const objHeaders = {};
-    if (requiredAuth) objHeaders.Authorization = this.getAuthToken();
-    if (content_type) objHeaders['Content-Type'] = content_type;
-    return objHeaders;
+  createheadersObj({ requiredAuth, contentType }) {
+    const headersObj = {};
+    if (requiredAuth) headersObj.Authorization = this.getAuthToken();
+    if (contentType) headersObj['Content-Type'] = contentType;
+    return headersObj;
   }
 
-  createObjOptions({ body, method }, headers, signal) {
-    const objOptions = { headers, method };
-    if (method !== 'GET' && body) objOptions.body = body;
-    if (signal) objOptions.signal = signal;
-    return objOptions;
+  createoptionsObj({ body, method }, headers, signal) {
+    const optionsObj = { headers, method };
+    if (method !== 'GET' && body) optionsObj.body = body;
+    if (signal) optionsObj.signal = signal;
+    return optionsObj;
   }
 
   createRequest(
     body,
-    { requiredAuth, method, content_type, params, route, signal } = {
+    { requiredAuth, method, contentType, params, route, signal } = {
       requiredAuth: false,
       method: 'GET',
       params: {},
     }
   ) {
-    const objHeaders = this.createObjHeaders({ requiredAuth, content_type });
-    const headers = HeadersService.createHeaders(objHeaders);
-    const objOptions = this.createObjOptions({ body, method }, headers, signal);
+    const headersObj = this.createheadersObj({ requiredAuth, contentType });
+    const headers = HeadersService.createHeaders(headersObj);
+    const optionsObj = this.createoptionsObj({ body, method }, headers, signal);
     const url = this.withUrlParams(params, route);
-    return new Request(url, objOptions);
+    return new Request(url, optionsObj);
   }
 }

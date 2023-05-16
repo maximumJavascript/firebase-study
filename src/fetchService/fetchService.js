@@ -7,6 +7,8 @@ export class FetchService {
   constructor(route = '/') {
     const basePathRoute = new URL(baseUrl);
     basePathRoute.pathname = route;
+    // /users - route
+    // http://localhost:3001 - baseUrl
     // http://localhost:3001/users - пример basePathRoute
     this.#requestService = new RequestService(basePathRoute);
   }
@@ -19,9 +21,9 @@ export class FetchService {
     }
   }
 
-  async fetchRequest(
+  getFetchEntity(
     body,
-    { requiredAuth, method, content_type, params, route } = {
+    { requiredAuth, method, contentType, params, route } = {
       requiredAuth: false,
       method: 'GET',
       params: {},
@@ -32,25 +34,18 @@ export class FetchService {
       ...arguments,
       signal: abortController.signal,
     });
-    const fetchRequest = fetch(request);
-    const res = await fetchRequest;
-    FetchService.checkResponse(res);
-    const result = await (res.headers.get('Content-Type').includes('application/json')
-      ? res.json()
-      : res.text());
-    return result;
-    // return {
-    //   async getFetchResult() {
-    //     const res = await fetchRequest;
-    //     FetchService.checkResponse(res);
-    //     const result = await (res.headers.get('Content-Type').includes('application/json')
-    //       ? res.json()
-    //       : res.text());
-    //     return result;
-    //   },
-    //   abortFetch() {
-    //     abortController.abort();
-    //   },
-    // };
+    return {
+      async getFetchResult() {
+        const res = await fetch(request);
+        FetchService.checkResponse(res);
+        const result = await (res.headers.get('Content-Type').includes('application/json')
+          ? res.json()
+          : res.text());
+        return result;
+      },
+      abortFetch() {
+        abortController.abort();
+      },
+    };
   }
 }
