@@ -35,15 +35,16 @@ export class RequestService {
     return objHeaders;
   }
 
-  createObjOptions({ body, method }, headers) {
+  createObjOptions({ body, method }, headers, signal) {
     const objOptions = { headers, method };
     if (method !== 'GET' && body) objOptions.body = body;
+    if (signal) objOptions.signal = signal;
     return objOptions;
   }
 
   createRequest(
     body,
-    { requiredAuth, method, content_type, params, route } = {
+    { requiredAuth, method, content_type, params, route, signal } = {
       requiredAuth: false,
       method: 'GET',
       params: {},
@@ -51,7 +52,7 @@ export class RequestService {
   ) {
     const objHeaders = this.createObjHeaders({ requiredAuth, content_type });
     const headers = HeadersService.createHeaders(objHeaders);
-    const objOptions = this.createObjOptions({ body, method }, headers);
+    const objOptions = this.createObjOptions({ body, method }, headers, signal);
     const url = this.withUrlParams(params, route);
     return new Request(url, objOptions);
   }

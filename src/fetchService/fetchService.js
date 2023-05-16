@@ -27,12 +27,30 @@ export class FetchService {
       params: {},
     }
   ) {
-    const request = this.#requestService.createRequest(arguments);
-    const res = await fetch(request);
+    const abortController = new AbortController();
+    const request = this.#requestService.createRequest({
+      ...arguments,
+      signal: abortController.signal,
+    });
+    const fetchRequest = fetch(request);
+    const res = await fetchRequest;
     FetchService.checkResponse(res);
     const result = await (res.headers.get('Content-Type').includes('application/json')
       ? res.json()
       : res.text());
     return result;
+    // return {
+    //   async getFetchResult() {
+    //     const res = await fetchRequest;
+    //     FetchService.checkResponse(res);
+    //     const result = await (res.headers.get('Content-Type').includes('application/json')
+    //       ? res.json()
+    //       : res.text());
+    //     return result;
+    //   },
+    //   abortFetch() {
+    //     abortController.abort();
+    //   },
+    // };
   }
 }
