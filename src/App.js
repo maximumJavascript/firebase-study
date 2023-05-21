@@ -4,8 +4,8 @@ import CreatePost from './posts';
 import Home from './home';
 import Login from './auth';
 import NavBar from './header/MainNavbar/NavBar';
-import Comments from './comments/PostComments';
 import { ErrorBoundary } from './errorBoundary';
+import { HomeWithModalComments } from './comments/HomeWithModalComments';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comments/:id" element={<Comments />} />
+          <Route path="/comments/:id" element={<HomeWithModalComments />} />
           {/* <AnimalsDropdown /> */}
         </Routes>
       </ErrorBoundary>

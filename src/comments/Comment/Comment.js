@@ -3,7 +3,7 @@ import Author from '../../home/PostItem/Author';
 import styles from './Comment.module.css';
 import { ErrorBoundary } from '../../errorBoundary';
 
-class Comment extends Component {
+export class Comment extends Component {
   render() {
     return (
       <ErrorBoundary slotError={true}>
@@ -18,5 +18,3 @@ class Comment extends Component {
     );
   }
 }
-
-export { Comment };
