@@ -1,5 +1,5 @@
 import Home from '../../home/home';
-import { ModalComments } from '../ModalComments/ModalComments';
+import { ModalComments } from '../ModalComments';
 
 export function HomeWithModalComments() {
   return (
