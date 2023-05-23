@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Modal } from '../../modal';
-import { PostComments } from '../PostComments/PostComments';
+import { PostComments } from '../PostComments';
 import { ModalCloseButton } from '../../modal/ModalCloseButton';
 import { useNavigate } from 'react-router-dom';
 import styles from './ModalComments.module.css';

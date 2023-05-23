@@ -3,7 +3,7 @@ import { userService } from '../../../usersService/UserService';
 import { Component } from 'react';
 import { DateConverterService } from '../../../dateConverterService/DateConverterService';
 
-class Author extends Component {
+export class Author extends Component {
   state = { user: null };
 
   componentDidMount() {
@@ -31,5 +31,3 @@ class Author extends Component {
     );
   }
 }
-
-export { Author };

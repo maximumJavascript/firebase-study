@@ -1,16 +1,16 @@
 import SvgNext from '../../assets/icons/SvgNext';
-import Author from './Author';
-import Views from './Views';
+import { Author } from './Author';
+import { Views } from './Views';
 import { Rating } from './Rating/Rating';
 import styles from './PostItem.module.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
-import CommentLoginButton from '../../controls/CommentLoginButton/CommentLoginButton';
+import { CommentLoginButton } from '../../controls/CommentLoginButton/CommentLoginButton';
 import { animated, Spring } from '@react-spring/web';
 
-class PostItem extends React.Component {
+export class PostItem extends React.Component {
   ref = React.createRef();
 
   constructor(props) {
@@ -73,5 +73,3 @@ class PostItem extends React.Component {
     );
   }
 }
-
-export default PostItem;

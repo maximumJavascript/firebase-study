@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styles from './textArea.module.css';
 
-export default class TextArea extends Component {
+export class TextArea extends Component {
   render() {
     const className = this.props.className ? this.props.className : '';
     return (

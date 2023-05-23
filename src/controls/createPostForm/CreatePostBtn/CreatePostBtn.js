@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './createPostBtn.module.css';
-class CreatePostBtn extends React.Component {
+
+export class CreatePostBtn extends React.Component {
   render() {
     const className = this.props.className ? this.props.className : '';
     return (
@@ -10,5 +11,3 @@ class CreatePostBtn extends React.Component {
     );
   }
 }
-
-export default CreatePostBtn;

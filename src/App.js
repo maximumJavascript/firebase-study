@@ -1,14 +1,14 @@
 import './App.css';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import CreatePost from './posts';
-import Home from './home';
-import Login from './auth';
-import NavBar from './header/MainNavbar/NavBar';
+import { CreatePost } from './posts';
+import { Home } from './home';
+import { Login } from './auth';
+import { NavBar } from './header/MainNavbar/NavBar';
 import { ErrorBoundary } from './errorBoundary';
 import { HomeWithModalComments } from './comments/HomeWithModalComments';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
-function App() {
+export function App() {
   const optionsList = [
     { id: 1, value: 'Dog', label: 'Dog' },
     { id: 2, value: 'Cat', label: 'Cat' },
@@ -30,5 +30,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

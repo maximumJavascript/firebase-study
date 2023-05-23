@@ -3,11 +3,11 @@ import { observer } from 'mobx-react';
 import { authService } from '../auth/auth.service';
 import { createPostService } from './createPost.service';
 import { Navigate } from 'react-router-dom';
-import TextArea from '../controls/createPostForm/TextArea/TextArea';
-import TitleInput from '../controls/createPostForm/TitleInput/TitleInput';
-import CreatePostBtn from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
+import { TextArea } from '../controls/createPostForm/TextArea/TextArea';
+import { TitleInput } from '../controls/createPostForm/TitleInput/TitleInput';
+import { CreatePostBtn } from '../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './createPost.module.css';
-import PhotoUploader from '../photoUploader/PhotoUploader';
+import { PhotoUploader } from '../photoUploader/PhotoUploader';
 import { Timestamp } from 'firebase/firestore';
 
 export const CreatePost = observer(

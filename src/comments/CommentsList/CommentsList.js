@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import { Comment } from '../Comment/Comment';
+import { Comment } from '../Comment';
 import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
+import { ErrorBoundary } from '../../errorBoundary';
 
 const CommentsList = observer(
   class CommentsList extends Component {
@@ -15,9 +16,11 @@ const CommentsList = observer(
       if (!commentList.comments || !this.props.postId) return null;
       return (
         <>
-          {commentList.comments.map((comment) => (
-            <Comment key={comment.id} data={comment} />
-          ))}
+          <ErrorBoundary>
+            {commentList.comments.map((comment) => (
+              <Comment key={comment.id} data={comment} />
+            ))}
+          </ErrorBoundary>
         </>
       );
     }

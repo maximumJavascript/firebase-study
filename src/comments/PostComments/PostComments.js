@@ -1,16 +1,15 @@
 import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { commentsService } from './postComments.service';
-import { matchPath } from 'react-router-dom';
-import PostItem from '../../home/PostItem';
+import { PostItem } from '../../home/PostItem';
 import navStyles from '../../header/Navbar.module.css';
-import CommentsList from '../CommentsList';
-import CreateComment from '../CreateComment';
+import { CommentsList } from '../CommentsList';
+import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
 import homeStyles from '../../home/home.module.css';
 import classNames from 'classnames';
 
-const PostComments = observer(
+export const PostComments = observer(
   class PostComments extends Component {
     constructor(props) {
       super(props);
@@ -46,5 +45,3 @@ const PostComments = observer(
     }
   }
 );
-
-export { PostComments };

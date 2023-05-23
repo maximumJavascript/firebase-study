@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styles from './titleInput.module.css';
 
-export default class TitleInput extends Component {
+export class TitleInput extends Component {
   render() {
     return (
       <div className={styles.inputTitleContainer}>

@@ -23,5 +23,4 @@ class StorageService {
 
   getUserIdFromStorage = () => window.localStorage.getItem('userId');
 }
-const storageService = new StorageService();
-export default storageService;
+export const storageService = new StorageService();

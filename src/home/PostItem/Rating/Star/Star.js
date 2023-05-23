@@ -5,7 +5,7 @@ import { StarIcon } from '../../../../assets/icons/StarIcon';
 import styles from './Star.module.css';
 import classNames from 'classnames';
 
-const Star = observer(
+export const Star = observer(
   class Star extends Component {
     handleMouseEnter = (e) => {
       this.rect = e.target.getBoundingClientRect();
@@ -59,5 +59,3 @@ const Star = observer(
     }
   }
 );
-
-export { Star };

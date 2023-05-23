@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { ReactComponent as CloseIcon } from '../../assets/icons/CloseIcon.svg';
 import styles from './ModalCloseButton.module.css';
 
