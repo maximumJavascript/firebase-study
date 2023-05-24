@@ -5,7 +5,6 @@ import { Home } from './home';
 import { Login } from './auth';
 import { NavBar } from './header/MainNavbar/NavBar';
 import { ErrorBoundary } from './errorBoundary';
-import { HomeWithModalComments } from './comments/HomeWithModalComments';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 export function App() {
@@ -23,7 +22,7 @@ export function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comments/:id" element={<HomeWithModalComments />} />
+          <Route path="/comments/:id" element={<Home withComments={true} />} />
           {/* <AnimalsDropdown /> */}
         </Routes>
       </ErrorBoundary>
