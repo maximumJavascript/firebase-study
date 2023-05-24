@@ -19,6 +19,7 @@
   display: flex;
   row-gap: 30px;
   margin: 0 auto;
+  margin-bottom: auto;
   flex-direction: column;
   width: 100%;
   background-color: #fff;

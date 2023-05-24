@@ -3,6 +3,7 @@ import { Comment } from '../Comment';
 import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
 import { ErrorBoundary } from '../../errorBoundary';
+import { MessageEmptyComments } from './MessageEmptyComments';
 
 const CommentsList = observer(
   class CommentsList extends Component {
@@ -14,12 +15,13 @@ const CommentsList = observer(
       const commentList = commentsListService.comments;
       if (commentList.postId !== this.props.postId) return null;
       if (!commentList.comments || !this.props.postId) return null;
+      const comments = commentList.comments.map((comment) => (
+        <Comment key={comment.id} data={comment} />
+      ));
       return (
         <>
           <ErrorBoundary>
-            {commentList.comments.map((comment) => (
-              <Comment key={comment.id} data={comment} />
-            ))}
+            {comments.length ? comments : <MessageEmptyComments />}
           </ErrorBoundary>
         </>
       );
