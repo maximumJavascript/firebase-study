@@ -6,7 +6,6 @@ import navStyles from '../../header/Navbar.module.css';
 import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
-import homeStyles from '../../home/home.module.css';
 import classNames from 'classnames';
 
 export const PostComments = observer(
@@ -26,7 +25,7 @@ export const PostComments = observer(
       const postStyles = classNames(navStyles.navbarContainer, styles.commentsWrap);
       return (
         <div className={postStyles}>
-          <div className={`${homeStyles.homePage} ${styles.commentsPost}`}>
+          <div className={styles.commentsPost}>
             <PostItem
               post={post}
               isComments={true}

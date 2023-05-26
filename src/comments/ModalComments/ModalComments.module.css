@@ -5,13 +5,11 @@
   width: 100%;
   height: 100%;
   background-color: rgba(109, 128, 128, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-top: 10%;
 }
 
 .modalCommentsWrapper {
   width: 100%;
-  padding: 20px;
+  padding: 20px 7%;
   border-radius: 4px;
 }

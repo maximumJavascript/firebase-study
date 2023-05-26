@@ -1,12 +1,15 @@
 .commentsWrap {
   display: flex;
   column-gap: 60px;
+  row-gap: 50px;
   margin: 0 auto;
 }
 
 .commentsPost {
   min-height: auto;
   padding-top: 0;
+  flex-grow: 1;
+  width: 100%;
 }
 
 .commentsList {
@@ -18,11 +21,11 @@
 .commentsActionWrap {
   display: flex;
   row-gap: 30px;
-  margin: 0 auto;
   margin-bottom: auto;
   flex-direction: column;
-  width: 100%;
   background-color: #fff;
   padding: 15px;
   border-radius: 15px;
+  flex-grow: 1;
+  width: 100%;
 }
