@@ -28,7 +28,7 @@ export const PostComments = observer(
           <div className={styles.commentsPost}>
             <PostItem
               post={post}
-              isComments={true}
+              withComments={true}
               viewCounter={post.viewedBy?.length}
               date={post.date.seconds}
             />

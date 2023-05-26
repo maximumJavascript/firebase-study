@@ -4,6 +4,7 @@ import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
 import { ErrorBoundary } from '../../errorBoundary';
 import { MessageEmptyComments } from './MessageEmptyComments';
+import { CommentSkeleton } from '../../skeletons/CommentSkeleton';
 
 const CommentsList = observer(
   class CommentsList extends Component {
@@ -16,7 +17,7 @@ const CommentsList = observer(
       if (commentList.postId !== this.props.postId) return null;
       if (!commentList.comments || !this.props.postId) return null;
       const comments = commentList.comments.map((comment) => (
-        <Comment key={comment.id} data={comment} />
+        <CommentSkeleton key={comment.id} data={comment} />
       ));
       return (
         <>

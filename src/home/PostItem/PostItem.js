@@ -35,7 +35,7 @@ export class PostItem extends React.Component {
 
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
-    if (!this.props.isComments) {
+    if (!this.props.withComments) {
       title = this.shortTextWithDots(title, MAX_TITLE_LENGTH);
       text = this.shortTextWithDots(text, MAX_DESCRIPTION_LENGTH);
     }
@@ -70,7 +70,7 @@ export class PostItem extends React.Component {
                 <Author date={props.date} authorId={props.post.author.id} />
                 <Views postId={props.post.id} viewCounter={props.viewCounter} />
                 <Rating postId={props.post.id} />
-                {!props.isComments && (
+                {!props.withComments && (
                   <Link to={`/comments/${props.post.id}`}>
                     <div className={styles.postShowMore}>
                       <SvgNext />
