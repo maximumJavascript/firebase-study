@@ -1,11 +1,10 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
 import { auth } from '../firebase-config';
-import { FetchService } from '../fetchService/fetchService';
+import { FetchStore } from '../fetchService';
 
 class PostsService {
   data = [];
-  fetchService = new FetchService('/posts');
 
   constructor() {
     makeObservable(this, {
@@ -27,8 +26,8 @@ class PostsService {
   };
 
   getPosts = async () => {
-    const fetchEntity = this.fetchService.getFetchEntity();
-    const data = await fetchEntity.getFetchResult();
+    const fetchClient = new FetchStore({ route: '/posts' });
+    const data = await fetchClient.sendRequest();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,
