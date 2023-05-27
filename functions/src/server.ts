@@ -1,31 +1,37 @@
 import * as express from 'express';
+import * as cors from 'cors';
+import { json } from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
+import { baseOrigin, isProd } from './constants/api';
+import { admin } from './config';
+
 export const app = express();
 
-// тестовая функция на проверку авторизации
-// function authenticatedRequest(req: any, res: any, next: any)  {
-//   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-//     res.status(403).send('Unauthorized');
-//     return;
-//   }
-//   const idToken = req.headers.authorization.split('Bearer ')[1];
-//   admin.auth().verifyIdToken(idToken)
-//     .then((claims) => {
-//       req.user = claims;
-//       return next();
-//     })
-//     .catch((error) => {
-//       console.error('Ошибка при проверке токена:', error);
-//       res.status(401).send('Не удалось аутентифицировать пользователя');
-//     });
-// }
+// функция на проверку авторизации
+async function authenticatedRequest(req: any, res: any, next: any) {
+  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+    res.status(403).send('Unauthorized');
+    return;
+  }
+  try {
+    const idToken = req.headers.authorization.split('Bearer ')[1];
+    const claims = await admin.auth().verifyIdToken(idToken);
+    req.user = claims;
+    return next();
+  } catch (error: any) {
+    const statusText = 'Не удалось аутентифицировать пользователя';
+    res.status(401).send(statusText);
+  }
+}
 
 export function attachRoutes() {
-  app.get('/echo', (req, res) => res.status(200).send('Hey there!'));
+  app.get('/echo', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'https://maximumjavascript.github.io');
+    res.status(200).send(`${baseOrigin} 28`);
+  });
 
   app.get('/aboba', (req, res) => {
-    console.log(req.headers);
     const comments = db.collection('comments');
     void comments
       .count()
@@ -49,20 +55,19 @@ export function attachRoutes() {
       });
   });
 
-  app.get('/users', async (req, res) => {
-    try {
-      const collectionRef = db.collection('users');
-      const snapshot = await collectionRef.get();
-      const users = snapshot.docs.map((doc) => doc.data());
-      res.status(200).json(users);
-    } catch (error: any) {
-      res.statusMessage = error.message;
-      res.sendStatus(500);
-    }
-  });
+  // app.get('/users', async (req, res) => {
+  //   try {
+  //     const collectionRef = db.collection('users');
+  //     const snapshot = await collectionRef.get();
+  //     const users = snapshot.docs.map((doc) => doc.data());
+  //     res.status(200).json(users);
+  //   } catch (error: any) {
+  //     res.statusMessage = error.message;
+  //     res.status(500).send(error);
+  //   }
+  // });
 
-  app.post('/users', async (req, res) => {
-    // Проверку на авторизацию или что-то похожее
+  app.post('/users', authenticatedRequest, async (req, res) => {
     try {
       const user = {
         userUid: req.body.userUid || '',
@@ -74,7 +79,7 @@ export function attachRoutes() {
       res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error.message);
     }
   });
 
@@ -86,7 +91,7 @@ export function attachRoutes() {
       res.status(200).json(userData);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -101,7 +106,7 @@ export function attachRoutes() {
       res.status(200).send(posts);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -115,12 +120,11 @@ export function attachRoutes() {
       res.status(200).json(data);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
-  app.delete('/posts/:postId', async (req, res) => {
-    // Проверку на авторизацию
+  app.delete('/posts/:postId', authenticatedRequest, async (req, res) => {
     try {
       const postId = req.params.postId || '';
       await db.collection('posts').doc(postId).delete();
@@ -131,8 +135,7 @@ export function attachRoutes() {
     }
   });
 
-  app.post('/posts', async (req, res) => {
-    // Проверку на авторизацию
+  app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
       await db.collection('posts').add(req.body);
       res.sendStatus(201);
@@ -154,7 +157,7 @@ export function attachRoutes() {
       res.status(200).json({ ratings });
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
@@ -176,12 +179,12 @@ export function attachRoutes() {
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
-  app.put('/ratings', async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+  app.put('/ratings', authenticatedRequest, async (req, res) => {
+    // Проверка что это именно пользователь меняет
     // Проверка на валидность данных
     try {
       const docId = (req.body.docId || '') as string;
@@ -192,12 +195,12 @@ export function attachRoutes() {
       res.sendStatus(200);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
-  app.post('/ratings', async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+  app.post('/ratings', authenticatedRequest, async (req, res) => {
+    // Проверка что это именно пользователь добавляет
     // Проверка на валидность данных
     try {
       const postId = (req.body.postId || '') as string;
@@ -209,12 +212,11 @@ export function attachRoutes() {
       res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
-      res.sendStatus(500);
+      res.status(500).send(error);
     }
   });
 
-  app.post('/comments', async (req, res) => {
-    // Проверка на авторизацию
+  app.post('/comments', authenticatedRequest, async (req, res) => {
     // Валидация данных
     // Мб какая-то ещё проверк, спам и т.п.
     try {
@@ -248,10 +250,11 @@ export function attachRoutes() {
   });
 
   app.put('/views/:postId/:userId', async (req, res) => {
-    // мб проверку на авторизацию
+    // мб проверку на валидность данных
     try {
-      const postId = req.params.postId || '';
-      const userId = req.params.userId || '';
+      const postId = req.params.postId;
+      const userId = req.params.userId;
+      if (!postId || !userId) throw new Error('Empty params');
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
       res.sendStatus(200);
@@ -259,4 +262,22 @@ export function attachRoutes() {
       res.status(500).send(error);
     }
   });
+}
+
+export function configureApp() {
+  if (isProd) {
+    app.use(
+      cors({
+        origin: baseOrigin,
+      })
+    );
+    return;
+  }
+
+  app.use(json());
+  app.use(
+    cors({
+      origin: '*',
+    })
+  );
 }

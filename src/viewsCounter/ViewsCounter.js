@@ -16,16 +16,13 @@ class ViewsCounter {
   }
 
   updateInfo = async (postID) => {
-    const userId = auth.currentUser?.uid || '';
-    try {
-      const res = await fetch(`${baseUrl}/views/${postID}/$${userId}`, {
-        method: 'PUT',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      return true;
-    } catch (e) {
-      throw e;
-    }
+    if (!auth.currentUser) return false;
+    const userId = auth.currentUser.uid;
+    const res = await fetch(`${baseUrl}/views/${postID}/${userId}`, {
+      method: 'PUT',
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    return true;
   };
 
   consolidateInfo = (elements) => {
