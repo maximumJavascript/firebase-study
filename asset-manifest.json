@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/firebase-study/static/css/main.4c60809f.css",
-    "main.js": "/firebase-study/static/js/main.3d61cff5.js",
+    "main.css": "/firebase-study/static/css/main.084ef520.css",
+    "main.js": "/firebase-study/static/js/main.4309a950.js",
     "index.html": "/firebase-study/index.html",
-    "main.4c60809f.css.map": "/firebase-study/static/css/main.4c60809f.css.map",
-    "main.3d61cff5.js.map": "/firebase-study/static/js/main.3d61cff5.js.map"
+    "main.084ef520.css.map": "/firebase-study/static/css/main.084ef520.css.map",
+    "main.4309a950.js.map": "/firebase-study/static/js/main.4309a950.js.map"
   },
   "entrypoints": [
-    "static/css/main.4c60809f.css",
-    "static/js/main.3d61cff5.js"
+    "static/css/main.084ef520.css",
+    "static/js/main.4309a950.js"
   ]
 }
