@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
 import { auth } from '../firebase-config';
+import { FetchStore } from '../fetchService';
 
 class PostsService {
   data = [];
@@ -25,9 +26,8 @@ class PostsService {
   };
 
   getPosts = async () => {
-    const res = await fetch(`${baseUrl}/posts`);
-    if (!res.ok) throw new Error(res.statusText);
-    const data = await res.json();
+    const fetchClient = new FetchStore({ route: '/posts' });
+    const data = await fetchClient.sendRequest();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,

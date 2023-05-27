@@ -11,7 +11,7 @@ export const app = express();
 // функция на проверку авторизации
 async function authenticatedRequest(req: any, res: any, next: any) {
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-    res.status(403).send('Unauthorized');
+    res.status(403).json({ error: true, message: 'Unauthorized' });
     return;
   }
   try {
@@ -21,7 +21,7 @@ async function authenticatedRequest(req: any, res: any, next: any) {
     return next();
   } catch (error: any) {
     const statusText = 'Не удалось аутентифицировать пользователя';
-    res.status(401).send(statusText);
+    res.status(401).json(statusText);
   }
 }
 
@@ -62,8 +62,8 @@ export function attachRoutes() {
   //     const users = snapshot.docs.map((doc) => doc.data());
   //     res.status(200).json(users);
   //   } catch (error: any) {
-  //     res.statusMessage = error.message;
-  //     res.status(500).send(error);
+  //
+  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error});
   //   }
   // });
 
@@ -78,8 +78,9 @@ export function attachRoutes() {
       await db.collection('users').doc(req.body.userUid).set(user);
       res.sendStatus(201);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error.message);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -90,8 +91,9 @@ export function attachRoutes() {
       const userData = doc.data() || null;
       res.status(200).json(userData);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -105,8 +107,9 @@ export function attachRoutes() {
       }));
       res.status(200).send(posts);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -119,8 +122,9 @@ export function attachRoutes() {
       const data = foundPost.data();
       res.status(200).json(data);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -130,8 +134,9 @@ export function attachRoutes() {
       await db.collection('posts').doc(postId).delete();
       res.sendStatus(204);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -140,8 +145,9 @@ export function attachRoutes() {
       await db.collection('posts').add(req.body);
       res.sendStatus(201);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -156,8 +162,9 @@ export function attachRoutes() {
       }));
       res.status(200).json({ ratings });
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -178,8 +185,9 @@ export function attachRoutes() {
       const doc = querySnapshot.docs[0];
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -194,8 +202,9 @@ export function attachRoutes() {
       await db.collection('ratings').doc(docId).update({ score });
       res.sendStatus(200);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -211,8 +220,9 @@ export function attachRoutes() {
       await db.collection('ratings').add({ postId, userId, score });
       res.sendStatus(201);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -232,7 +242,9 @@ export function attachRoutes() {
       res.status(201).json(doc.data());
     } catch (error) {
       console.log(error);
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -245,7 +257,9 @@ export function attachRoutes() {
       const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       res.status(200).json(comments);
     } catch (error) {
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -259,7 +273,9 @@ export function attachRoutes() {
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
       res.sendStatus(200);
     } catch (error) {
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 }
