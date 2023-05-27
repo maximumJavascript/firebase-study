@@ -66,7 +66,13 @@ export function attachRoutes() {
   app.post('/users', async (req, res) => {
     // Проверку на авторизацию или что-то похожее
     try {
-      await db.collection('users').doc(req.body.uid).set(req.body);
+      const user = {
+        userUid: req.body.userUid || '',
+        userName: req.body.userName || '',
+        userPhoto: req.body.userPhoto || '',
+        userEmail: req.body.userEmail || '',
+      };
+      await db.collection('users').doc(req.body.userUid).set(user);
       res.sendStatus(201);
     } catch (error: any) {
       res.statusMessage = error.message;
@@ -78,8 +84,8 @@ export function attachRoutes() {
     try {
       const uid = req.params.uid as string;
       const doc = await db.collection('users').doc(uid).get();
-      const isUserExist = doc.exists;
-      res.status(200).json({ isUserExist });
+      const userData = doc.data() || null;
+      res.status(200).json(userData);
     } catch (error: any) {
       res.statusMessage = error.message;
       res.status(500).send(error);
@@ -236,7 +242,7 @@ export function attachRoutes() {
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
-      const comments = querySnapshot.docs.map((doc) => doc.data());
+      const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       res.status(200).json(comments);
     } catch (error) {
       res.status(500).send(error);
