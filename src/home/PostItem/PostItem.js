@@ -27,7 +27,7 @@ export class PostItem extends React.Component {
 
   shortTextWithDots(text, maxLength) {
     if (text.length > maxLength) {
-      text.length = 500;
+      text.length = maxLength;
       text += '...';
     }
     return text;
