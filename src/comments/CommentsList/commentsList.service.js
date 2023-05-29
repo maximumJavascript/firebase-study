@@ -3,13 +3,12 @@ import { FetchStore } from '../../fetchService';
 import { userService } from '../../usersService/UserService';
 
 class CommentsListService {
-  #delayTimeout;
-  #delayMS = 500;
   #route = '/comments';
   postId = '';
   offset = 0;
   limit = 3;
   comments = [];
+  signal;
 
   constructor() {
     makeObservable(this, {
@@ -18,11 +17,14 @@ class CommentsListService {
   }
 
   resetCommentsList() {
-    clearTimeout(this.#delayTimeout);
     this.postId = '';
     this.offset = 0;
     this.limit = 3;
-    this.comments = [];
+    this.abortController.abort();
+    runInAction(() => {
+      this.comments = [];
+    });
+    console.log(this.comments);
   }
 
   addEmptyComments() {
@@ -38,12 +40,6 @@ class CommentsListService {
   removeEmptyComments() {
     runInAction(
       () => (this.comments = this.comments.filter((comment) => !comment.isLoading))
-    );
-  }
-
-  async waitMinDelay() {
-    await new Promise(
-      (res) => (this.#delayTimeout = setTimeout(() => res(), this.#delayMS))
     );
   }
 
@@ -70,10 +66,10 @@ class CommentsListService {
         limit: this.limit,
       },
     });
-    const fetchedComments = await fetchClient.sendRequest();
+    this.abortController = fetchClient.abortController;
+    const fetchedComments = await fetchClient.sendRequest({ requiredMinDelay });
     fetchedComments.forEach((v) => (v.isLoading = false));
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(fetchedComments);
-    if (requiredMinDelay) await this.waitMinDelay();
     this.removeEmptyComments();
     runInAction(() => this.comments.push(...commentsWithAuthorInfo));
   };

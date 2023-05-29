@@ -4,10 +4,12 @@ import { STATUS_LOADING, STATUS_READY } from '../constants/fetch';
 
 export class FetchStore {
   #requestService;
-  #abortController = new AbortController();
+  #delayMS = 500;
+  #delayTimeout;
 
   status = STATUS_READY;
-  signal = this.#abortController.signal;
+  abortController = new AbortController();
+  signal = this.abortController.signal;
 
   constructor({
     body,
@@ -38,12 +40,19 @@ export class FetchStore {
     }
   }
 
-  async sendRequest() {
+  async waitMinDelay(fetchStartTime = Date.now()) {
+    const timeLeft = this.#delayMS - (Date.now() - fetchStartTime);
+    await new Promise((res) => (this.#delayTimeout = setTimeout(() => res(), timeLeft)));
+  }
+
+  async sendRequest({ requiredMinDelay = false } = {}) {
     this.status = STATUS_LOADING;
+    const fetchStartTime = Date.now();
     const request = this.#requestService.createRequest(this.body, this.options);
     const response = await fetch(request);
     await FetchStore.checkResponse(response);
     const result = await response.json();
+    if (requiredMinDelay) await this.waitMinDelay(fetchStartTime);
     this.status = STATUS_READY;
     return result;
   }

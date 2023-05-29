@@ -17,8 +17,8 @@ const CommentsList = observer(
     }
 
     render() {
-      const commentList = commentsListService.comments;
       if (!this.props.postId) return null;
+      const commentList = commentsListService.comments;
       const comments = commentList.map((comment) => (
         <Comment key={comment.id} commentData={comment} />
       ));

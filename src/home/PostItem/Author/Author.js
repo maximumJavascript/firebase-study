@@ -6,9 +6,10 @@ import { DateConverterService } from '../../../dateConverterService/DateConverte
 export class Author extends Component {
   state = { user: null };
 
-  componentDidMount() {
-    const user = userService.getSingleUser(this.props.authorId);
-    user.then((author) => this.setState({ user: author }));
+  async componentDidMount() {
+    const { authorInfo, authorId } = this.props;
+    const user = authorInfo ?? (await userService.getSingleUser(authorId));
+    this.setState({ user });
   }
 
   render() {
