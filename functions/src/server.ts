@@ -248,9 +248,11 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/comments/:postId', async (req, res) => {
+  app.get('/comments/:postId/:offset/:limit', async (req, res) => {
     try {
       const postId = req.params.postId || '';
+      // const offset = req.params.offset || '';
+      // const limit = req.params.limit || '';
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();

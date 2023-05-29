@@ -4,11 +4,16 @@ import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
 import { ErrorBoundary } from '../../errorBoundary';
 import { MessageEmptyComments } from './MessageEmptyComments';
+import { toJS } from 'mobx';
 
 const CommentsList = observer(
   class CommentsList extends Component {
     componentDidMount() {
-      void commentsListService.getComments(this.props.postId);
+      void commentsListService.getComments(this.props.postId, true);
+    }
+
+    componentWillUnmount() {
+      void commentsListService.resetCommentsList();
     }
 
     render() {

@@ -32,8 +32,8 @@ class UserService {
     return (this.data = data);
   };
 
-  isUserExist = async (uid) => {
-    // сначала проверку на uid? или можно оставить на сервере?
+  getSingleUser = async (uid) => {
+    if (!uid) throw new Error('Пустой uid!');
     const res = await fetch(`${baseUrl}/users/${uid}`);
     if (!res.ok) throw new Error(res.statusText);
     const json = await res.json();

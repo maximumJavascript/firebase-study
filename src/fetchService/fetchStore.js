@@ -33,7 +33,7 @@ export class FetchStore {
 
   static async checkResponse(res) {
     if (!res.ok) {
-      const status = await res.json();
+      const status = await (res.status === 404 ? res.statusText : res.json());
       throw new Error(status);
     }
   }
@@ -42,7 +42,7 @@ export class FetchStore {
     this.status = STATUS_LOADING;
     const request = this.#requestService.createRequest(this.body, this.options);
     const response = await fetch(request);
-    FetchStore.checkResponse(response);
+    await FetchStore.checkResponse(response);
     const result = await response.json();
     this.status = STATUS_READY;
     return result;

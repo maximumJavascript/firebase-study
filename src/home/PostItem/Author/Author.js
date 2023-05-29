@@ -7,7 +7,7 @@ export class Author extends Component {
   state = { user: null };
 
   componentDidMount() {
-    const user = userService.isUserExist(this.props.authorId);
+    const user = userService.getSingleUser(this.props.authorId);
     user.then((author) => this.setState({ user: author }));
   }
 
