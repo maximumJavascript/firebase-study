@@ -13,7 +13,7 @@ const CommentsList = observer(
     }
 
     componentWillUnmount() {
-      void commentsListService.resetCommentsList();
+      void commentsListService.resetCommentsListService();
     }
 
     render() {

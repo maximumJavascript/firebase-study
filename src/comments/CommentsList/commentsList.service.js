@@ -3,7 +3,7 @@ import { FetchStore } from '../../fetchService';
 import { userService } from '../../usersService/UserService';
 
 class CommentsListService {
-  #route = '/comments';
+  route = '/comments';
   postId = '';
   offset = 0;
   limit = 3;
@@ -16,7 +16,7 @@ class CommentsListService {
     });
   }
 
-  resetCommentsList() {
+  resetCommentsListService() {
     this.postId = '';
     this.offset = 0;
     this.limit = 3;
@@ -24,7 +24,6 @@ class CommentsListService {
     runInAction(() => {
       this.comments = [];
     });
-    console.log(this.comments);
   }
 
   addEmptyComments() {
@@ -46,7 +45,7 @@ class CommentsListService {
   async getAuthorCommentsInfo(comments = []) {
     const copyComments = [...comments];
     const authorInfoPromises = copyComments.map((comment) =>
-      userService.getSingleUser(comment.authorId)
+      userService.getSingleUser(comment.authorId, false, this.abortController.signal)
     );
     const authorInfoResults = await Promise.all(authorInfoPromises);
     copyComments.forEach((comment, i) => {
@@ -55,11 +54,12 @@ class CommentsListService {
     return copyComments;
   }
 
-  getComments = async (postId, requiredMinDelay, cbAbort) => {
+  async getComments(postId, requiredMinDelay, signal) {
     this.postId = postId;
     this.addEmptyComments();
     const fetchClient = new FetchStore({
-      route: this.#route,
+      route: this.route,
+      signal,
       params: {
         postId,
         offset: this.offset,
@@ -67,12 +67,14 @@ class CommentsListService {
       },
     });
     this.abortController = fetchClient.abortController;
+    const copySignal = this.abortController.signal;
     const fetchedComments = await fetchClient.sendRequest({ requiredMinDelay });
     fetchedComments.forEach((v) => (v.isLoading = false));
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(fetchedComments);
+    if (copySignal.aborted) throw new Error('Aborted lol');
     this.removeEmptyComments();
     runInAction(() => this.comments.push(...commentsWithAuthorInfo));
-  };
+  }
 }
 
 export const commentsListService = new CommentsListService();

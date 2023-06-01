@@ -7,7 +7,6 @@ export class FetchStore {
   #delayMS = 500;
   #delayTimeout;
 
-  status = STATUS_READY;
   abortController = new AbortController();
   signal = this.abortController.signal;
 
@@ -18,6 +17,7 @@ export class FetchStore {
     method = 'GET',
     params = {},
     contentType,
+    signal,
   } = {}) {
     this.body = body;
     this.options = {
@@ -26,7 +26,7 @@ export class FetchStore {
       contentType,
       params,
       route,
-      signal: this.signal,
+      signal: signal ? signal : this.signal,
     };
     const basePathRoute = new URL(baseUrl);
     basePathRoute.pathname = route;
@@ -46,14 +46,13 @@ export class FetchStore {
   }
 
   async sendRequest({ requiredMinDelay = false } = {}) {
-    this.status = STATUS_LOADING;
     const fetchStartTime = Date.now();
     const request = this.#requestService.createRequest(this.body, this.options);
     const response = await fetch(request);
     await FetchStore.checkResponse(response);
     const result = await response.json();
     if (requiredMinDelay) await this.waitMinDelay(fetchStartTime);
-    this.status = STATUS_READY;
+    if (this.signal.aborted) throw new Error('Aborted');
     return result;
   }
 }

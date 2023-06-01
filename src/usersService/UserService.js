@@ -1,14 +1,19 @@
 import { makeObservable, observable } from 'mobx';
 import { baseUrl } from '../constants/api';
 import { auth } from '../firebase-config';
+import { FetchStore } from '../fetchService';
 
 class UserService {
   data = [];
+  route = '/users';
+
   constructor() {
     makeObservable(this, {
       data: observable,
     });
   }
+
+  resetUserService() {}
 
   handleAddUsers = async (user) => {
     if (!auth.currentUser) throw new Error('Not authorized');
@@ -32,12 +37,18 @@ class UserService {
     return (this.data = data);
   };
 
-  getSingleUser = async (uid) => {
+  getSingleUser = async (uid, requiredMinDelay, signal) => {
     if (!uid) throw new Error('Пустой uid!');
-    const res = await fetch(`${baseUrl}/users/${uid}`);
-    if (!res.ok) throw new Error(res.statusText);
-    const json = await res.json();
-    return json;
+    const fetchClient = new FetchStore({
+      route: this.route,
+      signal,
+      params: {
+        uid,
+      },
+    });
+    this.abortController = fetchClient.abortController;
+    const fetchedUser = await fetchClient.sendRequest({ requiredMinDelay });
+    return fetchedUser;
   };
 }
 
