@@ -67,11 +67,10 @@ class CommentsListService {
       },
     });
     this.abortController = fetchClient.abortController;
-    const copySignal = this.abortController.signal;
     const fetchedComments = await fetchClient.sendRequest({ requiredMinDelay });
     fetchedComments.forEach((v) => (v.isLoading = false));
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(fetchedComments);
-    if (copySignal.aborted) throw new Error('Aborted lol');
+    if (fetchClient.abortController.signal.aborted) throw new Error('Aborted lol');
     this.removeEmptyComments();
     runInAction(() => this.comments.push(...commentsWithAuthorInfo));
   }
