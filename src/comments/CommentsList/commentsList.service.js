@@ -62,6 +62,7 @@ class CommentsListService {
     this.postId = postId;
     this.isLoading = true;
     this.addEmptyComments();
+
     const fetchClient = new FetchStore({
       route: this.route,
       signal,
@@ -73,14 +74,17 @@ class CommentsListService {
     });
     this.abortController = fetchClient.abortController;
     const fetchedResult = await fetchClient.sendRequest({ requiredMinDelay });
+
     const comments = fetchedResult.comments;
     comments.forEach((v) => (v.isLoading = false));
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
     if (fetchClient.abortController.signal.aborted) throw new Error('Aborted lol');
+
     this.removeEmptyComments();
     this.offset += this.limit;
     this.isLoading = false;
     if (fetchedResult.commentsEnded) this.commentsEnded = true;
+
     runInAction(() => this.comments.push(...commentsWithAuthorInfo));
   }
 }
