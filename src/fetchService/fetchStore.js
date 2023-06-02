@@ -35,8 +35,9 @@ export class FetchStore {
 
   static async checkResponse(res) {
     if (!res.ok) {
-      const status = await (res.status === 404 ? res.statusText : res.json());
-      throw new Error(status);
+      if (res.status === 404) throw new Error(res.statusText);
+      const status = await res.json();
+      throw new Error(status.data);
     }
   }
 

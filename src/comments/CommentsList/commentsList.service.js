@@ -7,6 +7,8 @@ class CommentsListService {
   postId = '';
   offset = 0;
   limit = 3;
+  commentsEnded = false;
+  isLoading = false;
   comments = [];
   signal;
 
@@ -21,6 +23,8 @@ class CommentsListService {
     this.offset = 0;
     this.limit = 3;
     this.abortController.abort();
+    this.commentsEnded = false;
+    this.isLoading = false;
     runInAction(() => {
       this.comments = [];
     });
@@ -56,6 +60,7 @@ class CommentsListService {
 
   async getComments(postId, requiredMinDelay, signal) {
     this.postId = postId;
+    this.isLoading = true;
     this.addEmptyComments();
     const fetchClient = new FetchStore({
       route: this.route,
@@ -67,11 +72,15 @@ class CommentsListService {
       },
     });
     this.abortController = fetchClient.abortController;
-    const fetchedComments = await fetchClient.sendRequest({ requiredMinDelay });
-    fetchedComments.forEach((v) => (v.isLoading = false));
-    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(fetchedComments);
+    const fetchedResult = await fetchClient.sendRequest({ requiredMinDelay });
+    const comments = fetchedResult.comments;
+    comments.forEach((v) => (v.isLoading = false));
+    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
     if (fetchClient.abortController.signal.aborted) throw new Error('Aborted lol');
     this.removeEmptyComments();
+    this.offset += this.limit;
+    this.isLoading = false;
+    if (fetchedResult.commentsEnded) this.commentsEnded = true;
     runInAction(() => this.comments.push(...commentsWithAuthorInfo));
   }
 }
