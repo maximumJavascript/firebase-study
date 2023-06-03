@@ -37,7 +37,7 @@ const CommentsList = observer(
                 className={styles.btnShowMore}
                 onClick={this.handleClickMoreComments}
               >
-                Больше комментариев
+                More comments
               </button>
             )}
           </ErrorBoundary>

@@ -58,16 +58,14 @@ class CommentsListService {
     return copyComments;
   }
 
-  async getComments(postId, requiredMinDelay, signal) {
-    this.postId = postId;
-    this.isLoading = true;
-    this.addEmptyComments();
-
+  async getFetchedComments(postId, requiredMinDelay, signal) {
     const fetchClient = new FetchStore({
       route: this.route,
       signal,
       params: {
         postId,
+      },
+      searchParams: {
         offset: this.offset,
         limit: this.limit,
       },
@@ -77,15 +75,28 @@ class CommentsListService {
 
     const comments = fetchedResult.comments;
     comments.forEach((v) => (v.isLoading = false));
-    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
-    if (fetchClient.abortController.signal.aborted) throw new Error('Aborted lol');
 
+    return { aborted: fetchClient.signal.aborted, fetchedResult, comments };
+  }
+
+  async getComments(postId, requiredMinDelay, signal) {
+    this.postId = postId;
+    this.isLoading = true;
+    this.addEmptyComments();
+
+    const { aborted, fetchedResult, comments } = await this.getFetchedComments(
+      postId,
+      requiredMinDelay,
+      signal
+    );
+
+    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
     this.removeEmptyComments();
     this.offset += this.limit;
     this.isLoading = false;
     if (fetchedResult.commentsEnded) this.commentsEnded = true;
 
-    runInAction(() => this.comments.push(...commentsWithAuthorInfo));
+    if (!aborted) runInAction(() => this.comments.push(...commentsWithAuthorInfo));
   }
 }
 

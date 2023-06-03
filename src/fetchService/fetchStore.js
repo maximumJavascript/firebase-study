@@ -16,6 +16,7 @@ export class FetchStore {
     requiredAuth = false,
     method = 'GET',
     params = {},
+    searchParams = {},
     contentType,
     signal,
   } = {}) {
@@ -25,7 +26,7 @@ export class FetchStore {
       method,
       contentType,
       params,
-      route,
+      searchParams,
       signal: signal ? signal : this.signal,
     };
     const basePathRoute = new URL(baseUrl);

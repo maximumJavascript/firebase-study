@@ -257,19 +257,22 @@ export function attachRoutes() {
     authorId: string;
   };
 
-  app.get('/comments/:postId/:offset/:limit', async (req, res) => {
+  app.get('/comments/:postId', async (req, res): Promise<void> => {
     try {
       const postId = req.params.postId;
       if (!postId) throw new Error('PostId does not exist');
-      const offset = Number(req.params.offset || 0);
-      const limit = Number(req.params.limit || COMMENTS_OFFSET_LIMIT);
+      const offset = Number(req.query.offset || 0);
+      const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
-      const comments = querySnapshot.docs.map((doc) => ({
+      const comments: TComments[] = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
-      })) as TComments[];
+        date: doc.data().date,
+        text: doc.data().text,
+        postId: doc.data().postId,
+        authorId: doc.data().authorId,
+      }));
       comments.sort((cA, cB) => cA.date.seconds - cB.date.seconds);
       const maxIndex = offset + limit;
       const slicedComments = comments.slice(offset, maxIndex);
