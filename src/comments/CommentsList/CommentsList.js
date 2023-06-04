@@ -1,23 +1,46 @@
 import { Component } from 'react';
-import { Comment } from '../Comment/Comment';
+import { Comment } from '../Comment';
 import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
+import { ErrorBoundary } from '../../errorBoundary';
+import { MessageEmptyComments } from './MessageEmptyComments';
+import styles from './CommentsList.module.css';
 
 const CommentsList = observer(
   class CommentsList extends Component {
     componentDidMount() {
-      void commentsListService.getComments(this.props.postId);
+      void commentsListService.getComments(this.props.postId, true);
     }
 
+    componentWillUnmount() {
+      void commentsListService.resetCommentsListService();
+    }
+
+    handleClickMoreComments = () => {
+      void commentsListService.getComments(this.props.postId, true);
+    };
+
     render() {
-      const commentList = commentsListService.comments;
-      if (commentList.postId !== this.props.postId) return null;
-      if (!commentList.comments || !this.props.postId) return null;
+      if (!this.props.postId) return null;
+      const { comments, commentsEnded, isLoading } = commentsListService;
+      const commentsList = comments.map((comment) => (
+        <Comment key={comment.id} commentData={comment} />
+      ));
+      const showBtnMoreComments = !isLoading && !commentsEnded;
       return (
         <>
-          {commentList.comments.map((comment) => (
-            <Comment key={comment.id} data={comment} />
-          ))}
+          <ErrorBoundary>
+            {comments.length ? commentsList : <MessageEmptyComments />}
+            {showBtnMoreComments && (
+              <button
+                type="button"
+                className={styles.btnShowMore}
+                onClick={this.handleClickMoreComments}
+              >
+                More comments
+              </button>
+            )}
+          </ErrorBoundary>
         </>
       );
     }

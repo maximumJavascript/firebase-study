@@ -1,1 +1,1 @@
-export { default as PrettyError } from './PrettyError';
+export { PrettyError } from './PrettyError';

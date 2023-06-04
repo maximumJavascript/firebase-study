@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './dropdown.module.css';
 import cn from 'classnames';
 
-export default class Option extends React.Component {
+export class Option extends React.Component {
   handleClick = () => {
     this.props.onSelectItem(this.props.optionObj.id);
     this.props.onToggle();

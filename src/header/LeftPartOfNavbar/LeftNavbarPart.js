@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../Navbar.module.css';
 
-class LeftNavbar extends React.Component {
+export class LeftNavbar extends React.Component {
   render() {
     return (
       <ul className={styles.leftLinks}>
@@ -19,4 +19,3 @@ class LeftNavbar extends React.Component {
     );
   }
 }
-export default LeftNavbar;

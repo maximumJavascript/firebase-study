@@ -1,10 +1,10 @@
 import { PureComponent } from 'react';
-import Star from './Star';
+import { Star } from './Star';
 import styles from './Rating.module.css';
 import { RatingService } from './rating.service';
 import { observer } from 'mobx-react';
 
-const Rating = observer(
+export const Rating = observer(
   class Rating extends PureComponent {
     constructor(props) {
       super(props);
@@ -43,10 +43,7 @@ const Rating = observer(
       const userCount = this.state.userCount / 2;
       const score = rating / 2;
       return (
-        <div
-          className={styles.postRaiting}
-          onMouseLeave={this.handleMouseLeave}
-        >
+        <div className={styles.postRaiting} onMouseLeave={this.handleMouseLeave}>
           {new Array(5).fill(0).map((item, index) => {
             const percSelected = userCount - index;
             let percFilled = score - index;
@@ -74,5 +71,3 @@ const Rating = observer(
     }
   }
 );
-
-export { Rating };

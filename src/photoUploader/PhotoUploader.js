@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './photoUploader.modules.css';
 
-class PhotoUploader extends React.Component {
+export class PhotoUploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = { fileName: null };
@@ -39,5 +39,3 @@ class PhotoUploader extends React.Component {
     );
   }
 }
-
-export default PhotoUploader;
