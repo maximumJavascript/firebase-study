@@ -1,6 +1,5 @@
 import { baseUrl } from '../constants/api';
 import { RequestService } from './requestService';
-import { STATUS_LOADING, STATUS_READY } from '../constants/fetch';
 
 export class FetchStore {
   #requestService;
@@ -16,6 +15,7 @@ export class FetchStore {
     requiredAuth = false,
     method = 'GET',
     params = {},
+    searchParams = {},
     contentType,
     signal,
   } = {}) {
@@ -25,7 +25,7 @@ export class FetchStore {
       method,
       contentType,
       params,
-      route,
+      searchParams,
       signal: signal ? signal : this.signal,
     };
     const basePathRoute = new URL(baseUrl);
@@ -35,8 +35,9 @@ export class FetchStore {
 
   static async checkResponse(res) {
     if (!res.ok) {
-      const status = await (res.status === 404 ? res.statusText : res.json());
-      throw new Error(status);
+      if (res.status === 404) throw new Error(res.statusText);
+      const status = await res.json();
+      throw new Error(status.data);
     }
   }
 

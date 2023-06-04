@@ -6,11 +6,13 @@ export class RequestService {
     this.basePathRoute = new URL(basePathRoute);
   }
 
-  withUrlParams(params, route) {
+  withUrlParams(params, searchParams) {
     const cloneUrl = new URL(this.basePathRoute);
-    if (route) cloneUrl.pathname = route;
     for (const param of Object.values(params)) {
       cloneUrl.pathname += `/${param}`;
+    }
+    for (const [key, value] of Object.entries(searchParams)) {
+      cloneUrl.searchParams.set(key, value);
     }
     return cloneUrl;
   }
@@ -36,16 +38,17 @@ export class RequestService {
 
   createRequest(
     body,
-    { requiredAuth, method, contentType, params, route, signal } = {
+    { requiredAuth, method, contentType, params, searchParams, signal } = {
       requiredAuth: false,
       method: 'GET',
       params: {},
+      searchParams: {},
     }
   ) {
     const headersObj = this.createheadersObj({ requiredAuth, contentType });
     const headers = HeadersService.createHeaders(headersObj);
     const optionsObj = this.createoptionsObj({ body, method }, headers, signal);
-    const url = this.withUrlParams(params, route);
+    const url = this.withUrlParams(params, searchParams);
     return new Request(url, optionsObj);
   }
 }
