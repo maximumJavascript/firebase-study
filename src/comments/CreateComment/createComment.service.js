@@ -1,21 +1,18 @@
-import { baseUrl } from '../../constants/api';
-import { auth } from '../../firebase-config';
+import { FetchStore } from '../../fetchStore';
 
 class CreateCommentService {
+  route = '/comments';
+
   createComment = async (commentData) => {
-    if (!auth.currentUser) throw new Error('Not authorized');
-    const token = await auth.currentUser.getIdToken();
-    const res = await fetch(`${baseUrl}/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
+    const fetchClient = new FetchStore({
       body: JSON.stringify(commentData),
+      route: this.route,
+      method: 'POST',
+      requiredAuth: true,
+      contentType: 'application/json',
     });
-    if (!res.ok) throw new Error(res.statusText);
-    const json = await res.json();
-    return json;
+    const createdComment = await fetchClient.sendRequest();
+    return createdComment;
   };
 }
 
