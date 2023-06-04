@@ -1,5 +1,5 @@
-import { action, makeObservable, observable, runInAction } from 'mobx';
-import { FetchStore } from '../../fetchService';
+import { makeObservable, observable, runInAction } from 'mobx';
+import { FetchStore } from '../../fetchStore';
 import { userService } from '../../usersService/UserService';
 
 class CommentsListService {

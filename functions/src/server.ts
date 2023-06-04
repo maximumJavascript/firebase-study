@@ -77,7 +77,7 @@ export function attachRoutes() {
         userEmail: req.body.userEmail || '',
       };
       await db.collection('users').doc(req.body.userUid).set(user);
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
       res
         .status(500)
@@ -133,7 +133,7 @@ export function attachRoutes() {
     try {
       const postId = req.params.postId || '';
       await db.collection('posts').doc(postId).delete();
-      res.sendStatus(204);
+      res.status(200).json(true);
     } catch (error: any) {
       res
         .status(500)
@@ -144,7 +144,7 @@ export function attachRoutes() {
   app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
       await db.collection('posts').add(req.body);
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
       res
         .status(500)
@@ -201,7 +201,7 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').doc(docId).update({ score });
-      res.sendStatus(200);
+      res.status(200).json(true);
     } catch (error: any) {
       res
         .status(500)
@@ -219,7 +219,7 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').add({ postId, userId, score });
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
       res
         .status(500)
@@ -235,14 +235,12 @@ export function attachRoutes() {
       const postId = req.body.postId as string;
       const date = req.body.date as Object;
       const authorId = req.body.authorId as string;
-      console.log(text, postId, date, authorId);
       const docRef = await db
         .collection('comments')
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
       res.status(201).json(doc.data());
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .json({ error: true, message: 'Internal Server Error', data: error });
@@ -286,15 +284,15 @@ export function attachRoutes() {
     }
   });
 
-  app.put('/views/:postId/:userId', async (req, res) => {
+  app.put('/views/:postId', async (req, res) => {
     // мб проверку на валидность данных
     try {
-      const postId = req.params.postId;
-      const userId = req.params.userId;
+      const postId = req.params.postId || '';
+      const userId = req.query.userId || '';
       if (!postId || !userId) throw new Error('Empty params');
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
-      res.sendStatus(200);
+      res.status(200).json(true);
     } catch (error) {
       res
         .status(500)

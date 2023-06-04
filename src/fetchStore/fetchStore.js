@@ -1,9 +1,9 @@
 import { baseUrl } from '../constants/api';
 import { RequestService } from './requestService';
-import { STATUS_LOADING, STATUS_READY } from '../constants/fetch';
 
 export class FetchStore {
   #requestService;
+  status = 0;
   #delayMS = 500;
   #delayTimeout;
 
@@ -34,7 +34,8 @@ export class FetchStore {
     this.#requestService = new RequestService(basePathRoute);
   }
 
-  static async checkResponse(res) {
+  async checkResponse(res) {
+    this.status = res.status;
     if (!res.ok) {
       if (res.status === 404) throw new Error(res.statusText);
       const status = await res.json();
@@ -49,12 +50,13 @@ export class FetchStore {
 
   async sendRequest({ requiredMinDelay = false } = {}) {
     const fetchStartTime = Date.now();
-    const request = this.#requestService.createRequest(this.body, this.options);
+    const request = await this.#requestService.createRequest(this.body, this.options);
     const response = await fetch(request);
-    await FetchStore.checkResponse(response);
+    await this.checkResponse(response);
     const result = await response.json();
     if (requiredMinDelay) await this.waitMinDelay(fetchStartTime);
     if (this.signal.aborted) throw new Error('Aborted');
+    this.status = 0;
     return result;
   }
 }
