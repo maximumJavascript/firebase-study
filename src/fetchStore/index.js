@@ -1,1 +1,0 @@
-export { FetchStore } from './fetchStore';

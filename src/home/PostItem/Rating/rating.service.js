@@ -1,9 +1,8 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { auth } from '../../../firebase-config';
-import { FetchStore } from '../../../fetchStore';
+import { baseUrl } from '../../../constants/api';
 
 class RatingService {
-  route = '/ratings';
   averageScore = -1;
 
   constructor(postId) {
@@ -25,37 +24,32 @@ class RatingService {
 
   getRatings = async () => {
     if (this.postId === undefined) return;
-    const fetchClient = new FetchStore({
-      route: this.route,
-      params: { postId: this.postId },
-    });
-    const fetchedRatings = await fetchClient.sendRequest();
-    return fetchedRatings.ratings;
+    const res = await fetch(`${baseUrl}/ratings/${this.postId}`);
+    if (!res.ok) throw new Error(res.statusText);
+    const json = await res.json();
+    return json.ratings;
   };
 
   getSingleRating = async (userId) => {
-    const fetchClient = new FetchStore({
-      route: this.route,
-      params: { postId: this.postId, userId },
-    });
-    try {
-      const fetchedRating = await fetchClient.sendRequest();
-      return fetchedRating;
-    } catch (e) {
-      if (fetchClient.status === 404) return false;
-      throw new Error(e);
-    }
+    const res = await fetch(`${baseUrl}/ratings/${this.postId}/${userId}`);
+    if (res.status === 404) return false;
+    if (!res.ok) throw new Error(res.statusText);
+    const rating = await res.json();
+    return rating;
   };
 
   changeRating = async (docId, score) => {
-    const fetchClient = new FetchStore({
-      body: JSON.stringify({ docId, score }),
-      route: this.route,
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/ratings`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
       method: 'PUT',
-      requiredAuth: true,
-      contentType: 'application/json',
+      body: JSON.stringify({ docId, score }),
     });
-    await fetchClient.sendRequest();
+    if (!res.ok) throw new Error(res.statusText);
   };
 
   addRating = async (score) => {
@@ -67,14 +61,17 @@ class RatingService {
       return false;
     }
 
-    const fetchClient = new FetchStore({
-      body: JSON.stringify({ postId: this.postId, score, userId }),
-      route: this.route,
-      requiredAuth: true,
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/ratings`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
       method: 'POST',
-      contentType: 'application/json',
+      body: JSON.stringify({ postId: this.postId, score, userId }),
     });
-    await fetchClient.sendRequest();
+    if (!res.ok) throw new Error(res.statusText);
     // успешно добавили
     return true;
   };

@@ -1,10 +1,9 @@
 import { makeObservable, observable } from 'mobx';
-import { FetchStore } from '../fetchStore';
+import { baseUrl } from '../constants/api';
+import { auth } from '../firebase-config';
 
 class UserService {
   data = [];
-  route = '/users';
-
   constructor() {
     makeObservable(this, {
       data: observable,
@@ -12,28 +11,33 @@ class UserService {
   }
 
   handleAddUsers = async (user) => {
-    const fetchClient = new FetchStore({
-      body: JSON.stringify(user),
-      route: this.route,
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/users`, {
       method: 'POST',
-      requiredAuth: true,
-      contentType: 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(user),
     });
-    await fetchClient.sendRequest();
+    if (!res.ok) throw new Error(res.statusText);
   };
 
   getUsers = async () => {
     // пока не используется где-то
-    const fetchClient = new FetchStore({ route: this.route });
-    const fetchedUsers = fetchClient.sendRequest();
-    return (this.data = fetchedUsers);
+    const res = await fetch(`${baseUrl}/users`);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return (this.data = data);
   };
 
   isUserExist = async (uid) => {
-    if (!uid) throw new Error('Need uid');
-    const fetchClient = new FetchStore({ route: this.route, params: { uid } });
-    const fetchedUserExist = await fetchClient.sendRequest();
-    return fetchedUserExist;
+    // сначала проверку на uid? или можно оставить на сервере?
+    const res = await fetch(`${baseUrl}/users/${uid}`);
+    if (!res.ok) throw new Error(res.statusText);
+    const json = await res.json();
+    return json;
   };
 }
 

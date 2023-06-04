@@ -1,9 +1,9 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { FetchStore } from '../fetchStore';
+import { baseUrl } from '../constants/api';
+import { auth } from '../firebase-config';
 
 class PostsService {
   data = [];
-  route = '/posts';
 
   constructor() {
     makeObservable(this, {
@@ -12,19 +12,22 @@ class PostsService {
   }
 
   deletePostItem = async (postId) => {
-    const fetchClient = new FetchStore({
-      route: this.route,
-      requiredAuth: true,
-      params: { postId },
+    if (!auth.currentUser) throw new Error('Not authorized');
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${baseUrl}/posts/${postId}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     });
-    await fetchClient.sendRequest();
+    if (!res.ok) throw new Error(res.statusText);
     this.data = this.data.filter((post) => post.id !== postId);
   };
 
   getPosts = async () => {
-    const fetchClient = new FetchStore({ route: '/posts' });
-    const data = await fetchClient.sendRequest();
+    const res = await fetch(`${baseUrl}/posts`);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
     runInAction(() => {
       return (this.data = data.map((doc) => ({
         ...doc,
@@ -33,9 +36,14 @@ class PostsService {
   };
 
   getSinglePost = async (id) => {
-    const fetchClient = new FetchStore({ route: this.route, params: { id } });
-    const fetchedPost = fetchClient.sendRequest();
-    return fetchedPost;
+    try {
+      const res = await fetch(`${baseUrl}/posts/${id}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      return data;
+    } catch (e) {
+      throw e;
+    }
   };
 }
 

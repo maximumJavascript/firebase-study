@@ -11,7 +11,7 @@ export const app = express();
 // функция на проверку авторизации
 async function authenticatedRequest(req: any, res: any, next: any) {
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-    res.status(403).json({ error: true, message: 'Unauthorized' });
+    res.status(403).send('Unauthorized');
     return;
   }
   try {
@@ -21,7 +21,7 @@ async function authenticatedRequest(req: any, res: any, next: any) {
     return next();
   } catch (error: any) {
     const statusText = 'Не удалось аутентифицировать пользователя';
-    res.status(401).json(statusText);
+    res.status(401).send(statusText);
   }
 }
 
@@ -62,8 +62,8 @@ export function attachRoutes() {
   //     const users = snapshot.docs.map((doc) => doc.data());
   //     res.status(200).json(users);
   //   } catch (error: any) {
-  //
-  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error});
+  //     res.statusMessage = error.message;
+  //     res.status(500).send(error);
   //   }
   // });
 
@@ -76,11 +76,10 @@ export function attachRoutes() {
         userEmail: req.body.userEmail || '',
       };
       await db.collection('users').doc(req.body.userUid).set(user);
-      res.status(201).json(true);
+      res.sendStatus(201);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error.message);
     }
   });
 
@@ -91,9 +90,8 @@ export function attachRoutes() {
       const userData = doc.data() || null;
       res.status(200).json(userData);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -107,9 +105,8 @@ export function attachRoutes() {
       }));
       res.status(200).send(posts);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -122,9 +119,8 @@ export function attachRoutes() {
       const data = foundPost.data();
       res.status(200).json(data);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -132,22 +128,20 @@ export function attachRoutes() {
     try {
       const postId = req.params.postId || '';
       await db.collection('posts').doc(postId).delete();
-      res.status(200).json(true);
+      res.sendStatus(204);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
   app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
       await db.collection('posts').add(req.body);
-      res.status(201).json(true);
+      res.sendStatus(201);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -162,9 +156,8 @@ export function attachRoutes() {
       }));
       res.status(200).json({ ratings });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -185,9 +178,8 @@ export function attachRoutes() {
       const doc = querySnapshot.docs[0];
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -200,11 +192,10 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').doc(docId).update({ score });
-      res.status(200).json(true);
+      res.sendStatus(200);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -218,11 +209,10 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').add({ postId, userId, score });
-      res.status(201).json(true);
+      res.sendStatus(201);
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.statusMessage = error.message;
+      res.status(500).send(error);
     }
   });
 
@@ -234,15 +224,15 @@ export function attachRoutes() {
       const postId = req.body.postId as string;
       const date = req.body.date as Object;
       const authorId = req.body.authorId as string;
+      console.log(text, postId, date, authorId);
       const docRef = await db
         .collection('comments')
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
       res.status(201).json(doc.data());
     } catch (error) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      console.log(error);
+      res.status(500).send(error);
     }
   });
 
@@ -255,25 +245,21 @@ export function attachRoutes() {
       const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       res.status(200).json(comments);
     } catch (error) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.status(500).send(error);
     }
   });
 
-  app.put('/views/:postId', async (req, res) => {
+  app.put('/views/:postId/:userId', async (req, res) => {
     // мб проверку на валидность данных
     try {
-      const postId = req.params.postId || '';
-      const userId = req.query.userId || '';
+      const postId = req.params.postId;
+      const userId = req.params.userId;
       if (!postId || !userId) throw new Error('Empty params');
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
-      res.status(200).json(true);
+      res.sendStatus(200);
     } catch (error) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.status(500).send(error);
     }
   });
 }
