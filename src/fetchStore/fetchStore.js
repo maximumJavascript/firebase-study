@@ -29,9 +29,10 @@ export class FetchStore {
       searchParams,
       signal: signal ? signal : this.signal,
     };
-    const basePathRoute = new URL(baseUrl);
-    basePathRoute.pathname = route;
-    this.#requestService = new RequestService(basePathRoute);
+    const url = new URL(baseUrl);
+    const pathname = url.pathname === '/' ? route : url.pathname + route;
+    url.pathname = pathname;
+    this.#requestService = new RequestService(url);
   }
 
   async checkResponse(res) {
