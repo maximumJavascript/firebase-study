@@ -1,7 +1,7 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { baseUrl } from '../constants/api';
 import { auth } from '../firebase-config';
-import { FetchStore } from '../fetchService';
+import { FetchStore } from '../fetchStore';
 
 class PostsService {
   data = [];
