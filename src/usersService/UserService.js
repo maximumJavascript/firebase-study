@@ -11,6 +11,8 @@ class UserService {
     });
   }
 
+  resetUserService() {}
+
   handleAddUsers = async (user) => {
     const fetchClient = new FetchStore({
       body: JSON.stringify(user),
@@ -29,11 +31,18 @@ class UserService {
     return (this.data = fetchedUsers);
   };
 
-  isUserExist = async (uid) => {
-    if (!uid) throw new Error('Need uid');
-    const fetchClient = new FetchStore({ route: this.route, params: { uid } });
-    const fetchedUserExist = await fetchClient.sendRequest();
-    return fetchedUserExist;
+  getSingleUser = async (uid, requiredMinDelay, signal) => {
+    if (!uid) throw new Error('Пустой uid!');
+    const fetchClient = new FetchStore({
+      route: this.route,
+      signal,
+      params: {
+        uid,
+      },
+    });
+    this.abortController = fetchClient.abortController;
+    const fetchedUser = await fetchClient.sendRequest({ requiredMinDelay });
+    return fetchedUser;
   };
 }
 

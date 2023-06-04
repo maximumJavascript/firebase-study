@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { PrettyError } from './PrettyError';
 
-export default class ErrorBoundary extends Component {
+export class ErrorBoundary extends Component {
   state = {
     hasError: false,
   };

@@ -1,13 +1,14 @@
 import { Component } from 'react';
 import { homeService } from './home.service';
 import { observer } from 'mobx-react';
-import PostItem from './PostItem';
+import { PostItem } from './PostItem';
 import styles from './home.module.css';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
 import { ErrorBoundary } from '../errorBoundary';
+import { ModalComments } from '../comments/ModalComments';
 
-const Home = observer(
+export const Home = observer(
   class Home extends Component {
     arrWithRefs = [];
 
@@ -28,6 +29,7 @@ const Home = observer(
       this.arrWithRefs = [];
       const postLists = homeService.posts.data;
       if (!postLists.length) return null;
+      const { withComments } = this.props;
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
@@ -45,10 +47,9 @@ const Home = observer(
               );
             })}
           </div>
+          {withComments && <ModalComments />}
         </div>
       );
     }
   }
 );
-
-export default Home;

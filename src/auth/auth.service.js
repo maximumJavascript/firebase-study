@@ -3,7 +3,7 @@ import { auth, provider } from '../firebase-config';
 import { action, makeObservable, observable, reaction, autorun } from 'mobx';
 import { signOut } from 'firebase/auth';
 import { userService } from '../usersService/UserService';
-import storageService from '../localStorageService/storageService';
+import { storageService } from '../localStorageService/storageService';
 
 class AuthService {
   photoSrc = null;

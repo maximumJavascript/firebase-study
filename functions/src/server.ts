@@ -5,6 +5,7 @@ import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
 import { baseOrigin, isProd } from './constants/api';
 import { admin } from './config';
+import { COMMENTS_OFFSET_LIMIT } from './constants/comments';
 
 export const app = express();
 
@@ -246,18 +247,40 @@ export function attachRoutes() {
     }
   });
 
-  app.get('/comments/:postId', async (req, res) => {
+  type TComments = {
+    id: string;
+    date: { seconds: number; nanosecods: number };
+    text: string;
+    postId: string;
+    authorId: string;
+  };
+
+  app.get('/comments/:postId', async (req, res): Promise<void> => {
     try {
-      const postId = req.params.postId || '';
+      const postId = req.params.postId;
+      if (!postId) throw new Error('PostId does not exist');
+      const offset = Number(req.query.offset || 0);
+      const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
-      const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      res.status(200).json(comments);
-    } catch (error) {
+      const comments: TComments[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        date: doc.data().date,
+        text: doc.data().text,
+        postId: doc.data().postId,
+        authorId: doc.data().authorId,
+      }));
+      comments.sort((cA, cB) => cA.date.seconds - cB.date.seconds);
+      const maxIndex = offset + limit;
+      const slicedComments = comments.slice(offset, maxIndex);
+      res
+        .status(200)
+        .json({ comments: slicedComments, commentsEnded: comments.length <= maxIndex });
+    } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 

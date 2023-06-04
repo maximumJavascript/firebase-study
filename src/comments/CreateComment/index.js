@@ -1,1 +1,1 @@
-export { CreateComment as default } from './CreateComment';
+export { CreateComment } from './CreateComment';
