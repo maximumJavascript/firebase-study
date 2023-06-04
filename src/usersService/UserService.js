@@ -1,9 +1,10 @@
 import { makeObservable, observable } from 'mobx';
-import { baseUrl } from '../constants/api';
-import { auth } from '../firebase-config';
+import { FetchStore } from '../fetchStore';
 
 class UserService {
   data = [];
+  route = '/users';
+
   constructor() {
     makeObservable(this, {
       data: observable,
@@ -11,33 +12,28 @@ class UserService {
   }
 
   handleAddUsers = async (user) => {
-    if (!auth.currentUser) throw new Error('Not authorized');
-    const token = await auth.currentUser.getIdToken();
-    const res = await fetch(`${baseUrl}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
+    const fetchClient = new FetchStore({
       body: JSON.stringify(user),
+      route: this.route,
+      method: 'POST',
+      requiredAuth: true,
+      contentType: 'application/json',
     });
-    if (!res.ok) throw new Error(res.statusText);
+    await fetchClient.sendRequest();
   };
 
   getUsers = async () => {
     // пока не используется где-то
-    const res = await fetch(`${baseUrl}/users`);
-    if (!res.ok) throw new Error(res.statusText);
-    const data = await res.json();
-    return (this.data = data);
+    const fetchClient = new FetchStore({ route: this.route });
+    const fetchedUsers = fetchClient.sendRequest();
+    return (this.data = fetchedUsers);
   };
 
   isUserExist = async (uid) => {
-    // сначала проверку на uid? или можно оставить на сервере?
-    const res = await fetch(`${baseUrl}/users/${uid}`);
-    if (!res.ok) throw new Error(res.statusText);
-    const json = await res.json();
-    return json;
+    if (!uid) throw new Error('Need uid');
+    const fetchClient = new FetchStore({ route: this.route, params: { uid } });
+    const fetchedUserExist = await fetchClient.sendRequest();
+    return fetchedUserExist;
   };
 }
 

@@ -1,10 +1,9 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { baseUrl } from '../constants/api';
-import { auth } from '../firebase-config';
 import { FetchStore } from '../fetchStore';
 
 class PostsService {
   data = [];
+  route = '/posts';
 
   constructor() {
     makeObservable(this, {
@@ -13,15 +12,13 @@ class PostsService {
   }
 
   deletePostItem = async (postId) => {
-    if (!auth.currentUser) throw new Error('Not authorized');
-    const token = await auth.currentUser.getIdToken();
-    const res = await fetch(`${baseUrl}/posts/${postId}`, {
+    const fetchClient = new FetchStore({
+      route: this.route,
+      requiredAuth: true,
+      params: { postId },
       method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
     });
-    if (!res.ok) throw new Error(res.statusText);
+    await fetchClient.sendRequest();
     this.data = this.data.filter((post) => post.id !== postId);
   };
 
@@ -36,14 +33,9 @@ class PostsService {
   };
 
   getSinglePost = async (id) => {
-    try {
-      const res = await fetch(`${baseUrl}/posts/${id}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      return data;
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({ route: this.route, params: { id } });
+    const fetchedPost = fetchClient.sendRequest();
+    return fetchedPost;
   };
 }
 

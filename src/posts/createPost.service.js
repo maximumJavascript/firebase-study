@@ -1,7 +1,10 @@
 import { auth } from '../firebase-config';
 import { baseUrl } from '../constants/api';
+import { FetchStore } from '../fetchStore';
 
 class CreatePostService {
+  route = '/posts';
+
   get #authorData() {
     return {
       name: auth.currentUser.displayName,
@@ -10,17 +13,14 @@ class CreatePostService {
   }
 
   createPost = async (postData) => {
-    if (!auth.currentUser) throw new Error('Not authorized');
-    const token = await auth.currentUser.getIdToken();
-    const res = await fetch(`${baseUrl}/posts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
+    const fetchClient = new FetchStore({
       body: JSON.stringify({ ...postData, author: this.#authorData }),
+      route: this.route,
+      requiredAuth: true,
+      method: 'POST',
+      contentType: 'application/json',
     });
-    if (!res.ok) throw new Error(res.statusText);
+    await fetchClient.sendRequest();
   };
 }
 
