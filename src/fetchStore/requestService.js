@@ -17,14 +17,15 @@ export class RequestService {
     return cloneUrl;
   }
 
-  getAuthToken() {
+  async getAuthToken() {
     if (!auth.currentUser) throw new Error('Can`t get token when user is not authorized');
-    return 'Bearer ' + auth.currentUser.getIdToken();
+    const token = await auth.currentUser.getIdToken();
+    return 'Bearer ' + token;
   }
 
-  createheadersObj({ requiredAuth, contentType }) {
+  async createheadersObj({ requiredAuth, contentType }) {
     const headersObj = {};
-    if (requiredAuth) headersObj.Authorization = this.getAuthToken();
+    if (requiredAuth) headersObj.Authorization = await this.getAuthToken();
     if (contentType) headersObj['Content-Type'] = contentType;
     return headersObj;
   }
@@ -36,7 +37,7 @@ export class RequestService {
     return optionsObj;
   }
 
-  createRequest(
+  async createRequest(
     body,
     { requiredAuth, method, contentType, params, searchParams, signal } = {
       requiredAuth: false,
@@ -45,7 +46,7 @@ export class RequestService {
       searchParams: {},
     }
   ) {
-    const headersObj = this.createheadersObj({ requiredAuth, contentType });
+    const headersObj = await this.createheadersObj({ requiredAuth, contentType });
     const headers = HeadersService.createHeaders(headersObj);
     const optionsObj = this.createoptionsObj({ body, method }, headers, signal);
     const url = this.withUrlParams(params, searchParams);

@@ -48,7 +48,7 @@ export class FetchStore {
 
   async sendRequest({ requiredMinDelay = false } = {}) {
     const fetchStartTime = Date.now();
-    const request = this.#requestService.createRequest(this.body, this.options);
+    const request = await this.#requestService.createRequest(this.body, this.options);
     const response = await fetch(request);
     await FetchStore.checkResponse(response);
     const result = await response.json();
