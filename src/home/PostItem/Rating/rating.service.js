@@ -1,8 +1,9 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { auth } from '../../../firebase-config';
-import { baseUrl } from '../../../constants/api';
+import { FetchStore } from '../../../fetchStore';
 
 class RatingService {
+  route = '/ratings';
   averageScore = -1;
 
   constructor(postId) {
@@ -24,41 +25,37 @@ class RatingService {
 
   getRatings = async () => {
     if (this.postId === undefined) return;
-    try {
-      const res = await fetch(`${baseUrl}/ratings/${this.postId}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const json = await res.json();
-      return json.ratings;
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      route: this.route,
+      params: { postId: this.postId },
+    });
+    const fetchedRatings = await fetchClient.sendRequest();
+    return fetchedRatings.ratings;
   };
 
   getSingleRating = async (userId) => {
+    const fetchClient = new FetchStore({
+      route: this.route,
+      params: { postId: this.postId, userId },
+    });
     try {
-      const res = await fetch(`${baseUrl}/ratings/${this.postId}/${userId}`);
-      if (res.status === 404) return false;
-      if (!res.ok) throw new Error(res.statusText);
-      const rating = await res.json();
-      return rating;
+      const fetchedRating = await fetchClient.sendRequest();
+      return fetchedRating;
     } catch (e) {
-      throw e;
+      if (fetchClient.status === 404) return false;
+      throw new Error(e);
     }
   };
 
   changeRating = async (docId, score) => {
-    try {
-      const res = await fetch(`${baseUrl}/ratings`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'PUT',
-        body: JSON.stringify({ docId, score }),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      body: JSON.stringify({ docId, score }),
+      route: this.route,
+      method: 'PUT',
+      requiredAuth: true,
+      contentType: 'application/json',
+    });
+    await fetchClient.sendRequest();
   };
 
   addRating = async (score) => {
@@ -70,20 +67,16 @@ class RatingService {
       return false;
     }
 
-    try {
-      const res = await fetch(`${baseUrl}/ratings`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ postId: this.postId, score, userId }),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      // успешно добавили
-      return true;
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      body: JSON.stringify({ postId: this.postId, score, userId }),
+      route: this.route,
+      requiredAuth: true,
+      method: 'POST',
+      contentType: 'application/json',
+    });
+    await fetchClient.sendRequest();
+    // успешно добавили
+    return true;
   };
 }
 

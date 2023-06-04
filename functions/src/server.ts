@@ -1,25 +1,30 @@
 import * as express from 'express';
+import * as cors from 'cors';
+import { json } from 'express';
 import { db } from './config';
 import { FieldValue } from 'firebase-admin/firestore';
+import { baseOrigin, isProd } from './constants/api';
+import { admin } from './config';
+import { COMMENTS_OFFSET_LIMIT } from './constants/comments';
+
 export const app = express();
-import { baseOrigin } from './constants/api';
-// тестовая функция на проверку авторизации
-// function authenticatedRequest(req: any, res: any, next: any)  {
-//   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-//     res.status(403).send('Unauthorized');
-//     return;
-//   }
-//   const idToken = req.headers.authorization.split('Bearer ')[1];
-//   admin.auth().verifyIdToken(idToken)
-//     .then((claims) => {
-//       req.user = claims;
-//       return next();
-//     })
-//     .catch((error) => {
-//       console.error('Ошибка при проверке токена:', error);
-//       res.status(401).send('Не удалось аутентифицировать пользователя');
-//     });
-// }
+
+// функция на проверку авторизации
+async function authenticatedRequest(req: any, res: any, next: any) {
+  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+    res.status(403).json({ error: true, message: 'Unauthorized' });
+    return;
+  }
+  try {
+    const idToken = req.headers.authorization.split('Bearer ')[1];
+    const claims = await admin.auth().verifyIdToken(idToken);
+    req.user = claims;
+    return next();
+  } catch (error: any) {
+    const statusText = 'Не удалось аутентифицировать пользователя';
+    res.status(401).json(statusText);
+  }
+}
 
 export function attachRoutes() {
   app.get('/echo', (req, res) => {
@@ -51,20 +56,19 @@ export function attachRoutes() {
       });
   });
 
-  app.get('/users', async (req, res) => {
-    try {
-      const collectionRef = db.collection('users');
-      const snapshot = await collectionRef.get();
-      const users = snapshot.docs.map((doc) => doc.data());
-      res.status(200).json(users);
-    } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
-    }
-  });
+  // app.get('/users', async (req, res) => {
+  //   try {
+  //     const collectionRef = db.collection('users');
+  //     const snapshot = await collectionRef.get();
+  //     const users = snapshot.docs.map((doc) => doc.data());
+  //     res.status(200).json(users);
+  //   } catch (error: any) {
+  //
+  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error});
+  //   }
+  // });
 
-  app.post('/users', async (req, res) => {
-    // Проверку на авторизацию или что-то похожее
+  app.post('/users', authenticatedRequest, async (req, res) => {
     try {
       const user = {
         userUid: req.body.userUid || '',
@@ -73,10 +77,11 @@ export function attachRoutes() {
         userEmail: req.body.userEmail || '',
       };
       await db.collection('users').doc(req.body.userUid).set(user);
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error.message);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -87,8 +92,9 @@ export function attachRoutes() {
       const userData = doc.data() || null;
       res.status(200).json(userData);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -102,8 +108,9 @@ export function attachRoutes() {
       }));
       res.status(200).send(posts);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -116,31 +123,32 @@ export function attachRoutes() {
       const data = foundPost.data();
       res.status(200).json(data);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.delete('/posts/:postId', async (req, res) => {
-    // Проверку на авторизацию
+  app.delete('/posts/:postId', authenticatedRequest, async (req, res) => {
     try {
       const postId = req.params.postId || '';
       await db.collection('posts').doc(postId).delete();
-      res.sendStatus(204);
+      res.status(200).json(true);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.post('/posts', async (req, res) => {
-    // Проверку на авторизацию
+  app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
       await db.collection('posts').add(req.body);
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -155,8 +163,9 @@ export function attachRoutes() {
       }));
       res.status(200).json({ ratings });
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
@@ -177,13 +186,14 @@ export function attachRoutes() {
       const doc = querySnapshot.docs[0];
       res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.put('/ratings', async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+  app.put('/ratings', authenticatedRequest, async (req, res) => {
+    // Проверка что это именно пользователь меняет
     // Проверка на валидность данных
     try {
       const docId = (req.body.docId || '') as string;
@@ -191,15 +201,16 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').doc(docId).update({ score });
-      res.sendStatus(200);
+      res.status(200).json(true);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.post('/ratings', async (req, res) => {
-    // Проверка на авторизацию, или что это именно пользователь меняет
+  app.post('/ratings', authenticatedRequest, async (req, res) => {
+    // Проверка что это именно пользователь добавляет
     // Проверка на валидность данных
     try {
       const postId = (req.body.postId || '') as string;
@@ -208,15 +219,15 @@ export function attachRoutes() {
       if (score < 1 || score > 10 || !Number.isFinite(score))
         throw new Error('Invalid rating score');
       await db.collection('ratings').add({ postId, userId, score });
-      res.sendStatus(201);
+      res.status(201).json(true);
     } catch (error: any) {
-      res.statusMessage = error.message;
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.post('/comments', async (req, res) => {
-    // Проверка на авторизацию
+  app.post('/comments', authenticatedRequest, async (req, res) => {
     // Валидация данных
     // Мб какая-то ещё проверк, спам и т.п.
     try {
@@ -224,41 +235,86 @@ export function attachRoutes() {
       const postId = req.body.postId as string;
       const date = req.body.date as Object;
       const authorId = req.body.authorId as string;
-      console.log(text, postId, date, authorId);
       const docRef = await db
         .collection('comments')
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
       res.status(201).json(doc.data());
     } catch (error) {
-      console.log(error);
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
 
-  app.get('/comments/:postId', async (req, res) => {
+  type TComments = {
+    id: string;
+    date: { seconds: number; nanosecods: number };
+    text: string;
+    postId: string;
+    authorId: string;
+  };
+
+  app.get('/comments/:postId', async (req, res): Promise<void> => {
     try {
-      const postId = req.params.postId || '';
+      const postId = req.params.postId;
+      if (!postId) throw new Error('PostId does not exist');
+      const offset = Number(req.query.offset || 0);
+      const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
       const collectionRef = db.collection('comments');
       const query = collectionRef.where('postId', '==', postId);
       const querySnapshot = await query.get();
-      const comments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      res.status(200).json(comments);
-    } catch (error) {
-      res.status(500).send(error);
+      const comments: TComments[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        date: doc.data().date,
+        text: doc.data().text,
+        postId: doc.data().postId,
+        authorId: doc.data().authorId,
+      }));
+      comments.sort((cA, cB) => cA.date.seconds - cB.date.seconds);
+      const maxIndex = offset + limit;
+      const slicedComments = comments.slice(offset, maxIndex);
+      res
+        .status(200)
+        .json({ comments: slicedComments, commentsEnded: comments.length <= maxIndex });
+    } catch (error: any) {
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
-  app.put('/views/:postId/:userId', async (req, res) => {
-    // мб проверку на авторизацию
+  app.put('/views/:postId', async (req, res) => {
+    // мб проверку на валидность данных
     try {
       const postId = req.params.postId || '';
-      const userId = req.params.userId || '';
+      const userId = req.query.userId || '';
+      if (!postId || !userId) throw new Error('Empty params');
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
-      res.sendStatus(200);
+      res.status(200).json(true);
     } catch (error) {
-      res.status(500).send(error);
+      res
+        .status(500)
+        .json({ error: true, message: 'Internal Server Error', data: error });
     }
   });
+}
+
+export function configureApp() {
+  if (isProd) {
+    app.use(
+      cors({
+        origin: baseOrigin,
+      })
+    );
+    return;
+  }
+
+  app.use(json());
+  app.use(
+    cors({
+      origin: '*',
+    })
+  );
 }

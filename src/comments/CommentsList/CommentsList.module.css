@@ -1,0 +1,12 @@
+.btnShowMore {
+  border: none;
+  background-color: #5d5fef;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+  cursor: pointer;
+  margin: 0 auto;
+}

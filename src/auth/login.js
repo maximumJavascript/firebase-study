@@ -4,7 +4,7 @@
 import { useNavigate } from 'react-router-dom';
 import { authService } from './auth.service';
 
-function Login({ setIsAuth }) {
+export function Login({ setIsAuth }) {
   const navigate = useNavigate();
   const signInWithGoogle = () => {
     authService.handleLogin();
@@ -20,5 +20,3 @@ function Login({ setIsAuth }) {
     </div>
   );
 }
-
-export default Login;

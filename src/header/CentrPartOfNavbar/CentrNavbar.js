@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
 
-const CentrNavbar = observer(
+export const CentrNavbar = observer(
   class CentrNavbar extends React.Component {
     render() {
       const isAuth = authService.isAuth;
@@ -38,5 +38,3 @@ const CentrNavbar = observer(
     }
   }
 );
-
-export default CentrNavbar;

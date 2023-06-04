@@ -2,9 +2,11 @@ import { makeAutoObservable } from 'mobx';
 import { authService } from '../auth/auth.service';
 import { auth } from '../firebase-config';
 import { baseUrl } from '../constants/api';
+import { FetchStore } from '../fetchStore';
 
 class ViewsCounter {
   viewsCounter = 0;
+  route = '/views';
   options = {
     root: null,
     rootMargin: '0px',
@@ -16,16 +18,16 @@ class ViewsCounter {
   }
 
   updateInfo = async (postID) => {
-    const userId = auth.currentUser?.uid || '';
-    try {
-      const res = await fetch(`${baseUrl}/views/${postID}/$${userId}`, {
-        method: 'PUT',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      return true;
-    } catch (e) {
-      throw e;
-    }
+    if (!auth.currentUser) return false;
+    const userId = auth.currentUser.uid;
+    const fetchClient = new FetchStore({
+      route: this.route,
+      method: 'PUT',
+      params: { postID },
+      searchParams: { userId },
+    });
+    await fetchClient.sendRequest();
+    return true;
   };
 
   consolidateInfo = (elements) => {

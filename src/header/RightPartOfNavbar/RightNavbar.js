@@ -3,7 +3,7 @@ import React from 'react';
 import styles from '../Navbar.module.css';
 import { authService } from '../../auth/auth.service';
 
-const RightNavbar = observer(
+export const RightNavbar = observer(
   class RightNavbar extends React.Component {
     render() {
       const ImageSrc = authService.photoSrc;
@@ -30,5 +30,3 @@ const RightNavbar = observer(
     }
   }
 );
-
-export default RightNavbar;

@@ -1,13 +1,8 @@
 import * as functions from 'firebase-functions';
 import { app, attachRoutes } from './server';
-import * as cors from 'cors';
-import { baseOrigin } from './constants/api';
+import { configureApp } from './server';
 
-app.use(
-  cors({
-    origin: baseOrigin,
-  })
-);
+configureApp();
 attachRoutes();
 
 exports.app = functions.https.onRequest(app);

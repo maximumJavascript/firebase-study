@@ -1,19 +1,18 @@
-import { baseUrl } from '../../constants/api';
+import { FetchStore } from '../../fetchStore';
 
 class CreateCommentService {
+  route = '/comments';
+
   createComment = async (commentData) => {
-    try {
-      const res = await fetch(`${baseUrl}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(commentData),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      const json = await res.json();
-      return json;
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      body: JSON.stringify(commentData),
+      route: this.route,
+      method: 'POST',
+      requiredAuth: true,
+      contentType: 'application/json',
+    });
+    const createdComment = await fetchClient.sendRequest();
+    return createdComment;
   };
 }
 

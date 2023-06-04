@@ -1,48 +1,48 @@
 import { makeObservable, observable } from 'mobx';
-import { baseUrl } from '../constants/api';
+import { FetchStore } from '../fetchStore';
 
 class UserService {
   data = [];
+  route = '/users';
+
   constructor() {
     makeObservable(this, {
       data: observable,
     });
   }
 
+  resetUserService() {}
+
   handleAddUsers = async (user) => {
-    try {
-      const res = await fetch(`${baseUrl}/users`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      body: JSON.stringify(user),
+      route: this.route,
+      method: 'POST',
+      requiredAuth: true,
+      contentType: 'application/json',
+    });
+    await fetchClient.sendRequest();
   };
 
   getUsers = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/users`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      return (this.data = data);
-    } catch (e) {
-      throw e;
-    }
+    // пока не используется где-то
+    const fetchClient = new FetchStore({ route: this.route });
+    const fetchedUsers = fetchClient.sendRequest();
+    return (this.data = fetchedUsers);
   };
 
-  isUserExist = async (uid) => {
-    // сначала проверку на uid? или можно оставить на сервере?
-    try {
-      const res = await fetch(`${baseUrl}/users/${uid}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const json = await res.json();
-      return json;
-    } catch (e) {
-      throw e;
-    }
+  getSingleUser = async (uid, requiredMinDelay, signal) => {
+    if (!uid) throw new Error('Пустой uid!');
+    const fetchClient = new FetchStore({
+      route: this.route,
+      signal,
+      params: {
+        uid,
+      },
+    });
+    this.abortController = fetchClient.abortController;
+    const fetchedUser = await fetchClient.sendRequest({ requiredMinDelay });
+    return fetchedUser;
   };
 }
 

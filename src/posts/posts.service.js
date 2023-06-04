@@ -1,8 +1,9 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { baseUrl } from '../constants/api';
+import { FetchStore } from '../fetchStore';
 
 class PostsService {
   data = [];
+  route = '/posts';
 
   constructor() {
     makeObservable(this, {
@@ -11,42 +12,30 @@ class PostsService {
   }
 
   deletePostItem = async (postId) => {
-    try {
-      const res = await fetch(`${baseUrl}/posts/${postId}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      // стоит вместо этого сделать обращение к апи на получение всех постов?
-      this.data = this.data.filter((post) => post.id !== postId);
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({
+      route: this.route,
+      requiredAuth: true,
+      params: { postId },
+      method: 'DELETE',
+    });
+    await fetchClient.sendRequest();
+    this.data = this.data.filter((post) => post.id !== postId);
   };
 
   getPosts = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/posts`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      runInAction(() => {
-        return (this.data = data.map((doc) => ({
-          ...doc,
-        })));
-      });
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({ route: '/posts' });
+    const data = await fetchClient.sendRequest();
+    runInAction(() => {
+      return (this.data = data.map((doc) => ({
+        ...doc,
+      })));
+    });
   };
 
   getSinglePost = async (id) => {
-    try {
-      const res = await fetch(`${baseUrl}/posts/${id}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const data = await res.json();
-      return data;
-    } catch (e) {
-      throw e;
-    }
+    const fetchClient = new FetchStore({ route: this.route, params: { id } });
+    const fetchedPost = fetchClient.sendRequest();
+    return fetchedPost;
   };
 }
 

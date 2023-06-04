@@ -1,22 +1,22 @@
 import { Component } from 'react';
-import Author from '../../home/PostItem/Author';
+import { Author } from '../../home/PostItem/Author';
 import styles from './Comment.module.css';
-import { ErrorBoundary } from '../../errorBoundary';
+import { CommentSkeleton } from './CommentSkeleton';
+import { toJS } from 'mobx';
 
-class Comment extends Component {
+export class Comment extends Component {
   render() {
+    const { commentData } = this.props;
+    if (commentData.isLoading) return <CommentSkeleton />;
     return (
-      <ErrorBoundary slotError={true}>
-        <div className={styles.comment}>
-          <Author
-            authorId={this.props.data.authorId}
-            date={this.props.data.date.seconds}
-          />
-          <div className={styles.commentText}>{this.props.data.text}</div>
-        </div>
-      </ErrorBoundary>
+      <div className={styles.commentWrap}>
+        <Author
+          authorId={commentData.authorId}
+          authorInfo={commentData.authorInfo}
+          date={commentData.date.seconds}
+        />
+        <div className={styles.commentText}>{commentData.text}</div>
+      </div>
     );
   }
 }
-
-export { Comment };

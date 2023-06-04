@@ -1,1 +1,1 @@
-export { default } from './Vews';
+export { Views } from './Vews';
