@@ -8,24 +8,11 @@ export const RightNavbar = observer(
     render() {
       const ImageSrc = authService.photoSrc;
       return (
-        <ul className={styles.rightLinks}>
-          <li className={styles.newsLeftLink}>
-            <div className={styles.newsContainer}>
-              <a href="#" className={styles.newsLeft}>
-                News
-              </a>
-              <div className={styles.dash}></div>
-            </div>
-          </li>
-          <li className={styles.blogLink}>
-            <a className={styles.blog} href="#">
-              Blog
-            </a>
-          </li>
-          <li className={styles.authPicture}>
+        <div className={styles.rightLinks}>
+          <div className={styles.authPicture}>
             <img className={styles.authImg} src={ImageSrc} />
-          </li>
-        </ul>
+          </div>
+        </div>
       );
     }
   }
