@@ -51,6 +51,8 @@ export class PostItem extends React.Component {
     const { title, text } = this.getProcessedText();
     const src = props.post.base64Img;
     const postUserUid = props.post.author.id;
+    const showDeletePostBtn =
+      this.state.currentUsserUid === postUserUid && props.withComments;
     return (
       <Spring>
         {(s) => (
@@ -81,13 +83,12 @@ export class PostItem extends React.Component {
                     </div>
                   </Link>
                 )}
-
-                {this.state.currentUsserUid === postUserUid ? (
+                {showDeletePostBtn && (
                   <CommentLoginButton
                     onClick={() => this.props.deletePostItem(props.post.id)}
                     text={'DEL'}
                   />
-                ) : null}
+                )}
               </div>
             </div>
           </animated.div>
