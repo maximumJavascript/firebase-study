@@ -19,14 +19,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "pretty": "prettier --write \"./**/*.{css,js}\"",
     "dev": "concurrently \"npm start\" \"cd ./functions && yarn dev\"",
-    "create-component": "node ./scripts/createComponentPattern.js"
+    "create-component": "node ./scripts/createComponentPattern.js",
+    "deploy:current": "gh-pages -d build -b gh-pages"
   },
   "eslintConfig": {
     "extends": [
