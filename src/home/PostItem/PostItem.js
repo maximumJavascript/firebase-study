@@ -20,9 +20,13 @@ export class PostItem extends React.Component {
   }
 
   componentDidMount() {
-    onAuthStateChanged(auth, (user) => {
+    this.unsubscribeAuthChange = onAuthStateChanged(auth, (user) => {
       if (user) this.setState({ currentUsserUid: user.uid });
     });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeAuthChange) this.unsubscribeAuthChange();
   }
 
   shortTextWithDots(text, maxLength) {
