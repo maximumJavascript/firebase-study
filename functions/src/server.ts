@@ -239,7 +239,7 @@ export function attachRoutes() {
         .collection('comments')
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
-      res.status(201).json(doc.data());
+      res.status(201).json({ id: doc.id, ...doc.data() });
     } catch (error) {
       res
         .status(500)

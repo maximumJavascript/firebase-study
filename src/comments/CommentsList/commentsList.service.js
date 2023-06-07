@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { FetchStore } from '../../fetchStore';
 import { userService } from '../../usersService/UserService';
+import { auth } from '../../firebase-config';
 
 class CommentsListService {
   route = '/comments';
@@ -10,6 +11,7 @@ class CommentsListService {
   commentsEnded = false;
   isLoading = false;
   comments = [];
+  createdComments = [];
   signal;
 
   constructor() {
@@ -22,9 +24,10 @@ class CommentsListService {
     this.postId = '';
     this.offset = 0;
     this.limit = 3;
-    this.abortController.abort();
+    this.abortController?.abort();
     this.commentsEnded = false;
     this.isLoading = false;
+    this.waitingCreatedComments = [];
     runInAction(() => {
       this.comments = [];
     });
@@ -43,6 +46,29 @@ class CommentsListService {
   removeEmptyComments() {
     runInAction(
       () => (this.comments = this.comments.filter((comment) => !comment.isLoading))
+    );
+  }
+
+  addCreatedComment(commentData, requiredAuth = false) {
+    if (requiredAuth && !auth.currentUser) throw new Error('User is not authorized!');
+    const user = auth.currentUser;
+    const commentObj = {
+      authorInfo: {
+        userPhoto: user.photoURL,
+        userName: user.displayName,
+      },
+      ...commentData,
+    };
+
+    runInAction(() => this.comments.unshift(commentObj));
+    if (this.commentsEnded) return;
+    this.waitingCreatedComments.push(commentObj);
+  }
+
+  filterFetchedAndCreatedComments(fetchedComments = []) {
+    if (!this.waitingCreatedComments.length) return fetchedComments;
+    return fetchedComments.filter(
+      ({ id }) => !this.waitingCreatedComments.find(({ id: cId }) => id === cId)
     );
   }
 
@@ -91,12 +117,13 @@ class CommentsListService {
     );
 
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
+    const filteredComments = this.filterFetchedAndCreatedComments(commentsWithAuthorInfo);
     this.removeEmptyComments();
     this.offset += this.limit;
     this.isLoading = false;
     if (fetchedResult.commentsEnded) this.commentsEnded = true;
 
-    if (!aborted) runInAction(() => this.comments.push(...commentsWithAuthorInfo));
+    if (!aborted) runInAction(() => this.comments.push(...filteredComments));
   }
 }
 

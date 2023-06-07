@@ -1,4 +1,5 @@
 import { FetchStore } from '../../fetchStore';
+import { commentsListService } from '../CommentsList/commentsList.service';
 
 class CreateCommentService {
   route = '/comments';
@@ -12,7 +13,7 @@ class CreateCommentService {
       contentType: 'application/json',
     });
     const createdComment = await fetchClient.sendRequest();
-    return createdComment;
+    commentsListService.addCreatedComment(createdComment);
   };
 }
 

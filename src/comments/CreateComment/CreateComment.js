@@ -8,7 +8,6 @@ import { CreatePostBtn } from '../../controls/createPostForm/CreatePostBtn/Creat
 import styles from './CreateComment.module.css';
 import { auth } from '../../firebase-config';
 import { Timestamp } from '@firebase/firestore';
-import { commentsListService } from '../CommentsList/commentsList.service';
 
 const CreateComment = observer(
   class CreateComment extends Component {
@@ -30,24 +29,21 @@ const CreateComment = observer(
     handleSendComment = (e) => {
       e.preventDefault();
       this.setState((state) => {
-        createCommentService
-          .createComment({
-            text: state.areaValue,
-            postId: this.props.postId,
-            date: Timestamp.fromDate(new Date()),
-            authorId: auth.currentUser.uid,
-          })
-          .then((res) => commentsListService.getComments(res.postId));
+        createCommentService.createComment({
+          text: state.areaValue,
+          postId: this.props.postId,
+          date: Timestamp.fromDate(new Date()),
+          authorId: auth.currentUser.uid,
+        });
         return { areaValue: '' };
       });
     };
     render() {
       if (!authService.isAuth)
         return (
-          <CommentLoginButton
-            onClick={this.handleAuth}
-            text={'Чтобы оставлять комментарии, авторизуйтесь'}
-          />
+          <CommentLoginButton onClick={this.handleAuth}>
+            Чтобы оставлять комментарии, авторизуйтесь
+          </CommentLoginButton>
         );
       return (
         <form onSubmit={this.handleSendComment} className={styles.CreateComment}>

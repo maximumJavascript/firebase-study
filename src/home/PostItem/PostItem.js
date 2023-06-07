@@ -86,8 +86,9 @@ export class PostItem extends React.Component {
                 {showDeletePostBtn && (
                   <CommentLoginButton
                     onClick={() => this.props.deletePostItem(props.post.id)}
-                    text={'DEL'}
-                  />
+                  >
+                    Delete
+                  </CommentLoginButton>
                 )}
               </div>
             </div>
