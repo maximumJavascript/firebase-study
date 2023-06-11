@@ -37,6 +37,10 @@ export class PostItem extends React.Component {
     return text;
   }
 
+  handleDeletePost = () => {
+    this.props.deletePostItem(this.props.post.id);
+  };
+
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
     if (!this.props.withComments) {
@@ -84,9 +88,7 @@ export class PostItem extends React.Component {
                   </Link>
                 )}
                 {showDeletePostBtn && (
-                  <CommentLoginButton
-                    onClick={() => this.props.deletePostItem(props.post.id)}
-                  >
+                  <CommentLoginButton onClick={this.handleDeletePost}>
                     Delete
                   </CommentLoginButton>
                 )}
