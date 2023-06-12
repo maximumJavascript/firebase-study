@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { commentsService } from './postComments.service';
 import { PostItem } from '../../home/PostItem';
-import navStyles from '../../header/Navbar.module.css';
+import navStyles from '../../header/Header.module.css';
 import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';

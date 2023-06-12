@@ -305,7 +305,7 @@ export function configureApp() {
   if (isProd) {
     app.use(
       cors({
-        origin: baseOrigin,
+        origin: [baseOrigin, 'http://localhost:3000'],
       })
     );
     return;
