@@ -134,6 +134,10 @@
   border-radius: 50%;
 }
 
+.authPicture {
+  cursor: pointer;
+}
+
 .blog {
   color: #a3a3a3;
   font-style: normal;
@@ -165,4 +169,5 @@
 
 .navbarContainer {
   max-width: 1367px;
+  position: relative;
 }
