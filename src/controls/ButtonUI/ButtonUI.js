@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import styles from './CommentLoginButton.module.css';
+import styles from './ButtonUI.module.css';
 import cn from 'classnames';
 
-export class CommentLoginButton extends Component {
+export class ButtonUI extends Component {
   render() {
     const className = cn(styles.loginBtn, this.props.className);
     return (

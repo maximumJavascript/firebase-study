@@ -4,6 +4,7 @@ import styles from '../Header.module.css';
 import { authService } from '../../auth/auth.service';
 import { ProfileDropDown } from './ProfileDropDown';
 import { ProfileLoginButton } from './ProfileLoginButton';
+import { ProfileMenu } from './ProfileMenu';
 
 export const Profile = observer(
   class Profile extends React.Component {
@@ -25,16 +26,19 @@ export const Profile = observer(
     };
 
     render() {
-      if (!authService.isAuth) return <ProfileLoginButton />;
-
-      const ImageSrc = authService.photoSrc;
+      const ProfileMenuProps = {
+        imageSrc: authService.photoSrc,
+        wrapRef: this.wrapRef,
+        openDropDown: this.state.openDropDown,
+        onClickProfile: this.handleClickProfile,
+        onCloseDropDown: this.handleCloseDropDown,
+      };
       return (
         <div className={styles.rightLinks} ref={this.wrapRef}>
-          <div className={styles.authPicture} onClick={this.handleClickProfile}>
-            <img className={styles.authImg} src={ImageSrc} />
-          </div>
-          {this.state.openDropDown && (
-            <ProfileDropDown onClose={this.handleCloseDropDown} wrapRef={this.wrapRef} />
+          {authService.isAuth ? (
+            <ProfileMenu {...ProfileMenuProps} />
+          ) : (
+            <ProfileLoginButton />
           )}
         </div>
       );

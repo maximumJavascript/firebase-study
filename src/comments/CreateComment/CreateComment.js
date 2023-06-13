@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { observer } from 'mobx-react';
 import { authService } from '../../auth/auth.service';
 import { createCommentService } from './createComment.service';
-import { CommentLoginButton } from '../../controls/CommentLoginButton/CommentLoginButton';
+import { ButtonUI } from '../../controls/ButtonUI';
 import { TextArea } from '../../controls/createPostForm/TextArea/TextArea';
 import { CreatePostBtn } from '../../controls/createPostForm/CreatePostBtn/CreatePostBtn';
 import styles from './CreateComment.module.css';
@@ -41,9 +41,9 @@ const CreateComment = observer(
     render() {
       if (!authService.isAuth)
         return (
-          <CommentLoginButton onClick={this.handleAuth}>
+          <ButtonUI onClick={this.handleAuth}>
             Чтобы оставлять комментарии, авторизуйтесь
-          </CommentLoginButton>
+          </ButtonUI>
         );
       return (
         <form onSubmit={this.handleSendComment} className={styles.CreateComment}>

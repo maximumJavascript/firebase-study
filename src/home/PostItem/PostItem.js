@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
-import { CommentLoginButton } from '../../controls/CommentLoginButton/CommentLoginButton';
+import { ButtonUI } from '../../controls/ButtonUI';
 import { animated, Spring } from '@react-spring/web';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
 
@@ -88,9 +88,7 @@ export class PostItem extends React.Component {
                   </Link>
                 )}
                 {showDeletePostBtn && (
-                  <CommentLoginButton onClick={this.handleDeletePost}>
-                    Delete
-                  </CommentLoginButton>
+                  <ButtonUI onClick={this.handleDeletePost}>Delete</ButtonUI>
                 )}
               </div>
             </div>

@@ -4,7 +4,7 @@ import { commentsListService } from './commentsList.service';
 import { observer } from 'mobx-react';
 import { ErrorBoundary } from '../../errorBoundary';
 import { MessageEmptyComments } from './MessageEmptyComments';
-import { CommentLoginButton } from '../../controls/CommentLoginButton/CommentLoginButton';
+import { ButtonUI } from '../../controls/ButtonUI';
 import styles from './CommentsList.module.css';
 
 const CommentsList = observer(
@@ -34,12 +34,12 @@ const CommentsList = observer(
           <ErrorBoundary>
             {comments.length ? commentsList : <MessageEmptyComments />}
             {showBtnMoreComments && (
-              <CommentLoginButton
+              <ButtonUI
                 onClick={this.handleClickMoreComments}
                 className={styles.btnShowMore}
               >
                 More comments
-              </CommentLoginButton>
+              </ButtonUI>
             )}
           </ErrorBoundary>
         </>
