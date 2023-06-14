@@ -6,7 +6,10 @@ import { auth } from '../../firebase-config';
 class CommentsListService {
   route = '/comments';
   postId = '';
-  offset = 0;
+  offset = {
+    markerSec: 0,
+    markerNanosec: 0,
+  };
   limit = 3;
   commentsEnded = false;
   isLoading = false;
@@ -22,7 +25,10 @@ class CommentsListService {
 
   resetCommentsListService() {
     this.postId = '';
-    this.offset = 0;
+    this.offset = {
+      markerSec: 0,
+      markerNanosec: 0,
+    };
     this.limit = 3;
     this.abortController?.abort();
     this.commentsEnded = false;
@@ -92,7 +98,8 @@ class CommentsListService {
         postId,
       },
       searchParams: {
-        offset: this.offset,
+        markerSec: this.offset.markerSec,
+        markerNanosec: this.offset.markerNanosec,
         limit: this.limit,
       },
     });
@@ -116,12 +123,17 @@ class CommentsListService {
       signal
     );
 
+    const { offset, commentsEnded } = fetchedResult;
     const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
     const filteredComments = this.filterFetchedAndCreatedComments(commentsWithAuthorInfo);
+
+    this.offset = {
+      markerSec: offset.markerSec,
+      markerNanosec: offset.markerNanosec,
+    };
     this.removeEmptyComments();
-    this.offset += this.limit;
     this.isLoading = false;
-    if (fetchedResult.commentsEnded) this.commentsEnded = true;
+    if (commentsEnded) this.commentsEnded = true;
 
     if (!aborted) runInAction(() => this.comments.push(...filteredComments));
   }

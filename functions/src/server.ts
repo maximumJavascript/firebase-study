@@ -249,7 +249,7 @@ export function attachRoutes() {
 
   type TComments = {
     id: string;
-    date: { seconds: number; nanosecods: number };
+    date: { seconds: number; nanoseconds: number };
     text: string;
     postId: string;
     authorId: string;
@@ -259,24 +259,42 @@ export function attachRoutes() {
     try {
       const postId = req.params.postId;
       if (!postId) throw new Error('PostId does not exist');
-      const offset = Number(req.query.offset || 0);
+      const markerSec = Number(req.query.markerSec) || 0;
+      const markerNanosec = Number(req.query.markerNanosec) || 0;
       const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
+
       const collectionRef = db.collection('comments');
-      const query = collectionRef.where('postId', '==', postId);
+      let query = collectionRef
+        .where('postId', '==', postId)
+        .orderBy('date.seconds')
+        .orderBy('date.nanoseconds')
+        .limit(limit + 1);
+
+      if (markerSec && markerNanosec) {
+        query = query.startAfter(markerSec, markerNanosec);
+      }
+
       const querySnapshot = await query.get();
-      const comments: TComments[] = querySnapshot.docs.map((doc) => ({
+      const docs = querySnapshot.docs;
+      const currentComments = docs.length > limit ? docs.slice(0, -1) : docs;
+      const comments: TComments[] = currentComments.map((doc) => ({
         id: doc.id,
         date: doc.data().date,
         text: doc.data().text,
         postId: doc.data().postId,
         authorId: doc.data().authorId,
       }));
-      comments.sort((cA, cB) => cA.date.seconds - cB.date.seconds);
-      const maxIndex = offset + limit;
-      const slicedComments = comments.slice(offset, maxIndex);
-      res
-        .status(200)
-        .json({ comments: slicedComments, commentsEnded: comments.length <= maxIndex });
+
+      const offset = {
+        markerSec: comments[comments.length - 1].date.seconds,
+        markerNanosec: comments[comments.length - 1].date.nanoseconds,
+      };
+
+      res.status(200).json({
+        comments,
+        commentsEnded: docs.length <= limit,
+        offset,
+      });
     } catch (error: any) {
       res
         .status(500)
