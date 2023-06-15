@@ -109,7 +109,7 @@ class CommentsListService {
     const comments = fetchedResult.comments;
     comments.forEach((v) => (v.isLoading = false));
 
-    return { aborted: fetchClient.signal.aborted, fetchedResult, comments };
+    return { fetchSignal: fetchClient.signal, fetchedResult, comments };
   }
 
   async getComments(postId, requiredMinDelay, signal) {
@@ -117,7 +117,7 @@ class CommentsListService {
     this.isLoading = true;
     this.addEmptyComments();
 
-    const { aborted, fetchedResult, comments } = await this.getFetchedComments(
+    const { fetchSignal, fetchedResult, comments } = await this.getFetchedComments(
       postId,
       requiredMinDelay,
       signal
@@ -135,7 +135,7 @@ class CommentsListService {
     this.isLoading = false;
     if (commentsEnded) this.commentsEnded = true;
 
-    if (!aborted) runInAction(() => this.comments.push(...filteredComments));
+    if (!fetchSignal.aborted) runInAction(() => this.comments.push(...filteredComments));
   }
 }
 

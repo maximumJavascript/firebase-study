@@ -6,6 +6,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { baseOrigin, isProd } from './constants/api';
 import { admin } from './config';
 import { COMMENTS_OFFSET_LIMIT } from './constants/comments';
+import { getPaginationParams } from './utils/requestUtils';
 
 export const app = express();
 
@@ -98,15 +99,53 @@ export function attachRoutes() {
     }
   });
 
+  type TPost = {
+    id: string;
+    text: string;
+    title: string;
+    date: { seconds: number; nanoseconds: number };
+    viewedBy: string[];
+    author: { id: string; name: string };
+  };
+
   app.get('/posts', async (req, res) => {
     try {
+      const { markerSec, markerNanosec, limit } = getPaginationParams(req);
       const collectionRef = db.collection('posts');
-      const snapshot = await collectionRef.get();
-      const posts = snapshot.docs.map((doc) => ({
-        ...doc.data(),
+      let query = collectionRef
+        .orderBy('date.seconds')
+        .orderBy('date.nanoseconds')
+        .limit(limit);
+
+      if (markerSec && markerNanosec) {
+        query = query.startAfter(markerSec, markerNanosec);
+      }
+
+      const querySnapshot = await query.get();
+      const docs = querySnapshot.docs;
+      console.log(docs.length, limit);
+
+      const currentPosts = docs.length > limit ? docs.slice(0, -1) : docs;
+
+      const posts: TPost[] = currentPosts.map((doc) => ({
         id: doc.id,
+        title: doc.data().title,
+        text: doc.data().text,
+        date: doc.data().date,
+        author: doc.data().author,
+        viewedBy: doc.data().viewedBy,
       }));
-      res.status(200).send(posts);
+
+      const offset = {
+        markerSec: posts[posts.length - 1].date.seconds,
+        markerNanosec: posts[posts.length - 1].date.nanoseconds,
+      };
+
+      res.status(200).send({
+        posts,
+        postsEnded: docs.length <= limit,
+        offset,
+      });
     } catch (error: any) {
       res
         .status(500)
@@ -116,7 +155,8 @@ export function attachRoutes() {
 
   app.get('/posts/:id', async (req, res) => {
     try {
-      const id = req.params.id || '';
+      const id = req.params.id;
+      if (!id) throw new Error('PostId does not exist');
       const collectionRef = db.collection('posts');
       const foundPost = await collectionRef.doc(id).get();
       if (!foundPost.exists) throw new Error('Post not found');
@@ -259,9 +299,7 @@ export function attachRoutes() {
     try {
       const postId = req.params.postId;
       if (!postId) throw new Error('PostId does not exist');
-      const markerSec = Number(req.query.markerSec) || 0;
-      const markerNanosec = Number(req.query.markerNanosec) || 0;
-      const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
+      const { markerSec, markerNanosec, limit } = getPaginationParams(req);
 
       const collectionRef = db.collection('comments');
       let query = collectionRef

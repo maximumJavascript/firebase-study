@@ -4,6 +4,13 @@ import { FetchStore } from '../fetchStore';
 class PostsService {
   data = [];
   route = '/posts';
+  limit = 4;
+  offset = {
+    markerSec: 0,
+    markerNanosec: 0,
+  };
+  postsEnded = false;
+  isLoading = false;
 
   constructor() {
     makeObservable(this, {
@@ -22,14 +29,51 @@ class PostsService {
     this.data = this.data.filter((post) => post.id !== postId);
   };
 
-  getPosts = async () => {
-    const fetchClient = new FetchStore({ route: '/posts' });
-    const data = await fetchClient.sendRequest();
-    runInAction(() => {
-      return (this.data = data.map((doc) => ({
-        ...doc,
-      })));
+  addEmptyPosts() {}
+
+  removeEmptyComments() {}
+
+  async getFetchedPosts(requiredMinDelay) {
+    const fetchClient = new FetchStore({
+      route: this.route,
+      searchParams: {
+        markerSec: this.offset.markerSec,
+        markerNanosec: this.offset.markerNanosec,
+        limit: this.limit,
+      },
     });
+
+    this.abortController = fetchClient.abortController;
+    const fetchedResult = await fetchClient.sendRequest({ requiredMinDelay });
+
+    const posts = fetchedResult.posts;
+    posts.forEach((v) => (v.isLoading = false));
+
+    return { fetchSignal: fetchClient.signal, fetchedResult, posts };
+  }
+
+  getPosts = async (requiredMinDelay) => {
+    this.isLoading = true;
+    this.addEmptyPosts();
+
+    const { fetchSignal, fetchedResult, posts } = await this.getFetchedPosts(
+      requiredMinDelay
+    );
+
+    const { offset, postsEnded } = fetchedResult;
+
+    this.offset = {
+      markerSec: offset.markerSec,
+      markerNanosec: offset.markerNanosec,
+    };
+
+    this.removeEmptyComments();
+    this.isLoading = false;
+
+    // не забыть
+    void postsEnded;
+
+    if (!fetchSignal.aborted) runInAction(() => (this.data = posts));
   };
 
   getSinglePost = async (id) => {
