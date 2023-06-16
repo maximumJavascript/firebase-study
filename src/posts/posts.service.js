@@ -80,7 +80,6 @@ class PostsService {
       posts,
       this.abortController.signal
     );
-    console.log(postsWithAuthorInfo);
 
     const { offset, postsEnded } = fetchedResult;
 

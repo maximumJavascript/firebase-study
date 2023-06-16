@@ -4,10 +4,10 @@ import { observer } from 'mobx-react';
 import { PostItem } from './PostItem';
 import styles from './home.module.css';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
-import { postsService } from '../posts/posts.service';
 import { ErrorBoundary } from '../errorBoundary';
 import { ModalComments } from '../comments/ModalComments';
 import { toJS } from 'mobx';
+import { PostItemSkeleton } from './PostItem/PostItemSkeleton';
 
 export const Home = observer(
   class Home extends Component {
@@ -37,11 +37,7 @@ export const Home = observer(
             {postLists.map((post) => {
               return (
                 <ErrorBoundary key={post.id} slotError={true}>
-                  <PostItem
-                    post={post}
-                    ref={post.isLoading ? null : this.setRef}
-                    deletePostItem={postsService.deletePostItem}
-                  />
+                  <PostItem post={post} ref={post.isLoading ? null : this.setRef} />
                 </ErrorBoundary>
               );
             })}

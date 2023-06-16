@@ -8,9 +8,9 @@ import React from 'react';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ButtonUI } from '../../controls/ButtonUI';
-import { animated, Spring } from '@react-spring/web';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
 import { PostItemSkeleton } from './PostItemSkeleton';
+import { postsService } from '../../posts/posts.service';
 import { toJS } from 'mobx';
 
 export class PostItem extends React.Component {
@@ -40,7 +40,7 @@ export class PostItem extends React.Component {
   }
 
   handleDeletePost = () => {
-    this.props.deletePostItem(this.props.post.id);
+    postsService.deletePostItem(this.props.post.id);
   };
 
   getProcessedText() {
@@ -63,7 +63,7 @@ export class PostItem extends React.Component {
     const postUserUid = post.authorId;
     const showDeletePostBtn =
       this.state.currentUsserUid === postUserUid && props.withComments;
-    console.log(toJS(post));
+
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
         {src && (

@@ -85,7 +85,6 @@ class CommentsListService {
     copyComments.forEach((comment, i) => {
       comment.authorInfo = authorInfoResults[i];
     });
-    console.log(copyComments);
     return copyComments;
   }
 
