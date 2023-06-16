@@ -1,5 +1,6 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { FetchStore } from '../fetchStore';
+import { commentsListService } from '../comments/CommentsList/commentsList.service';
 
 class PostsService {
   data = [];
@@ -29,9 +30,25 @@ class PostsService {
     this.data = this.data.filter((post) => post.id !== postId);
   };
 
-  addEmptyPosts() {}
+  addEmptyPosts() {
+    const tempArr = [];
+    for (let i = 0; i < this.limit; i++) {
+      tempArr.push({ isLoading: true, id: this.data.length + i });
+    }
+    runInAction(() => this.data.push(...tempArr));
+  }
 
-  removeEmptyComments() {}
+  removeEmptyPosts() {
+    runInAction(() => (this.data = this.data.filter((post) => !post.isLoading)));
+  }
+
+  async getAuthorPostsInfo(posts = [], signal) {
+    const postsWithAuthorInfo = await commentsListService.getAuthorCommentsInfo(
+      posts,
+      signal
+    );
+    return postsWithAuthorInfo;
+  }
 
   async getFetchedPosts(requiredMinDelay) {
     const fetchClient = new FetchStore({
@@ -59,6 +76,11 @@ class PostsService {
     const { fetchSignal, fetchedResult, posts } = await this.getFetchedPosts(
       requiredMinDelay
     );
+    const postsWithAuthorInfo = await this.getAuthorPostsInfo(
+      posts,
+      this.abortController.signal
+    );
+    console.log(postsWithAuthorInfo);
 
     const { offset, postsEnded } = fetchedResult;
 
@@ -67,13 +89,13 @@ class PostsService {
       markerNanosec: offset.markerNanosec,
     };
 
-    this.removeEmptyComments();
+    this.removeEmptyPosts();
     this.isLoading = false;
 
     // не забыть
     void postsEnded;
 
-    if (!fetchSignal.aborted) runInAction(() => (this.data = posts));
+    if (!fetchSignal.aborted) runInAction(() => (this.data = postsWithAuthorInfo));
   };
 
   getSinglePost = async (id) => {

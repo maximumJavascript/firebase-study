@@ -105,7 +105,7 @@ export function attachRoutes() {
     title: string;
     date: { seconds: number; nanoseconds: number };
     viewedBy: string[];
-    author: { id: string; name: string };
+    authorId: string;
   };
 
   app.get('/posts', async (req, res) => {
@@ -123,7 +123,6 @@ export function attachRoutes() {
 
       const querySnapshot = await query.get();
       const docs = querySnapshot.docs;
-      console.log(docs.length, limit);
 
       const currentPosts = docs.length > limit ? docs.slice(0, -1) : docs;
 
@@ -132,7 +131,7 @@ export function attachRoutes() {
         title: doc.data().title,
         text: doc.data().text,
         date: doc.data().date,
-        author: doc.data().author,
+        authorId: doc.data().authorId,
         viewedBy: doc.data().viewedBy,
       }));
 

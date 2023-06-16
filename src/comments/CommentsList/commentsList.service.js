@@ -41,10 +41,8 @@ class CommentsListService {
 
   addEmptyComments() {
     const tempArr = [];
-    let length = this.comments.length;
     for (let i = 0; i < this.limit; i++) {
-      tempArr.push({ isLoading: true, id: length });
-      length += 1;
+      tempArr.push({ isLoading: true, id: this.comments.length + i });
     }
     runInAction(() => this.comments.push(...tempArr));
   }
@@ -78,15 +76,16 @@ class CommentsListService {
     );
   }
 
-  async getAuthorCommentsInfo(comments = []) {
+  async getAuthorCommentsInfo(comments = [], signal) {
     const copyComments = [...comments];
     const authorInfoPromises = copyComments.map((comment) =>
-      userService.getSingleUser(comment.authorId, false, this.abortController.signal)
+      userService.getSingleUser(comment.authorId, false, signal)
     );
     const authorInfoResults = await Promise.all(authorInfoPromises);
     copyComments.forEach((comment, i) => {
       comment.authorInfo = authorInfoResults[i];
     });
+    console.log(copyComments);
     return copyComments;
   }
 
@@ -124,7 +123,10 @@ class CommentsListService {
     );
 
     const { offset, commentsEnded } = fetchedResult;
-    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
+    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(
+      comments,
+      this.abortController.signal
+    );
     const filteredComments = this.filterFetchedAndCreatedComments(commentsWithAuthorInfo);
 
     this.offset = {

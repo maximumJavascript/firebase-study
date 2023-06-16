@@ -7,13 +7,14 @@ import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { postsService } from '../posts/posts.service';
 import { ErrorBoundary } from '../errorBoundary';
 import { ModalComments } from '../comments/ModalComments';
+import { toJS } from 'mobx';
 
 export const Home = observer(
   class Home extends Component {
     arrWithRefs = [];
 
     componentDidMount() {
-      void homeService.posts.getPosts();
+      void homeService.posts.getPosts(true);
       viewsCounter.makePostsObservable(this.arrWithRefs);
     }
 
@@ -38,9 +39,7 @@ export const Home = observer(
                 <ErrorBoundary key={post.id} slotError={true}>
                   <PostItem
                     post={post}
-                    date={post.date.seconds}
-                    ref={this.setRef}
-                    viewCounter={post.viewedBy?.length}
+                    ref={post.isLoading ? null : this.setRef}
                     deletePostItem={postsService.deletePostItem}
                   />
                 </ErrorBoundary>
