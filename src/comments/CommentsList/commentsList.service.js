@@ -4,7 +4,7 @@ import { userService } from '../../usersService/UserService';
 import { auth } from '../../firebase-config';
 
 class CommentsListService {
-  route = '/comments';
+  #route = '/comments';
   postId = '';
   offset = {
     markerSec: 0,
@@ -77,20 +77,19 @@ class CommentsListService {
   }
 
   async getAuthorCommentsInfo(comments = [], signal) {
-    const copyComments = [...comments];
-    const authorInfoPromises = copyComments.map((comment) =>
+    const authorInfoPromises = comments.map((comment) =>
       userService.getSingleUser(comment.authorId, false, signal)
     );
     const authorInfoResults = await Promise.all(authorInfoPromises);
-    copyComments.forEach((comment, i) => {
+    comments.forEach((comment, i) => {
       comment.authorInfo = authorInfoResults[i];
     });
-    return copyComments;
+    return comments;
   }
 
   async getFetchedComments(postId, requiredMinDelay, signal) {
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       signal,
       params: {
         postId,

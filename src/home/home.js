@@ -34,6 +34,7 @@ export const Home = observer(
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
+            <PostItemSkeleton />
             {postLists.map((post) => {
               return (
                 <ErrorBoundary key={post.id} slotError={true}>

@@ -12,11 +12,11 @@ export const Rating = observer(
         userCount: 0,
       };
 
-      this.service = new RatingService(this.props.postId);
+      this.service = new RatingService(this.props.postId, this.props.initScore);
     }
 
     componentDidMount() {
-      void this.updateAvegareScore();
+      if (this.props.initScore === undefined) this.updateAvegareScore();
     }
 
     updateAvegareScore = () => {

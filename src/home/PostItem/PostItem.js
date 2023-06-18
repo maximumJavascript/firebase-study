@@ -78,8 +78,8 @@ export class PostItem extends React.Component {
           </div>
           <div className={styles.postFooter}>
             <Author date={post.date.seconds} authorInfo={post.authorInfo} />
-            <Views postId={post.id} viewCounter={post.viewedBy.length} />
-            <Rating postId={post.id} />
+            <Views viewCounter={post.viewedBy?.length} />
+            <Rating postId={post.id} initScore={post.ratingScore} />
             {!props.withComments && (
               <Link to={`/comments/${post.id}`}>
                 <div className={styles.postShowMore}>

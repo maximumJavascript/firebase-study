@@ -24,11 +24,6 @@ export function PostItemSkeleton() {
         </div>
         <div className={postStyles.postFooter}>
           <AuthorSkeleton />
-          <ViewsSkeleton />
-          <RatingSkeleton />
-          <div className={postStyles.postShowMore}>
-            <SvgNext pathClassName={styles.arrow} />
-          </div>
         </div>
       </div>
     </div>

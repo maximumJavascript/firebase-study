@@ -1,10 +1,11 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { FetchStore } from '../fetchStore';
 import { commentsListService } from '../comments/CommentsList/commentsList.service';
+import { RatingService } from '../home/PostItem/Rating/rating.service';
 
 class PostsService {
   data = [];
-  route = '/posts';
+  #route = '/posts';
   limit = 4;
   offset = {
     markerSec: 0,
@@ -21,7 +22,7 @@ class PostsService {
 
   deletePostItem = async (postId) => {
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       requiredAuth: true,
       params: { postId },
       method: 'DELETE',
@@ -50,9 +51,21 @@ class PostsService {
     return postsWithAuthorInfo;
   }
 
+  async getRatingPosts(posts = [], signal) {
+    const ratingService = new RatingService();
+    const ratingScorePromises = posts.map((post) =>
+      ratingService.getAverageScore(post.id)
+    );
+    const ratingScoreResults = await Promise.all(ratingScorePromises);
+    posts.forEach((post, i) => {
+      post.ratingScore = ratingScoreResults[i];
+    });
+    return posts;
+  }
+
   async getFetchedPosts(requiredMinDelay) {
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       searchParams: {
         markerSec: this.offset.markerSec,
         markerNanosec: this.offset.markerNanosec,
@@ -76,10 +89,11 @@ class PostsService {
     const { fetchSignal, fetchedResult, posts } = await this.getFetchedPosts(
       requiredMinDelay
     );
-    const postsWithAuthorInfo = await this.getAuthorPostsInfo(
-      posts,
-      this.abortController.signal
-    );
+
+    await Promise.all([
+      this.getAuthorPostsInfo(posts, this.abortController.signal),
+      this.getRatingPosts(posts, this.abortController.signal),
+    ]);
 
     const { offset, postsEnded } = fetchedResult;
 
@@ -94,11 +108,11 @@ class PostsService {
     // не забыть
     void postsEnded;
 
-    if (!fetchSignal.aborted) runInAction(() => (this.data = postsWithAuthorInfo));
+    if (!fetchSignal.aborted) runInAction(() => (this.data = posts));
   };
 
   getSinglePost = async (id) => {
-    const fetchClient = new FetchStore({ route: this.route, params: { id } });
+    const fetchClient = new FetchStore({ route: this.#route, params: { id } });
     const fetchedPost = fetchClient.sendRequest();
     return fetchedPost;
   };
