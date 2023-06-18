@@ -22,7 +22,7 @@ export function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comments/:id" element={<Home withComments={true} />} />
+          <Route path="/comments/:id" element={<Home withComments />} />
           {/* <AnimalsDropdown /> */}
         </Routes>
       </ErrorBoundary>

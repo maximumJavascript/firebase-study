@@ -63,7 +63,7 @@ export class PostItem extends React.Component {
     const postUserUid = post.authorId;
     const showDeletePostBtn =
       this.state.currentUsserUid === postUserUid && props.withComments;
-
+    const linkToComments = `/comments/${post.id}`;
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
         {src && (
@@ -72,16 +72,20 @@ export class PostItem extends React.Component {
           </div>
         )}
         <div className={styles.postContainer}>
-          <div className={styles.postBodyText}>
-            <div className={styles.postTitle}>{title}</div>
-            <div className={styles.postTextContainer}>{text}</div>
-          </div>
+          <Link to={linkToComments}>
+            <div className={styles.postBodyText}>
+              <div className={styles.postTitle}>{title}</div>
+              <div className={styles.postTextContainer}>{text}</div>
+            </div>
+          </Link>
           <div className={styles.postFooter}>
-            <Author date={post.date.seconds} authorInfo={post.authorInfo} />
+            <Link to={linkToComments}>
+              <Author date={post.date.seconds} authorInfo={post.authorInfo} />
+            </Link>
             <Views viewCounter={post.viewedBy?.length} />
             <Rating postId={post.id} initScore={post.ratingScore} />
             {!props.withComments && (
-              <Link to={`/comments/${post.id}`}>
+              <Link to={linkToComments}>
                 <div className={styles.postShowMore}>
                   <SvgNext />
                 </div>

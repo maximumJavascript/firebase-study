@@ -6,16 +6,19 @@ import styles from './home.module.css';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { ErrorBoundary } from '../errorBoundary';
 import { ModalComments } from '../comments/ModalComments';
-import { toJS } from 'mobx';
-import { PostItemSkeleton } from './PostItem/PostItemSkeleton';
 
 export const Home = observer(
   class Home extends Component {
     arrWithRefs = [];
 
     componentDidMount() {
+      void homeService.posts.resetPosts();
       void homeService.posts.getPosts(true);
       viewsCounter.makePostsObservable(this.arrWithRefs);
+    }
+
+    componentWillUnmount() {
+      void homeService.posts.resetPosts();
     }
 
     componentDidUpdate() {
@@ -34,10 +37,9 @@ export const Home = observer(
       return (
         <div className={`${styles.container} ${styles.home}`}>
           <div className={styles.homePage}>
-            <PostItemSkeleton />
             {postLists.map((post) => {
               return (
-                <ErrorBoundary key={post.id} slotError={true}>
+                <ErrorBoundary key={post.id} slotError>
                   <PostItem post={post} ref={post.isLoading ? null : this.setRef} />
                 </ErrorBoundary>
               );

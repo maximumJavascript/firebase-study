@@ -65,7 +65,7 @@ export function attachRoutes() {
   //     res.status(200).json(users);
   //   } catch (error: any) {
   //
-  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error});
+  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error.message});
   //   }
   // });
 
@@ -82,7 +82,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -95,7 +95,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -136,8 +136,8 @@ export function attachRoutes() {
       }));
 
       const offset = {
-        markerSec: posts[posts.length - 1].date.seconds,
-        markerNanosec: posts[posts.length - 1].date.nanoseconds,
+        markerSec: posts[posts.length - 1]?.date.seconds,
+        markerNanosec: posts[posts.length - 1]?.date.nanoseconds,
       };
 
       res.status(200).send({
@@ -146,9 +146,11 @@ export function attachRoutes() {
         offset,
       });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error',
+        data: error.message.message,
+      });
     }
   });
 
@@ -156,15 +158,24 @@ export function attachRoutes() {
     try {
       const id = req.params.id;
       if (!id) throw new Error('PostId does not exist');
+
       const collectionRef = db.collection('posts');
       const foundPost = await collectionRef.doc(id).get();
       if (!foundPost.exists) throw new Error('Post not found');
-      const data = foundPost.data();
-      res.status(200).json(data);
+
+      const post: TPost = {
+        id: foundPost.id,
+        text: foundPost.data()?.text,
+        title: foundPost.data()?.title,
+        date: foundPost.data()?.date,
+        viewedBy: foundPost.data()?.viewedBy,
+        authorId: foundPost.data()?.authorId,
+      };
+      res.status(200).json(post);
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -176,7 +187,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -187,7 +198,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -204,7 +215,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -227,7 +238,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -244,7 +255,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -262,7 +273,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -279,10 +290,10 @@ export function attachRoutes() {
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
       res.status(201).json({ id: doc.id, ...doc.data() });
-    } catch (error) {
+    } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -323,8 +334,8 @@ export function attachRoutes() {
       }));
 
       const offset = {
-        markerSec: comments[comments.length - 1].date.seconds,
-        markerNanosec: comments[comments.length - 1].date.nanoseconds,
+        markerSec: comments[comments.length - 1]?.date.seconds,
+        markerNanosec: comments[comments.length - 1]?.date.nanoseconds,
       };
 
       res.status(200).json({
@@ -333,9 +344,11 @@ export function attachRoutes() {
         offset,
       });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error.message });
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error',
+        data: error.message.message,
+      });
     }
   });
 
@@ -348,10 +361,10 @@ export function attachRoutes() {
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
       res.status(200).json(true);
-    } catch (error) {
+    } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 }

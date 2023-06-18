@@ -31,6 +31,17 @@ class PostsService {
     this.data = this.data.filter((post) => post.id !== postId);
   };
 
+  resetPosts() {
+    this.isLoading = false;
+    this.postsEnded = false;
+    this.offset = {
+      markerSec: 0,
+      markerNanosec: 0,
+    };
+    this.abortController?.abort();
+    runInAction(() => (this.data = []));
+  }
+
   addEmptyPosts() {
     const tempArr = [];
     for (let i = 0; i < this.limit; i++) {
@@ -54,7 +65,7 @@ class PostsService {
   async getRatingPosts(posts = [], signal) {
     const ratingService = new RatingService();
     const ratingScorePromises = posts.map((post) =>
-      ratingService.getAverageScore(post.id)
+      ratingService.getAverageScore(post.id, signal)
     );
     const ratingScoreResults = await Promise.all(ratingScorePromises);
     posts.forEach((post, i) => {
@@ -111,10 +122,21 @@ class PostsService {
     if (!fetchSignal.aborted) runInAction(() => (this.data = posts));
   };
 
-  getSinglePost = async (id) => {
-    const fetchClient = new FetchStore({ route: this.#route, params: { id } });
-    const fetchedPost = fetchClient.sendRequest();
-    return fetchedPost;
+  getSinglePost = async ({ id, requiredMinDelay, signal } = {}) => {
+    const fetchClient = new FetchStore({
+      route: this.#route,
+      params: { id },
+      signal,
+    });
+    const fetchedPost = await fetchClient.sendRequest({ requiredMinDelay });
+    const arrWrap = [fetchedPost];
+    await Promise.all([
+      this.getAuthorPostsInfo(arrWrap, signal),
+      this.getRatingPosts(arrWrap, signal),
+    ]);
+
+    const post = arrWrap[0];
+    return post;
   };
 }
 

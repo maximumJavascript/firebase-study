@@ -1,8 +1,12 @@
-import { makeObservable, observable, runInAction } from 'mobx';
+import { makeObservable, observable, runInAction, toJS } from 'mobx';
 import { postsService } from '../../posts/posts.service';
 
-class CommentsService {
-  post = {};
+class PostCommentsService {
+  post = {
+    isLoading: true,
+  };
+
+  abortController = new AbortController();
 
   constructor() {
     makeObservable(this, {
@@ -10,12 +14,24 @@ class CommentsService {
     });
   }
 
-  getPost = async (id) => {
-    const post = await postsService.getSinglePost(id);
-    runInAction(() => {
-      return (this.post = { ...post, id });
+  resetPostComments() {
+    this.abortController?.abort();
+    runInAction(() => (this.post = { isLoading: true }));
+  }
+
+  getPost = async (postId) => {
+    const existPost = postsService.data.find(({ id }) => id === postId);
+    if (existPost) {
+      return runInAction(() => (this.post = { ...existPost, id: postId }));
+    }
+    const post = await postsService.getSinglePost({
+      id: postId,
+      requiredMinDelay: true,
+      signal: this.abortController.signal,
     });
+
+    runInAction(() => (this.post = { ...post, id: postId, isLoading: false }));
   };
 }
 
-export const commentsService = new CommentsService();
+export const postCommentsService = new PostCommentsService();
