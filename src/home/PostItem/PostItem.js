@@ -11,12 +11,12 @@ import { ButtonUI } from '../../controls/ButtonUI';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
 import { PostItemSkeleton } from './PostItemSkeleton';
 import { postsService } from '../../posts/posts.service';
-import { withLink } from '../../hoc/withLink';
+import { withConditionalLink } from '../../hoc/withConditionalLink';
 import { PostBody } from './PostBody';
 import { toJS } from 'mobx';
 
-const AuthorWithLink = withLink(Author);
-const PostBodyWithLink = withLink(PostBody);
+const AuthorWithConditionalLink = withConditionalLink(Author);
+const PostBodyWithConditionalLink = withConditionalLink(PostBody);
 
 export class PostItem extends React.Component {
   ref = React.createRef();
@@ -66,9 +66,9 @@ export class PostItem extends React.Component {
     const { title, text } = this.getProcessedText();
     const src = post.base64Img;
     const postUserUid = post.authorId;
+    const linkToComments = !props.withComments && `/comments/${post.id}`;
     const showDeletePostBtn =
       this.state.currentUsserUid === postUserUid && props.withComments;
-    const linkToComments = `/comments/${post.id}`;
 
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
@@ -78,9 +78,9 @@ export class PostItem extends React.Component {
           </div>
         )}
         <div className={styles.postContainer}>
-          <PostBodyWithLink to={linkToComments} title={title} text={text} />
+          <PostBodyWithConditionalLink to={linkToComments} title={title} text={text} />
           <div className={styles.postFooter}>
-            <AuthorWithLink
+            <AuthorWithConditionalLink
               to={linkToComments}
               date={post.date.seconds}
               authorInfo={post.authorInfo}
