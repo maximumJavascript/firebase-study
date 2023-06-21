@@ -1,0 +1,24 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "printWidth": 90,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": ["**/*.html"],
+      "options": {
+        "printWidth": 150
+      }
+    },
+    {
+      "files": ["**/*.css"],
+      "options": {
+        "printWidth": 90,
+        "singleQuote": false
+      }
+    }
+  ]
+}

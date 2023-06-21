@@ -27,6 +27,7 @@
   width: 100%;
   padding: 20px;
   padding-left: 0;
+  row-gap: 20px;
 }
 
 .postBodyText {

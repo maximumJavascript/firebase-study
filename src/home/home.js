@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { PostItem } from './PostItem';
 import styles from './home.module.css';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
-import { postsService } from '../posts/posts.service';
 import { ErrorBoundary } from '../errorBoundary';
 import { ModalComments } from '../comments/ModalComments';
 
@@ -13,8 +12,13 @@ export const Home = observer(
     arrWithRefs = [];
 
     componentDidMount() {
-      void homeService.posts.getPosts();
+      void homeService.posts.resetPosts();
+      void homeService.posts.getPosts(true);
       viewsCounter.makePostsObservable(this.arrWithRefs);
+    }
+
+    componentWillUnmount() {
+      void homeService.posts.resetPosts();
     }
 
     componentDidUpdate() {
@@ -35,14 +39,8 @@ export const Home = observer(
           <div className={styles.homePage}>
             {postLists.map((post) => {
               return (
-                <ErrorBoundary key={post.id} slotError={true}>
-                  <PostItem
-                    post={post}
-                    date={post.date.seconds}
-                    ref={this.setRef}
-                    viewCounter={post.viewedBy?.length}
-                    deletePostItem={postsService.deletePostItem}
-                  />
+                <ErrorBoundary key={post.id} slotError>
+                  <PostItem post={post} ref={post.isLoading ? null : this.setRef} />
                 </ErrorBoundary>
               );
             })}

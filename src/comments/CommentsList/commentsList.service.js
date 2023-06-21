@@ -4,9 +4,12 @@ import { userService } from '../../usersService/UserService';
 import { auth } from '../../firebase-config';
 
 class CommentsListService {
-  route = '/comments';
+  #route = '/comments';
   postId = '';
-  offset = 0;
+  offset = {
+    markerSec: 0,
+    markerNanosec: 0,
+  };
   limit = 3;
   commentsEnded = false;
   isLoading = false;
@@ -22,7 +25,10 @@ class CommentsListService {
 
   resetCommentsListService() {
     this.postId = '';
-    this.offset = 0;
+    this.offset = {
+      markerSec: 0,
+      markerNanosec: 0,
+    };
     this.limit = 3;
     this.abortController?.abort();
     this.commentsEnded = false;
@@ -35,10 +41,8 @@ class CommentsListService {
 
   addEmptyComments() {
     const tempArr = [];
-    let length = this.comments.length;
     for (let i = 0; i < this.limit; i++) {
-      tempArr.push({ isLoading: true, id: length });
-      length += 1;
+      tempArr.push({ isLoading: true, id: this.comments.length + i });
     }
     runInAction(() => this.comments.push(...tempArr));
   }
@@ -72,27 +76,27 @@ class CommentsListService {
     );
   }
 
-  async getAuthorCommentsInfo(comments = []) {
-    const copyComments = [...comments];
-    const authorInfoPromises = copyComments.map((comment) =>
-      userService.getSingleUser(comment.authorId, false, this.abortController.signal)
+  async getAuthorCommentsInfo(comments = [], signal) {
+    const authorInfoPromises = comments.map((comment) =>
+      userService.getSingleUser(comment.authorId, false, signal)
     );
     const authorInfoResults = await Promise.all(authorInfoPromises);
-    copyComments.forEach((comment, i) => {
+    comments.forEach((comment, i) => {
       comment.authorInfo = authorInfoResults[i];
     });
-    return copyComments;
+    return comments;
   }
 
   async getFetchedComments(postId, requiredMinDelay, signal) {
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       signal,
       params: {
         postId,
       },
       searchParams: {
-        offset: this.offset,
+        markerSec: this.offset.markerSec,
+        markerNanosec: this.offset.markerNanosec,
         limit: this.limit,
       },
     });
@@ -102,7 +106,7 @@ class CommentsListService {
     const comments = fetchedResult.comments;
     comments.forEach((v) => (v.isLoading = false));
 
-    return { aborted: fetchClient.signal.aborted, fetchedResult, comments };
+    return { fetchSignal: fetchClient.signal, fetchedResult, comments };
   }
 
   async getComments(postId, requiredMinDelay, signal) {
@@ -110,20 +114,28 @@ class CommentsListService {
     this.isLoading = true;
     this.addEmptyComments();
 
-    const { aborted, fetchedResult, comments } = await this.getFetchedComments(
+    const { fetchSignal, fetchedResult, comments } = await this.getFetchedComments(
       postId,
       requiredMinDelay,
       signal
     );
 
-    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(comments);
+    const { offset, commentsEnded } = fetchedResult;
+    const commentsWithAuthorInfo = await this.getAuthorCommentsInfo(
+      comments,
+      this.abortController.signal
+    );
     const filteredComments = this.filterFetchedAndCreatedComments(commentsWithAuthorInfo);
-    this.removeEmptyComments();
-    this.offset += this.limit;
-    this.isLoading = false;
-    if (fetchedResult.commentsEnded) this.commentsEnded = true;
 
-    if (!aborted) runInAction(() => this.comments.push(...filteredComments));
+    this.offset = {
+      markerSec: offset.markerSec,
+      markerNanosec: offset.markerNanosec,
+    };
+    this.removeEmptyComments();
+    this.isLoading = false;
+    if (commentsEnded) this.commentsEnded = true;
+
+    if (!fetchSignal.aborted) runInAction(() => this.comments.push(...filteredComments));
   }
 }
 

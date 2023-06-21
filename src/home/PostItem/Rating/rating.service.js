@@ -3,31 +3,32 @@ import { auth } from '../../../firebase-config';
 import { FetchStore } from '../../../fetchStore';
 
 class RatingService {
-  route = '/ratings';
+  #route = '/ratings';
   averageScore = -1;
 
-  constructor(postId) {
+  constructor(postId, initialScore) {
     makeObservable(this, {
       averageScore: observable,
     });
+
     this.postId = postId;
+    if (initialScore >= 0) this.averageScore = initialScore;
   }
 
-  getAverageScore = async () => {
-    const ratings = await this.getRatings(this.postId);
+  getAverageScore = async (postId, signal) => {
+    const ratings = await this.getRatings(postId ? postId : this.postId, signal);
     if (ratings === undefined) return;
     const sum = ratings.reduce((acc, obj) => acc + obj.score, 0);
     const score = sum / ratings.length;
-    runInAction(() => {
-      return (this.averageScore = isFinite(score) ? score : 0);
-    });
+    return runInAction(() => (this.averageScore = isFinite(score) ? score : 0));
   };
 
-  getRatings = async () => {
-    if (this.postId === undefined) return;
+  getRatings = async (postId, signal) => {
+    if (postId === undefined) return;
     const fetchClient = new FetchStore({
-      route: this.route,
-      params: { postId: this.postId },
+      route: this.#route,
+      params: { postId: postId },
+      signal,
     });
     const fetchedRatings = await fetchClient.sendRequest();
     return fetchedRatings.ratings;
@@ -35,7 +36,7 @@ class RatingService {
 
   getSingleRating = async (userId) => {
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       params: { postId: this.postId, userId },
     });
     try {
@@ -50,7 +51,7 @@ class RatingService {
   changeRating = async (docId, score) => {
     const fetchClient = new FetchStore({
       body: JSON.stringify({ docId, score }),
-      route: this.route,
+      route: this.#route,
       method: 'PUT',
       requiredAuth: true,
       contentType: 'application/json',
@@ -69,7 +70,7 @@ class RatingService {
 
     const fetchClient = new FetchStore({
       body: JSON.stringify({ postId: this.postId, score, userId }),
-      route: this.route,
+      route: this.#route,
       requiredAuth: true,
       method: 'POST',
       contentType: 'application/json',

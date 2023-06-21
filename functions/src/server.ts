@@ -6,6 +6,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { baseOrigin, isProd } from './constants/api';
 import { admin } from './config';
 import { COMMENTS_OFFSET_LIMIT } from './constants/comments';
+import { getPaginationParams } from './utils/requestUtils';
 
 export const app = express();
 
@@ -64,7 +65,7 @@ export function attachRoutes() {
   //     res.status(200).json(users);
   //   } catch (error: any) {
   //
-  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error});
+  //     res.status(500).json({error: true, message: 'Internal Server Error', data: error.message});
   //   }
   // });
 
@@ -81,7 +82,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -94,38 +95,87 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
+  type TPost = {
+    id: string;
+    text: string;
+    title: string;
+    date: { seconds: number; nanoseconds: number };
+    viewedBy: string[];
+    authorId: string;
+  };
+
   app.get('/posts', async (req, res) => {
     try {
+      const { markerSec, markerNanosec, limit } = getPaginationParams(req);
       const collectionRef = db.collection('posts');
-      const snapshot = await collectionRef.get();
-      const posts = snapshot.docs.map((doc) => ({
-        ...doc.data(),
+      let query = collectionRef
+        .orderBy('date.seconds')
+        .orderBy('date.nanoseconds')
+        .limit(limit);
+
+      if (markerSec && markerNanosec) {
+        query = query.startAfter(markerSec, markerNanosec);
+      }
+
+      const querySnapshot = await query.get();
+      const docs = querySnapshot.docs;
+
+      const currentPosts = docs.length > limit ? docs.slice(0, -1) : docs;
+
+      const posts: TPost[] = currentPosts.map((doc) => ({
         id: doc.id,
+        title: doc.data().title,
+        text: doc.data().text,
+        date: doc.data().date,
+        authorId: doc.data().authorId,
+        viewedBy: doc.data().viewedBy,
       }));
-      res.status(200).send(posts);
+
+      const offset = {
+        markerSec: posts[posts.length - 1]?.date.seconds,
+        markerNanosec: posts[posts.length - 1]?.date.nanoseconds,
+      };
+
+      res.status(200).send({
+        posts,
+        postsEnded: docs.length <= limit,
+        offset,
+      });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error',
+        data: error.message.message,
+      });
     }
   });
 
   app.get('/posts/:id', async (req, res) => {
     try {
-      const id = req.params.id || '';
+      const id = req.params.id;
+      if (!id) throw new Error('PostId does not exist');
+
       const collectionRef = db.collection('posts');
       const foundPost = await collectionRef.doc(id).get();
       if (!foundPost.exists) throw new Error('Post not found');
-      const data = foundPost.data();
-      res.status(200).json(data);
+
+      const post: TPost = {
+        id: foundPost.id,
+        text: foundPost.data()?.text,
+        title: foundPost.data()?.title,
+        date: foundPost.data()?.date,
+        viewedBy: foundPost.data()?.viewedBy,
+        authorId: foundPost.data()?.authorId,
+      };
+      res.status(200).json(post);
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -137,7 +187,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -148,7 +198,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -165,7 +215,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -188,7 +238,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -205,7 +255,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -223,7 +273,7 @@ export function attachRoutes() {
     } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
@@ -240,16 +290,16 @@ export function attachRoutes() {
         .add({ text, postId, date, authorId });
       const doc = await docRef.get();
       res.status(201).json({ id: doc.id, ...doc.data() });
-    } catch (error) {
+    } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 
   type TComments = {
     id: string;
-    date: { seconds: number; nanosecods: number };
+    date: { seconds: number; nanoseconds: number };
     text: string;
     postId: string;
     authorId: string;
@@ -259,28 +309,46 @@ export function attachRoutes() {
     try {
       const postId = req.params.postId;
       if (!postId) throw new Error('PostId does not exist');
-      const offset = Number(req.query.offset || 0);
-      const limit = Number(req.query.limit || COMMENTS_OFFSET_LIMIT);
+      const { markerSec, markerNanosec, limit } = getPaginationParams(req);
+
       const collectionRef = db.collection('comments');
-      const query = collectionRef.where('postId', '==', postId);
+      let query = collectionRef
+        .where('postId', '==', postId)
+        .orderBy('date.seconds')
+        .orderBy('date.nanoseconds')
+        .limit(limit + 1);
+
+      if (markerSec && markerNanosec) {
+        query = query.startAfter(markerSec, markerNanosec);
+      }
+
       const querySnapshot = await query.get();
-      const comments: TComments[] = querySnapshot.docs.map((doc) => ({
+      const docs = querySnapshot.docs;
+      const currentComments = docs.length > limit ? docs.slice(0, -1) : docs;
+      const comments: TComments[] = currentComments.map((doc) => ({
         id: doc.id,
         date: doc.data().date,
         text: doc.data().text,
         postId: doc.data().postId,
         authorId: doc.data().authorId,
       }));
-      comments.sort((cA, cB) => cA.date.seconds - cB.date.seconds);
-      const maxIndex = offset + limit;
-      const slicedComments = comments.slice(offset, maxIndex);
-      res
-        .status(200)
-        .json({ comments: slicedComments, commentsEnded: comments.length <= maxIndex });
+
+      const offset = {
+        markerSec: comments[comments.length - 1]?.date.seconds,
+        markerNanosec: comments[comments.length - 1]?.date.nanoseconds,
+      };
+
+      res.status(200).json({
+        comments,
+        commentsEnded: docs.length <= limit,
+        offset,
+      });
     } catch (error: any) {
-      res
-        .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error.message });
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error',
+        data: error.message.message,
+      });
     }
   });
 
@@ -293,10 +361,10 @@ export function attachRoutes() {
       const postRef = db.collection('posts').doc(postId);
       await postRef.update({ viewedBy: FieldValue.arrayUnion(userId) });
       res.status(200).json(true);
-    } catch (error) {
+    } catch (error: any) {
       res
         .status(500)
-        .json({ error: true, message: 'Internal Server Error', data: error });
+        .json({ error: true, message: 'Internal Server Error', data: error.message });
     }
   });
 }

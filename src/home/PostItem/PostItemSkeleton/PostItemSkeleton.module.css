@@ -1,29 +1,25 @@
-.postAuthor {
-  display: flex;
+.postBodyText {
+  row-gap: 15px;
 }
 
-.authorInfo {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
+.title {
+  width: 100%;
+  height: 30px;
 }
 
-.postAuthor {
-  cursor: auto;
+.text {
+  width: 100%;
+  height: 80px;
 }
 
-.authorName,
-.authorPostDate {
+.title,
+.text {
   border-radius: 16px;
-  height: 15px;
 }
 
-.authorName {
-  width: 80px;
-}
-
-.authorPostDate {
-  width: 120px;
+.arrow {
+  fill: #515151;
+  opacity: 0.35;
 }
 
 .skeletonLoading {

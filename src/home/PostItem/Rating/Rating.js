@@ -12,11 +12,11 @@ export const Rating = observer(
         userCount: 0,
       };
 
-      this.service = new RatingService(this.props.postId);
+      this.service = new RatingService(this.props.postId, this.props.initScore);
     }
 
     componentDidMount() {
-      void this.updateAvegareScore();
+      if (this.props.initScore === undefined) this.updateAvegareScore();
     }
 
     updateAvegareScore = () => {
@@ -43,7 +43,7 @@ export const Rating = observer(
       const userCount = this.state.userCount / 2;
       const score = rating / 2;
       return (
-        <div className={styles.postRaiting} onMouseLeave={this.handleMouseLeave}>
+        <div className={styles.postRating} onMouseLeave={this.handleMouseLeave}>
           {new Array(5).fill(0).map((item, index) => {
             const percSelected = userCount - index;
             let percFilled = score - index;

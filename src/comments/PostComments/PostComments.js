@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import { Component } from 'react';
-import { commentsService } from './postComments.service';
+import { postCommentsService } from './postComments.service';
 import { PostItem } from '../../home/PostItem';
 import navStyles from '../../header/Header.module.css';
 import { CommentsList } from '../CommentsList';
@@ -16,27 +16,25 @@ export const PostComments = observer(
     }
 
     componentDidMount() {
-      void commentsService.getPost(this.id);
+      void postCommentsService.getPost(this.id);
+    }
+
+    componentWillUnmount() {
+      void postCommentsService.resetPostComments();
     }
 
     render() {
-      const post = commentsService.post;
-      if (post.id !== this.id) return null;
+      const post = postCommentsService.post;
       const postStyles = classNames(navStyles.navbarContainer, styles.commentsWrap);
       return (
         <div className={postStyles}>
           <div className={styles.commentsPost}>
-            <PostItem
-              post={post}
-              withComments={true}
-              viewCounter={post.viewedBy?.length}
-              date={post.date.seconds}
-            />
+            <PostItem post={post} withComments />
           </div>
           <div className={styles.commentsActionWrap}>
-            <CreateComment postId={post.id} />
+            <CreateComment postId={this.id} />
             <div className={styles.commentsList}>
-              <CommentsList postId={post.id} />
+              <CommentsList postId={this.id} />
             </div>
           </div>
         </div>

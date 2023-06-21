@@ -1,29 +1,11 @@
-.postAuthor {
-  display: flex;
-}
-
-.authorInfo {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-}
-
-.postAuthor {
-  cursor: auto;
-}
-
-.authorName,
-.authorPostDate {
+.counter {
+  width: 40px;
+  height: 20px;
   border-radius: 16px;
-  height: 15px;
 }
 
-.authorName {
-  width: 80px;
-}
-
-.authorPostDate {
-  width: 120px;
+.eyeSvg {
+  opacity: 0.65;
 }
 
 .skeletonLoading {
