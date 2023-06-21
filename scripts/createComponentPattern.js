@@ -23,7 +23,10 @@ if (fs.existsSync(targetPath)) {
   console.log(`Папка ${dir} успешно создана.`);
 
   const filesToCreate = [
-    { name: `${componentName}.js`, code: `export function ${componentName}() {}` },
+    {
+      name: `${componentName}.js`,
+      code: `import styles from './${componentName}.module.css'\n\nexport function ${componentName}() {}`,
+    },
     { name: `${componentName}.module.css`, code: '' },
     { name: 'index.js', code: `export { ${componentName} } from './${componentName}'` },
   ];

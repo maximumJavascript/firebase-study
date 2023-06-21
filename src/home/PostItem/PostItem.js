@@ -3,15 +3,20 @@ import { Author } from './Author';
 import { Views } from './Views';
 import { Rating } from './Rating/Rating';
 import styles from './PostItem.module.css';
-import { Link } from 'react-router-dom';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ButtonUI } from '../../controls/ButtonUI';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
 import { PostItemSkeleton } from './PostItemSkeleton';
 import { postsService } from '../../posts/posts.service';
+import { withLink } from '../../hoc/withLink';
+import { PostBody } from './PostBody';
 import { toJS } from 'mobx';
+
+const AuthorWithLink = withLink(Author);
+const PostBodyWithLink = withLink(PostBody);
 
 export class PostItem extends React.Component {
   ref = React.createRef();
@@ -33,7 +38,7 @@ export class PostItem extends React.Component {
 
   shortTextWithDots(text, maxLength) {
     if (text.length > maxLength) {
-      text.length = maxLength;
+      text = text.slice(0, maxLength);
       text += '...';
     }
     return text;
@@ -64,6 +69,7 @@ export class PostItem extends React.Component {
     const showDeletePostBtn =
       this.state.currentUsserUid === postUserUid && props.withComments;
     const linkToComments = `/comments/${post.id}`;
+
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
         {src && (
@@ -72,16 +78,13 @@ export class PostItem extends React.Component {
           </div>
         )}
         <div className={styles.postContainer}>
-          <Link to={linkToComments}>
-            <div className={styles.postBodyText}>
-              <div className={styles.postTitle}>{title}</div>
-              <div className={styles.postTextContainer}>{text}</div>
-            </div>
-          </Link>
+          <PostBodyWithLink to={linkToComments} title={title} text={text} />
           <div className={styles.postFooter}>
-            <Link to={linkToComments}>
-              <Author date={post.date.seconds} authorInfo={post.authorInfo} />
-            </Link>
+            <AuthorWithLink
+              to={linkToComments}
+              date={post.date.seconds}
+              authorInfo={post.authorInfo}
+            />
             <Views viewCounter={post.viewedBy?.length} />
             <Rating postId={post.id} initScore={post.ratingScore} />
             {!props.withComments && (
