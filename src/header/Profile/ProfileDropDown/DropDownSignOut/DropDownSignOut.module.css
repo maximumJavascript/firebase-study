@@ -1,0 +1,9 @@
+.signOutIcon {
+  width: 30px;
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}

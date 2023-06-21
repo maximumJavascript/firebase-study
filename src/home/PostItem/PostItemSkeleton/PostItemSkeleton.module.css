@@ -1,0 +1,46 @@
+.postBodyText {
+  row-gap: 15px;
+}
+
+.title {
+  width: 100%;
+  height: 30px;
+}
+
+.text {
+  width: 100%;
+  height: 80px;
+}
+
+.title,
+.text {
+  border-radius: 16px;
+}
+
+.arrow {
+  fill: #515151;
+  opacity: 0.35;
+}
+
+.skeletonLoading {
+  background: linear-gradient(
+      90deg,
+      rgba(178, 178, 178, 0) 0%,
+      rgb(178, 178, 178) 50.52%,
+      rgba(178, 178, 178, 0) 100%
+    )
+    0% 0% / 600% 600%;
+  animation: 1.5s ease-in-out 0s infinite alternate-reverse none running
+    skeleton-animation;
+  opacity: 0.35;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 100%;
+  }
+
+  100% {
+    background-position: 100% 0%;
+  }
+}

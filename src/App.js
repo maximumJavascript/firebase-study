@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { CreatePost } from './posts';
 import { Home } from './home';
 import { Login } from './auth';
-import { NavBar } from './header/MainNavbar/NavBar';
+import { Header } from './header/';
 import { ErrorBoundary } from './errorBoundary';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
@@ -16,13 +16,13 @@ export function App() {
 
   return (
     <Router basename="/">
-      <NavBar />
+      <Header />
       <ErrorBoundary>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comments/:id" element={<Home withComments={true} />} />
+          <Route path="/comments/:id" element={<Home withComments />} />
           {/* <AnimalsDropdown /> */}
         </Routes>
       </ErrorBoundary>

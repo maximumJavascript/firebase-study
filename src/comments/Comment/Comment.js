@@ -10,11 +10,7 @@ export class Comment extends Component {
     if (commentData.isLoading) return <CommentSkeleton />;
     return (
       <div className={styles.commentWrap}>
-        <Author
-          authorId={commentData.authorId}
-          authorInfo={commentData.authorInfo}
-          date={commentData.date.seconds}
-        />
+        <Author authorInfo={commentData.authorInfo} date={commentData.date.seconds} />
         <div className={styles.commentText}>{commentData.text}</div>
       </div>
     );

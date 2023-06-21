@@ -1,12 +1,11 @@
-import { makeAutoObservable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { authService } from '../auth/auth.service';
 import { auth } from '../firebase-config';
-import { baseUrl } from '../constants/api';
 import { FetchStore } from '../fetchStore';
 
 class ViewsCounter {
   viewsCounter = 0;
-  route = '/views';
+  #route = '/views';
   options = {
     root: null,
     rootMargin: '0px',
@@ -14,14 +13,16 @@ class ViewsCounter {
   };
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      viewsCounter: observable,
+    });
   }
 
   updateInfo = async (postID) => {
     if (!auth.currentUser) return false;
     const userId = auth.currentUser.uid;
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       method: 'PUT',
       params: { postID },
       searchParams: { userId },

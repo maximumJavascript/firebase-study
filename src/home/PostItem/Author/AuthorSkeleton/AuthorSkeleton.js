@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 export function AuthorSkeleton() {
   return (
-    <div className={authorStyles.postAuthor}>
+    <div className={cn(authorStyles.postAuthor, styles.postAuthor)}>
       <div
         className={cn(
           authorStyles.authorImg__img,

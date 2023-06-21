@@ -1,5 +1,5 @@
 .logOutBtnText {
-  font-family: "Playfair Display";
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -15,7 +15,7 @@
 .portal,
 .homeText,
 .loginText {
-  font-family: "Playfair Display";
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -23,7 +23,7 @@
 }
 
 .logOutBtnText {
-  font-family: "Playfair Display";
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -61,7 +61,7 @@
 }
 
 .createPostText {
-  font-family: "Playfair Display";
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 25px;
@@ -84,6 +84,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  column-gap: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .newsLink {
@@ -121,13 +124,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: auto;
 }
 
 .authImg {
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
   border: 2px solid #dddddd;
-  border-radius: 64px;
+  border-radius: 50%;
+}
+
+.authPicture {
+  cursor: pointer;
 }
 
 .blog {
@@ -160,5 +168,6 @@
 }
 
 .navbarContainer {
-  max-width: 1638px;
+  max-width: 1367px;
+  position: relative;
 }

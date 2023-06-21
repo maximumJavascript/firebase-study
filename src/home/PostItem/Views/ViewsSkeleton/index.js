@@ -1,0 +1,1 @@
+export { ViewsSkeleton } from './ViewsSkeleton';

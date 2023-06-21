@@ -8,6 +8,10 @@
   row-gap: 5px;
 }
 
+.postAuthor {
+  cursor: auto;
+}
+
 .authorName,
 .authorPostDate {
   border-radius: 16px;

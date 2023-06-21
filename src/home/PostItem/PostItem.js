@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
-import { CommentLoginButton } from '../../controls/CommentLoginButton/CommentLoginButton';
-import { animated, Spring } from '@react-spring/web';
+import { ButtonUI } from '../../controls/ButtonUI';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
+import { PostItemSkeleton } from './PostItemSkeleton';
+import { postsService } from '../../posts/posts.service';
+import { toJS } from 'mobx';
 
 export class PostItem extends React.Component {
   ref = React.createRef();
@@ -20,9 +22,13 @@ export class PostItem extends React.Component {
   }
 
   componentDidMount() {
-    onAuthStateChanged(auth, (user) => {
+    this.unsubscribeAuthChange = onAuthStateChanged(auth, (user) => {
       if (user) this.setState({ currentUsserUid: user.uid });
     });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeAuthChange) this.unsubscribeAuthChange();
   }
 
   shortTextWithDots(text, maxLength) {
@@ -32,6 +38,10 @@ export class PostItem extends React.Component {
     }
     return text;
   }
+
+  handleDeletePost = () => {
+    postsService.deletePostItem(this.props.post.id);
+  };
 
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
@@ -44,51 +54,49 @@ export class PostItem extends React.Component {
 
   render() {
     const { props } = this;
-    const { title, text } = this.getProcessedText();
-    const src = props.post.base64Img;
-    const postUserUid = props.post.author.id;
-    return (
-      <Spring>
-        {(s) => (
-          <animated.div
-            className={styles.post}
-            data-postid={props.post.id}
-            ref={this.ref}
-            style={s}
-          >
-            {src && (
-              <div className={styles.postImage}>
-                <img src={src} alt="post: img" />
-              </div>
-            )}
-            <div className={styles.postContainer}>
-              <div className={styles.postBodyText}>
-                <div className={styles.postTitle}>{title}</div>
-                <div className={styles.postTextContainer}>{text}</div>
-              </div>
-              <div className={styles.postFooter}>
-                <Author date={props.date} authorId={props.post.author.id} />
-                <Views postId={props.post.id} viewCounter={props.viewCounter} />
-                <Rating postId={props.post.id} />
-                {!props.withComments && (
-                  <Link to={`/comments/${props.post.id}`}>
-                    <div className={styles.postShowMore}>
-                      <SvgNext />
-                    </div>
-                  </Link>
-                )}
+    const { post } = props;
 
-                {this.state.currentUsserUid === postUserUid ? (
-                  <CommentLoginButton
-                    onClick={() => this.props.deletePostItem(props.post.id)}
-                    text={'DEL'}
-                  />
-                ) : null}
-              </div>
-            </div>
-          </animated.div>
+    if (post.isLoading) return <PostItemSkeleton />;
+
+    const { title, text } = this.getProcessedText();
+    const src = post.base64Img;
+    const postUserUid = post.authorId;
+    const showDeletePostBtn =
+      this.state.currentUsserUid === postUserUid && props.withComments;
+    const linkToComments = `/comments/${post.id}`;
+    return (
+      <div className={styles.post} data-postid={post.id} ref={this.ref}>
+        {src && (
+          <div className={styles.postImage}>
+            <img src={src} alt="post: img" />
+          </div>
         )}
-      </Spring>
+        <div className={styles.postContainer}>
+          <Link to={linkToComments}>
+            <div className={styles.postBodyText}>
+              <div className={styles.postTitle}>{title}</div>
+              <div className={styles.postTextContainer}>{text}</div>
+            </div>
+          </Link>
+          <div className={styles.postFooter}>
+            <Link to={linkToComments}>
+              <Author date={post.date.seconds} authorInfo={post.authorInfo} />
+            </Link>
+            <Views viewCounter={post.viewedBy?.length} />
+            <Rating postId={post.id} initScore={post.ratingScore} />
+            {!props.withComments && (
+              <Link to={linkToComments}>
+                <div className={styles.postShowMore}>
+                  <SvgNext />
+                </div>
+              </Link>
+            )}
+            {showDeletePostBtn && (
+              <ButtonUI onClick={this.handleDeletePost}>Delete</ButtonUI>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
 }

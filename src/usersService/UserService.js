@@ -3,7 +3,7 @@ import { FetchStore } from '../fetchStore';
 
 class UserService {
   data = [];
-  route = '/users';
+  #route = '/users';
 
   constructor() {
     makeObservable(this, {
@@ -16,7 +16,7 @@ class UserService {
   handleAddUsers = async (user) => {
     const fetchClient = new FetchStore({
       body: JSON.stringify(user),
-      route: this.route,
+      route: this.#route,
       method: 'POST',
       requiredAuth: true,
       contentType: 'application/json',
@@ -26,7 +26,7 @@ class UserService {
 
   getUsers = async () => {
     // пока не используется где-то
-    const fetchClient = new FetchStore({ route: this.route });
+    const fetchClient = new FetchStore({ route: this.#route });
     const fetchedUsers = fetchClient.sendRequest();
     return (this.data = fetchedUsers);
   };
@@ -34,7 +34,7 @@ class UserService {
   getSingleUser = async (uid, requiredMinDelay, signal) => {
     if (!uid) throw new Error('Пустой uid!');
     const fetchClient = new FetchStore({
-      route: this.route,
+      route: this.#route,
       signal,
       params: {
         uid,
