@@ -22,11 +22,16 @@
 
 .authorImg {
   display: flex;
-  flex: 1 0 auto;
 }
 
 .authorImg__img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+@media (max-width: 495px) {
+  .postAuthor {
+    justify-content: flex-start;
+  }
 }

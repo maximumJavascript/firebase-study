@@ -23,7 +23,9 @@ export class PostItem extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { currentUsserUid: null };
+    this.state = {
+      currentUsserUid: null,
+    };
   }
 
   componentDidMount() {
@@ -50,7 +52,7 @@ export class PostItem extends React.Component {
 
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
-    if (!this.props.withComments) {
+    if (!this.withComments) {
       title = this.shortTextWithDots(title, MAX_TITLE_LENGTH);
       text = this.shortTextWithDots(text, MAX_DESCRIPTION_LENGTH);
     }
@@ -63,12 +65,21 @@ export class PostItem extends React.Component {
 
     if (post.isLoading) return <PostItemSkeleton />;
 
+    const { windowSize, withComments } = props;
     const { title, text } = this.getProcessedText();
     const src = post.base64Img;
     const postUserUid = post.authorId;
-    const linkToComments = !props.withComments && `/comments/${post.id}`;
-    const showDeletePostBtn =
-      this.state.currentUsserUid === postUserUid && props.withComments;
+    const linkToComments = !withComments && `/comments/${post.id}`;
+    const showDeletePostBtn = this.state.currentUsserUid === postUserUid && withComments;
+
+    const isMobile = !withComments && windowSize.width < 495;
+    const Author = (
+      <AuthorWithConditionalLink
+        to={linkToComments}
+        date={post.date.seconds}
+        authorInfo={post.authorInfo}
+      />
+    );
 
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
@@ -78,16 +89,13 @@ export class PostItem extends React.Component {
           </div>
         )}
         <div className={styles.postContainer}>
+          {isMobile && Author}
           <PostBodyWithConditionalLink to={linkToComments} title={title} text={text} />
           <div className={styles.postFooter}>
-            <AuthorWithConditionalLink
-              to={linkToComments}
-              date={post.date.seconds}
-              authorInfo={post.authorInfo}
-            />
+            {!isMobile && Author}
             <Views viewCounter={post.viewedBy?.length} />
             <Rating postId={post.id} initScore={post.ratingScore} />
-            {!props.withComments && (
+            {!withComments && (
               <Link to={linkToComments}>
                 <div className={styles.postShowMore}>
                   <SvgNext />

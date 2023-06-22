@@ -177,9 +177,10 @@
   }
 }
 
-@media (max-width: 465px) {
+@media (max-width: 495px) {
   .nav {
     row-gap: 15px;
+    padding-bottom: 20px;
   }
 
   .centerLinks {

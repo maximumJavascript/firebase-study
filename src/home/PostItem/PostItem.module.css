@@ -35,6 +35,8 @@
   justify-content: space-between;
   align-items: center;
   column-gap: 25px;
+  row-gap: 25px;
+  flex-wrap: wrap;
 }
 
 .postShowMore {
@@ -45,5 +47,9 @@
 @media (max-width: 685px) {
   .postShowMore {
     display: none;
+  }
+
+  .postFooter {
+    justify-content: center;
   }
 }

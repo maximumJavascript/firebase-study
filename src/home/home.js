@@ -6,6 +6,9 @@ import styles from './home.module.css';
 import { viewsCounter } from '../viewsCounter/ViewsCounter';
 import { ErrorBoundary } from '../errorBoundary';
 import { ModalComments } from '../comments/ModalComments';
+import { withWindowWidth } from '../hoc/withWindowWidth';
+
+const PostItemWithWindowWidth = withWindowWidth(PostItem);
 
 export const Home = observer(
   class Home extends Component {
@@ -40,7 +43,10 @@ export const Home = observer(
             {postLists.map((post) => {
               return (
                 <ErrorBoundary key={post.id} slotError>
-                  <PostItem post={post} ref={post.isLoading ? null : this.setRef} />
+                  <PostItemWithWindowWidth
+                    post={post}
+                    ref={post.isLoading ? null : this.setRef}
+                  />
                 </ErrorBoundary>
               );
             })}
