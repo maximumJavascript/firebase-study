@@ -44,6 +44,12 @@
   padding: 11px 10px;
 }
 
+@media (max-width: 1437px) {
+  .postContainer {
+    padding-right: 0;
+  }
+}
+
 @media (max-width: 685px) {
   .postShowMore {
     display: none;

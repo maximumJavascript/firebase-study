@@ -72,7 +72,7 @@ export class PostItem extends React.Component {
     const linkToComments = !withComments && `/comments/${post.id}`;
     const showDeletePostBtn = this.state.currentUsserUid === postUserUid && withComments;
 
-    const isMobile = !withComments && windowSize.width < 495;
+    const isMobile = windowSize?.width < 495;
     const Author = (
       <AuthorWithConditionalLink
         to={linkToComments}

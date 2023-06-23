@@ -7,6 +7,9 @@ import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
 import classNames from 'classnames';
+import { withWindowWidth } from '../../hoc/withWindowWidth';
+
+const PostItemWithWindowWidth = withWindowWidth(PostItem);
 
 export const PostComments = observer(
   class PostComments extends Component {
@@ -29,7 +32,7 @@ export const PostComments = observer(
       return (
         <div className={postStyles}>
           <div className={styles.commentsPost}>
-            <PostItem post={post} withComments />
+            <PostItemWithWindowWidth post={post} withComments />
           </div>
           <div className={styles.commentsActionWrap}>
             <CreateComment postId={this.id} />
