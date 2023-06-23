@@ -52,7 +52,7 @@ export class PostItem extends React.Component {
 
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
-    if (!this.withComments) {
+    if (!this.props.withComments) {
       title = this.shortTextWithDots(title, MAX_TITLE_LENGTH);
       text = this.shortTextWithDots(text, MAX_DESCRIPTION_LENGTH);
     }

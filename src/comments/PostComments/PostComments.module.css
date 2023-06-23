@@ -9,9 +9,7 @@
 .commentsPost {
   min-height: auto;
   padding-top: 0;
-  flex-grow: 1;
   width: 100%;
-  max-width: 645px;
 }
 
 .commentsList {
@@ -30,7 +28,6 @@
   background-color: #fff;
   padding: 15px;
   border-radius: 15px;
-  flex-grow: 1;
   width: 100%;
   max-height: 100%;
 }

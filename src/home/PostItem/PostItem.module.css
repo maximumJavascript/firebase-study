@@ -1,6 +1,6 @@
 .post {
   width: 100%;
-  height: auto;
+  max-height: 100%;
   background-color: #fff;
   box-shadow: 4px 6px 13px rgba(215, 215, 215, 0.25);
   padding: 20px;
