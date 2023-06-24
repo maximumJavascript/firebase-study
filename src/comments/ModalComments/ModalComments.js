@@ -11,14 +11,15 @@ export function ModalComments() {
   const navigate = useNavigate();
   const handleClose = () => {
     setIsClose(true);
-    document.body.style.overflow = 'auto';
   };
+
   const springStyle = useSpring({
     from: { opacity: 0 },
     to: { opacity: isClose ? 0 : 1 },
     config: isClose ? { ...config.gentle, duration: 200 } : config.slow,
     onRest: () => {
       if (!isClose) return;
+      document.body.style.overflow = 'auto';
       navigate('/');
     },
   });
@@ -30,12 +31,12 @@ export function ModalComments() {
 
   return (
     <Modal>
-      <animated.div style={springStyle} className={styles.modalCommentsBackground}>
+      <div className={styles.modalCommentsBackground}>
         <div className={styles.modalCommentsWrapper}>
           <PostComments />
         </div>
         <ModalCloseButton onClose={handleClose} />
-      </animated.div>
+      </div>
     </Modal>
   );
 }

@@ -1,0 +1,16 @@
+.postImage {
+  display: flex;
+}
+
+.postImage img {
+  max-width: 244px;
+  max-height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+@media (max-width: 400px) {
+  .postImage img {
+    max-width: 100%;
+  }
+}

@@ -14,9 +14,11 @@ import { postsService } from '../../posts/posts.service';
 import { withConditionalLink } from '../../hoc/withConditionalLink';
 import { PostBody } from './PostBody';
 import { toJS } from 'mobx';
+import { PostImage } from './PostImage';
 
 const AuthorWithConditionalLink = withConditionalLink(Author);
 const PostBodyWithConditionalLink = withConditionalLink(PostBody);
+const PostImageWithConditionalLink = withConditionalLink(PostImage);
 
 export class PostItem extends React.Component {
   ref = React.createRef();
@@ -83,11 +85,7 @@ export class PostItem extends React.Component {
 
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
-        {src && (
-          <div className={styles.postImage}>
-            <img src={src} alt="post: img" />
-          </div>
-        )}
+        {src && <PostImageWithConditionalLink to={linkToComments} src={src} />}
         <div className={styles.postContainer}>
           {isMobile && Author}
           <PostBodyWithConditionalLink to={linkToComments} title={title} text={text} />

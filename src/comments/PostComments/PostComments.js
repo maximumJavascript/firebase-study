@@ -2,11 +2,9 @@ import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { postCommentsService } from './postComments.service';
 import { PostItem } from '../../home/PostItem';
-import navStyles from '../../header/Header.module.css';
 import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
-import classNames from 'classnames';
 import { withWindowWidth } from '../../hoc/withWindowWidth';
 
 const PostItemWithWindowWidth = withWindowWidth(PostItem);
@@ -28,9 +26,8 @@ export const PostComments = observer(
 
     render() {
       const post = postCommentsService.post;
-      const postStyles = classNames(navStyles.navbarContainer, styles.commentsWrap);
       return (
-        <div className={postStyles}>
+        <div className={styles.commentsWrap}>
           <div className={styles.commentsPost}>
             <PostItemWithWindowWidth post={post} withComments />
           </div>

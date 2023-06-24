@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction } from 'mobx';
 import { auth } from '../../../firebase-config';
 import { FetchStore } from '../../../fetchStore';
+import { postsService } from '../../../posts/posts.service';
 
 class RatingService {
   #route = '/ratings';
@@ -13,6 +14,12 @@ class RatingService {
 
     this.postId = postId;
     if (initialScore >= 0) this.averageScore = initialScore;
+  }
+
+  changeLocalRating(score) {
+    const currentPost = postsService.data.find(({ id }) => id === this.postId);
+    if (!currentPost) return;
+    currentPost.ratingScore = score;
   }
 
   getAverageScore = async (postId, signal) => {
@@ -57,6 +64,7 @@ class RatingService {
       contentType: 'application/json',
     });
     await fetchClient.sendRequest();
+    this.changeLocalRating(score);
   };
 
   addRating = async (score) => {
@@ -76,6 +84,7 @@ class RatingService {
       contentType: 'application/json',
     });
     await fetchClient.sendRequest();
+    this.changeLocalRating(score);
     // успешно добавили
     return true;
   };
