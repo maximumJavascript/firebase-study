@@ -21,7 +21,7 @@ class PostCommentsService {
 
   getPost = async (postId) => {
     const existPost = postsService.data.find(({ id }) => id === postId);
-    console.log(existPost);
+
     if (existPost) {
       return runInAction(() => (this.post = { ...existPost, id: postId }));
     }
