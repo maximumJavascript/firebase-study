@@ -177,6 +177,12 @@
   }
 }
 
+@media (max-width: 560px) {
+  .rightLinks {
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 495px) {
   .nav {
     row-gap: 15px;
