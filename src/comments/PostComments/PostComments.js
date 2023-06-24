@@ -6,6 +6,7 @@ import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
 import { withWindowWidth } from '../../hoc/withWindowWidth';
+import { Spring, config, animated } from '@react-spring/web';
 
 const PostItemWithWindowWidth = withWindowWidth(PostItem);
 
@@ -26,18 +27,29 @@ export const PostComments = observer(
 
     render() {
       const post = postCommentsService.post;
+
+      const springConfig = {
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+        config: { ...config.slow, duration: 500 },
+      };
+
       return (
-        <div className={styles.commentsWrap}>
-          <div className={styles.commentsPost}>
-            <PostItemWithWindowWidth post={post} withComments />
-          </div>
-          <div className={styles.commentsActionWrap}>
-            <CreateComment postId={this.id} />
-            <div className={styles.commentsList}>
-              <CommentsList postId={this.id} />
-            </div>
-          </div>
-        </div>
+        <Spring {...springConfig}>
+          {(s) => (
+            <animated.div style={s} className={styles.commentsWrap}>
+              <div className={styles.commentsPost}>
+                <PostItemWithWindowWidth post={post} withComments />
+              </div>
+              <div className={styles.commentsActionWrap}>
+                <CreateComment postId={this.id} />
+                <div className={styles.commentsList}>
+                  <CommentsList postId={this.id} />
+                </div>
+              </div>
+            </animated.div>
+          )}
+        </Spring>
       );
     }
   }
