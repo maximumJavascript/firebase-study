@@ -29,9 +29,9 @@ export const PostComments = observer(
       const post = postCommentsService.post;
 
       const springConfig = {
-        from: { opacity: 0 },
-        to: { opacity: 1 },
-        config: { ...config.slow, duration: 500 },
+        from: { 'margin-top': '-100%' },
+        to: { 'margin-top': '0px' },
+        config: config.default,
       };
 
       return (
