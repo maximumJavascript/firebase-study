@@ -3,7 +3,8 @@
   justify-content: space-between;
   column-gap: 10px;
   align-items: center;
-  cursor: pointer;
+  flex-shrink: 0;
+  margin-bottom: auto;
 }
 
 .authorName {
@@ -14,7 +15,6 @@
 }
 
 .authorPostDate {
-  /* font-family: "Poppins"; */
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
@@ -24,11 +24,16 @@
 
 .authorImg {
   display: flex;
-  flex: 1 0 auto;
 }
 
 .authorImg__img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+@media (max-width: 495px) {
+  .postAuthor {
+    justify-content: flex-start;
+  }
 }

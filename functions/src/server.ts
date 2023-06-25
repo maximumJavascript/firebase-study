@@ -106,6 +106,7 @@ export function attachRoutes() {
     date: { seconds: number; nanoseconds: number };
     viewedBy: string[];
     authorId: string;
+    base64Img: string;
   };
 
   app.get('/posts', async (req, res) => {
@@ -133,6 +134,7 @@ export function attachRoutes() {
         date: doc.data().date,
         authorId: doc.data().authorId,
         viewedBy: doc.data().viewedBy,
+        base64Img: doc.data().base64Img,
       }));
 
       const offset = {
@@ -170,6 +172,7 @@ export function attachRoutes() {
         date: foundPost.data()?.date,
         viewedBy: foundPost.data()?.viewedBy,
         authorId: foundPost.data()?.authorId,
+        base64Img: foundPost.data()?.base64Img,
       };
       res.status(200).json(post);
     } catch (error: any) {

@@ -17,11 +17,6 @@
   border-radius: 16px;
 }
 
-.arrow {
-  fill: #515151;
-  opacity: 0.35;
-}
-
 .skeletonLoading {
   background: linear-gradient(
       90deg,

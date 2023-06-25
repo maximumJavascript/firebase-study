@@ -1,27 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from '../../modal';
 import { PostComments } from '../PostComments';
 import { ModalCloseButton } from '../../modal/ModalCloseButton';
-import { useNavigate } from 'react-router-dom';
 import styles from './ModalComments.module.css';
-import { animated, config, useSpring } from '@react-spring/web';
+import { useNavigate } from 'react-router-dom';
 
 export function ModalComments() {
   const [isClose, setIsClose] = useState(false);
   const navigate = useNavigate();
+
   const handleClose = () => {
     setIsClose(true);
-    document.body.style.overflow = 'auto';
+    navigate('/');
   };
-  const springStyle = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: isClose ? 0 : 1 },
-    config: isClose ? { ...config.gentle, duration: 200 } : config.slow,
-    onRest: () => {
-      if (!isClose) return;
-      navigate('/');
-    },
-  });
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -30,12 +21,12 @@ export function ModalComments() {
 
   return (
     <Modal>
-      <animated.div style={springStyle} className={styles.modalCommentsBackground}>
+      <div className={styles.modalCommentsBackground}>
         <div className={styles.modalCommentsWrapper}>
-          <PostComments />
+          <PostComments isClose={isClose} />
         </div>
         <ModalCloseButton onClose={handleClose} />
-      </animated.div>
+      </div>
     </Modal>
   );
 }

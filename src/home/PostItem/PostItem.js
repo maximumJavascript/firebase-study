@@ -3,22 +3,31 @@ import { Author } from './Author';
 import { Views } from './Views';
 import { Rating } from './Rating/Rating';
 import styles from './PostItem.module.css';
-import { Link } from 'react-router-dom';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ButtonUI } from '../../controls/ButtonUI';
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/posts';
 import { PostItemSkeleton } from './PostItemSkeleton';
 import { postsService } from '../../posts/posts.service';
+import { withConditionalLink } from '../../hoc/withConditionalLink';
+import { PostBody } from './PostBody';
 import { toJS } from 'mobx';
+import { PostImage } from './PostImage';
+
+const AuthorWithConditionalLink = withConditionalLink(Author);
+const PostBodyWithConditionalLink = withConditionalLink(PostBody);
+const PostImageWithConditionalLink = withConditionalLink(PostImage);
 
 export class PostItem extends React.Component {
   ref = React.createRef();
 
   constructor(props) {
     super(props);
-    this.state = { currentUsserUid: null };
+    this.state = {
+      currentUsserUid: null,
+    };
   }
 
   componentDidMount() {
@@ -33,7 +42,7 @@ export class PostItem extends React.Component {
 
   shortTextWithDots(text, maxLength) {
     if (text.length > maxLength) {
-      text.length = maxLength;
+      text = text.slice(0, maxLength);
       text += '...';
     }
     return text;
@@ -58,33 +67,33 @@ export class PostItem extends React.Component {
 
     if (post.isLoading) return <PostItemSkeleton />;
 
+    const { windowSize, withComments } = props;
     const { title, text } = this.getProcessedText();
     const src = post.base64Img;
     const postUserUid = post.authorId;
-    const showDeletePostBtn =
-      this.state.currentUsserUid === postUserUid && props.withComments;
-    const linkToComments = `/comments/${post.id}`;
+    const linkToComments = !withComments && `/comments/${post.id}`;
+    const showDeletePostBtn = this.state.currentUsserUid === postUserUid && withComments;
+
+    const isMobile = windowSize?.width < 495;
+    const Author = (
+      <AuthorWithConditionalLink
+        to={linkToComments}
+        date={post.date.seconds}
+        authorInfo={post.authorInfo}
+      />
+    );
+
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
-        {src && (
-          <div className={styles.postImage}>
-            <img src={src} alt="post: img" />
-          </div>
-        )}
+        {src && <PostImageWithConditionalLink to={linkToComments} src={src} />}
         <div className={styles.postContainer}>
-          <Link to={linkToComments}>
-            <div className={styles.postBodyText}>
-              <div className={styles.postTitle}>{title}</div>
-              <div className={styles.postTextContainer}>{text}</div>
-            </div>
-          </Link>
+          {isMobile && Author}
+          <PostBodyWithConditionalLink to={linkToComments} title={title} text={text} />
           <div className={styles.postFooter}>
-            <Link to={linkToComments}>
-              <Author date={post.date.seconds} authorInfo={post.authorInfo} />
-            </Link>
+            {!isMobile && Author}
             <Views viewCounter={post.viewedBy?.length} />
             <Rating postId={post.id} initScore={post.ratingScore} />
-            {!props.withComments && (
+            {!withComments && (
               <Link to={linkToComments}>
                 <div className={styles.postShowMore}>
                   <SvgNext />

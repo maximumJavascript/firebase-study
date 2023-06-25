@@ -18,9 +18,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: rgb(246, 246, 246);
   margin-bottom: 20px;
+  min-width: 280px;
 }
 #root {
   margin: 0 auto;
+  padding: 0 20px;
 }
 header {
   margin: 0 auto;

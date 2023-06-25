@@ -2,11 +2,13 @@ import { observer } from 'mobx-react';
 import { Component } from 'react';
 import { postCommentsService } from './postComments.service';
 import { PostItem } from '../../home/PostItem';
-import navStyles from '../../header/Header.module.css';
 import { CommentsList } from '../CommentsList';
 import { CreateComment } from '../CreateComment';
 import styles from './PostComments.module.css';
-import classNames from 'classnames';
+import { withWindowWidth } from '../../hoc/withWindowWidth';
+import { Spring, config, animated } from '@react-spring/web';
+
+const PostItemWithWindowWidth = withWindowWidth(PostItem);
 
 export const PostComments = observer(
   class PostComments extends Component {
@@ -25,19 +27,29 @@ export const PostComments = observer(
 
     render() {
       const post = postCommentsService.post;
-      const postStyles = classNames(navStyles.navbarContainer, styles.commentsWrap);
+
+      const springConfig = {
+        from: { 'margin-top': '-100%' },
+        to: { 'margin-top': '0px' },
+        config: config.default,
+      };
+
       return (
-        <div className={postStyles}>
-          <div className={styles.commentsPost}>
-            <PostItem post={post} withComments />
-          </div>
-          <div className={styles.commentsActionWrap}>
-            <CreateComment postId={this.id} />
-            <div className={styles.commentsList}>
-              <CommentsList postId={this.id} />
-            </div>
-          </div>
-        </div>
+        <Spring {...springConfig}>
+          {(s) => (
+            <animated.div style={s} className={styles.commentsWrap}>
+              <div className={styles.commentsPost}>
+                <PostItemWithWindowWidth post={post} withComments />
+              </div>
+              <div className={styles.commentsActionWrap}>
+                <CreateComment postId={this.id} />
+                <div className={styles.commentsList}>
+                  <CommentsList postId={this.id} />
+                </div>
+              </div>
+            </animated.div>
+          )}
+        </Spring>
       );
     }
   }

@@ -1,23 +1,14 @@
 .post {
   width: 100%;
-  height: auto;
+  max-height: 100%;
   background-color: #fff;
   box-shadow: 4px 6px 13px rgba(215, 215, 215, 0.25);
   padding: 20px;
   border-radius: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   column-gap: 40px;
   font-family: "Roboto";
-}
-
-.postImage {
-  display: flex;
-}
-
-.postImage img {
-  max-width: 244px;
-  max-height: 300px;
 }
 
 .postContainer {
@@ -30,40 +21,38 @@
   row-gap: 20px;
 }
 
-.postBodyText {
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-}
-
-.postTitle {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 140%;
-  color: #121221;
-  word-wrap: break-word;
-}
-
-.postTextContainer {
-  color: #949494;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 26px;
-  word-wrap: break-word;
-  height: auto;
-  max-height: 400px;
-  overflow: hidden;
-  overflow-y: auto;
-}
-
 .postFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
   column-gap: 25px;
+  row-gap: 25px;
+  flex-wrap: wrap;
 }
 
 .postShowMore {
   cursor: pointer;
   padding: 11px 10px;
+}
+
+@media (max-width: 1437px) {
+  .postContainer {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .post {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 685px) {
+  .postShowMore {
+    display: none;
+  }
+
+  .postFooter {
+    justify-content: center;
+  }
 }
