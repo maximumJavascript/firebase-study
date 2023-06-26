@@ -116,7 +116,7 @@ export function attachRoutes() {
       let query = collectionRef
         .orderBy('date.seconds')
         .orderBy('date.nanoseconds')
-        .limit(limit);
+        .limit(limit + 1);
 
       if (markerSec && markerNanosec) {
         query = query.startAfter(markerSec, markerNanosec);
