@@ -5,6 +5,7 @@ import { Home } from './home';
 import { Login } from './auth';
 import { Header } from './header/';
 import { ErrorBoundary } from './errorBoundary';
+import { Notify } from './notifications/Notify';
 // import { AnimalsDropdown } from './sandbox/dropdown/AnimalsDrop';
 
 export function App() {
@@ -16,8 +17,8 @@ export function App() {
 
   return (
     <Router basename="/">
-      <Header />
       <ErrorBoundary>
+        <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/createpost" element={<CreatePost />} />
@@ -25,6 +26,7 @@ export function App() {
           <Route path="/comments/:id" element={<Home withComments />} />
           {/* <AnimalsDropdown /> */}
         </Routes>
+        <Notify />
       </ErrorBoundary>
     </Router>
   );
