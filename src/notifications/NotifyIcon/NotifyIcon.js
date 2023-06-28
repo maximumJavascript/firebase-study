@@ -20,11 +20,11 @@ function getIcon(status) {
   }
 }
 
-export function NotifyIcon({ status }) {
+export function NotifyIcon({ status, className }) {
   const Icon = getIcon(status);
   return (
     <>
-      <Icon />
+      <Icon className={className} />
     </>
   );
 }

@@ -16,6 +16,12 @@
   font-family: "Roboto", sans-serif;
 }
 
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+
 .iconWrap {
   display: flex;
 }
@@ -32,6 +38,6 @@
   background-color: #ed6c02;
 }
 
-.information {
+.info {
   background-color: #0288d1;
 }

@@ -9,10 +9,11 @@ export function NotifyItem({ notify = {} }) {
     notifyListService.removeNotify(notify.id);
   };
   const notifyCn = cn(styles.notify, styles[status]);
+
   return (
     <div className={notifyCn} onClick={handleClose}>
       <div className={styles.iconWrap}>
-        <NotifyIcon status={status} />
+        <NotifyIcon status={status} className={styles.icon} />
       </div>
       <div className={styles.notifyTextContainer}>{text}</div>
     </div>
