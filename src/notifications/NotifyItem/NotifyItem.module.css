@@ -1,0 +1,37 @@
+.notify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 5px;
+  color: #fff;
+  max-width: 350px;
+  width: 100%;
+  padding: 6px 16px;
+  border-radius: 4px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  font-weight: 600;
+  line-height: 1.43;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+}
+
+.iconWrap {
+  display: flex;
+}
+
+.success {
+  background-color: #2e7d32;
+}
+
+.error {
+  background-color: #d32f2f;
+}
+
+.warning {
+  background-color: #ed6c02;
+}
+
+.information {
+  background-color: #0288d1;
+}
