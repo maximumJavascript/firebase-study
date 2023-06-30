@@ -1,8 +1,10 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { STATUS } from '../../constants/notify';
+import { REMOVE_NOTIFY_TIME, STATUS } from '../../constants/notify';
 
 class NotifyListService {
   notifyList = [];
+  #maxId = 0;
+  #notifyRemoveTimeouts = [];
 
   constructor() {
     makeObservable(this, {
@@ -10,15 +12,15 @@ class NotifyListService {
     });
   }
 
-  addNotify(title = '', text = '', status) {
-    if (!(status in STATUS)) status = STATUS.UNSUCCESSFULLY;
-    const cId = this.notifyList.length + 1;
+  addNotify(text = '', status) {
+    if (!(status in STATUS)) status = STATUS.ERROR;
+    const cId = this.#maxId++;
     const notifyObj = {
       id: cId,
-      title,
       text,
       status,
     };
+
     runInAction(() => this.notifyList.push(notifyObj));
   }
 
