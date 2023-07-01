@@ -20,6 +20,7 @@ class RatingService {
 
   changeLocalRating(score) {
     const currentPost = postsService.data.find(({ id }) => id === this.postId);
+    console.log(currentPost);
     if (!currentPost) return;
     currentPost.ratingScore = score;
   }
