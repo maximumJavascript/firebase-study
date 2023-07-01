@@ -38,7 +38,11 @@ export const Profile = observer(
         <div
           className={styles.rightLinks}
           ref={this.wrapRef}
-          onClick={() => notifyListService.addNotify('Test')}
+          onClick={() =>
+            notifyListService.addNotify(
+              'Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. '
+            )
+          }
         >
           {authService.isAuth ? (
             <ProfileMenu {...ProfileMenuProps} />

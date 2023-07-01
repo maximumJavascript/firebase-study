@@ -1,7 +1,7 @@
 .notify {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   column-gap: 5px;
   color: #fff;
   max-width: 350px;
@@ -26,6 +26,7 @@
 
 .iconWrap {
   display: flex;
+  flex-shrink: 0;
 }
 
 .success {
