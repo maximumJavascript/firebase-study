@@ -35,15 +35,7 @@ export const Profile = observer(
         onCloseDropDown: this.handleCloseDropDown,
       };
       return (
-        <div
-          className={styles.rightLinks}
-          ref={this.wrapRef}
-          onClick={() =>
-            notifyListService.addNotify(
-              'Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. '
-            )
-          }
-        >
+        <div className={styles.rightLinks} ref={this.wrapRef}>
           {authService.isAuth ? (
             <ProfileMenu {...ProfileMenuProps} />
           ) : (

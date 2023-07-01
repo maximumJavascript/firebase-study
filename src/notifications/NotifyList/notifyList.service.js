@@ -1,10 +1,9 @@
 import { makeObservable, observable, runInAction } from 'mobx';
-import { REMOVE_NOTIFY_TIME, STATUS } from '../../constants/notify';
+import { STATUS } from '../../constants/notify';
 
 class NotifyListService {
   notifyList = [];
   #maxId = 0;
-  #notifyRemoveTimeouts = [];
 
   constructor() {
     makeObservable(this, {
@@ -13,7 +12,7 @@ class NotifyListService {
   }
 
   addNotify(text = '', status) {
-    if (!(status in STATUS)) status = STATUS.ERROR;
+    if (!Object.values(STATUS).includes(status)) status = STATUS.ERROR;
     const cId = this.#maxId++;
     const notifyObj = {
       id: cId,

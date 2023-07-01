@@ -3,6 +3,7 @@ import { Star } from './Star';
 import styles from './Rating.module.css';
 import { RatingService } from './rating.service';
 import { observer } from 'mobx-react';
+import { notifyListService } from '../../../notifications/NotifyList/notifyList.service';
 
 export const Rating = observer(
   class Rating extends PureComponent {
