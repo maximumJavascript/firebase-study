@@ -37,7 +37,11 @@ export const PostComments = observer(
       return (
         <Spring {...springConfig}>
           {(s) => (
-            <animated.div style={s} className={styles.commentsWrap}>
+            <animated.div
+              style={s}
+              className={styles.commentsWrap}
+              ref={this.props.myRef}
+            >
               <div className={styles.commentsPost}>
                 <PostItemWithWindowWidth post={post} withComments />
               </div>
