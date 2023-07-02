@@ -4,11 +4,13 @@ import { DateConverterService } from '../../../dateConverterService/DateConverte
 
 export class Author extends Component {
   render() {
-    const { authorInfo, date } = this.props;
-
+    const { authorInfo, dateSec, isComment } = this.props;
+    const date = dateSec * 1000;
     if (!authorInfo) return null;
 
-    const postDate = DateConverterService.convertDate(date);
+    const postDate = isComment
+      ? DateConverterService.getRelativeTimeAgo(date)
+      : DateConverterService.formatDateTime(date);
     return (
       <div className={styles.postAuthor}>
         <div className={styles.authorImg}>
