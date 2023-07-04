@@ -13,6 +13,7 @@ export function NotifyItem({
 }) {
   const [isForceUpdate, forceUpdate] = useState(false);
   const [isClose, setIsClose] = useState(false);
+  const ref = useRef(null);
   const componentStyles = useRef(null);
   const closeTimeout = useRef(null);
 
@@ -67,16 +68,9 @@ export function NotifyItem({
     },
   });
 
-  console.log(componentStyles.current);
-
   const style = isForceUpdate ? springConfig : {};
   return (
-    <animated.div
-      style={style}
-      className={notifyCn}
-      onClick={handleClose}
-      ref={componentStyles}
-    >
+    <animated.div style={style} className={notifyCn} onClick={handleClose} ref={ref}>
       <div className={styles.iconWrap}>
         <NotifyIcon status={status} className={styles.icon} />
       </div>
