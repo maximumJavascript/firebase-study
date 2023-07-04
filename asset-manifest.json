@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/firebase-study/static/css/main.aa2861c6.css",
-    "main.js": "/firebase-study/static/js/main.3a8590b9.js",
+    "main.js": "/firebase-study/static/js/main.1d3ce7db.js",
     "static/media/logo-with-text.png": "/firebase-study/static/media/logo-with-text.a002556306666fa794a2.png",
     "index.html": "/firebase-study/index.html",
     "static/media/CloseIcon.svg": "/firebase-study/static/media/CloseIcon.e77e9492c0d7ffc2fb1f95af650a885f.svg",
@@ -11,10 +11,10 @@
     "static/media/ErrorIcon.svg": "/firebase-study/static/media/ErrorIcon.dda956461055dfcef8b6fa7ef36afe53.svg",
     "static/media/WarningIcon.svg": "/firebase-study/static/media/WarningIcon.6948d508b5ece2a44a9c8fc4f6a73751.svg",
     "main.aa2861c6.css.map": "/firebase-study/static/css/main.aa2861c6.css.map",
-    "main.3a8590b9.js.map": "/firebase-study/static/js/main.3a8590b9.js.map"
+    "main.1d3ce7db.js.map": "/firebase-study/static/js/main.1d3ce7db.js.map"
   },
   "entrypoints": [
     "static/css/main.aa2861c6.css",
-    "static/js/main.3a8590b9.js"
+    "static/js/main.1d3ce7db.js"
   ]
 }
