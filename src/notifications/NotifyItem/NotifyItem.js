@@ -13,7 +13,7 @@ export function NotifyItem({
 }) {
   const [isForceUpdate, forceUpdate] = useState(false);
   const [isClose, setIsClose] = useState(false);
-  const ref = useRef();
+  const ref = useRef(null);
   const componentStyles = useRef(null);
   const closeTimeout = useRef(null);
 
