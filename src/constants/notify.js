@@ -5,4 +5,4 @@ export const STATUS = {
   WARNING: 'warning',
 };
 
-export const REMOVE_NOTIFY_TIME = 2500;
+export const REMOVE_NOTIFY_TIME = 3000;
