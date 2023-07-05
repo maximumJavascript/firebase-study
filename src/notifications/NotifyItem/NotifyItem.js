@@ -19,6 +19,7 @@ export function NotifyItem({
 
   useLayoutEffect(() => {
     const computedStyle = window.getComputedStyle(ref.current);
+
     componentStyles.current = {
       height: ref.current.offsetHeight ? ref.current.offsetHeight + 'px' : '0px',
       paddingTop: computedStyle['padding-top'],

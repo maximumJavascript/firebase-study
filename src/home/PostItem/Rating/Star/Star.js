@@ -17,6 +17,8 @@ export const Star = observer(
     };
 
     getScore = (e) => {
+      if (!this.rect) this.rect = e.target.getBoundingClientRect();
+
       const innerLeft = e.clientX - this.rect.left;
       const number = this.props.number;
       return innerLeft > this.rect.width / 2 ? number * 2 : number * 2 - 1;

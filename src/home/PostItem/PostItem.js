@@ -78,7 +78,7 @@ export class PostItem extends React.Component {
     const Author = (
       <AuthorWithConditionalLink
         to={linkToComments}
-        date={post.date.seconds}
+        dateSec={post.date.seconds}
         authorInfo={post.authorInfo}
       />
     );
