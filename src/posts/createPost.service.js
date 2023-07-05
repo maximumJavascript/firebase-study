@@ -1,18 +1,27 @@
 import { auth } from '../firebase-config';
 import { FetchStore } from '../fetchStore';
+import { notifyListService } from '../notifications/NotifyList/notifyList.service';
+import { STATUS } from '../constants/notify';
 
 class CreatePostService {
   #route = '/posts';
 
   createPost = async (postData) => {
-    const fetchClient = new FetchStore({
-      body: JSON.stringify({ ...postData, authorId: auth.currentUser.uid }),
-      route: this.#route,
-      requiredAuth: true,
-      method: 'POST',
-      contentType: 'application/json',
-    });
-    await fetchClient.sendRequest();
+    try {
+      const fetchClient = new FetchStore({
+        body: JSON.stringify({ ...postData, authorId: auth.currentUser.uid }),
+        route: this.#route,
+        requiredAuth: true,
+        method: 'POST',
+        contentType: 'application/json',
+      });
+      const result = await fetchClient.sendRequest();
+      notifyListService.addNotify('Пост успешно создан!', STATUS.SUCCESSFULLY);
+      return result;
+    } catch (e) {
+      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      throw new Error(e);
+    }
   };
 }
 

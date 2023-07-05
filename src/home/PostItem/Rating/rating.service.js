@@ -2,6 +2,8 @@ import { makeObservable, observable, runInAction } from 'mobx';
 import { auth } from '../../../firebase-config';
 import { FetchStore } from '../../../fetchStore';
 import { postsService } from '../../../posts/posts.service';
+import { notifyListService } from '../../../notifications/NotifyList/notifyList.service';
+import { STATUS } from '../../../constants/notify';
 
 class RatingService {
   #route = '/ratings';
@@ -56,37 +58,50 @@ class RatingService {
   };
 
   changeRating = async (docId, score) => {
-    const fetchClient = new FetchStore({
-      body: JSON.stringify({ docId, score }),
-      route: this.#route,
-      method: 'PUT',
-      requiredAuth: true,
-      contentType: 'application/json',
-    });
-    await fetchClient.sendRequest();
-    this.changeLocalRating(score);
+    try {
+      const fetchClient = new FetchStore({
+        body: JSON.stringify({ docId, score }),
+        route: this.#route,
+        method: 'PUT',
+        requiredAuth: true,
+        contentType: 'application/json',
+      });
+      await fetchClient.sendRequest();
+      this.changeLocalRating(score);
+      notifyListService.addNotify('Вы изменили оценку!', STATUS.SUCCESSFULLY);
+    } catch (e) {
+      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      throw new Error(e);
+    }
   };
 
   addRating = async (score) => {
-    const userId = auth.currentUser.uid;
-    const userRating = await this.getSingleRating(userId);
-    if (userRating) {
-      await this.changeRating(userRating.id, score);
-      // изменили
-      return false;
-    }
+    try {
+      const userId = auth.currentUser.uid;
+      const userRating = await this.getSingleRating(userId);
+      if (userRating) {
+        await this.changeRating(userRating.id, score);
+        // изменили
+        return false;
+      }
 
-    const fetchClient = new FetchStore({
-      body: JSON.stringify({ postId: this.postId, score, userId }),
-      route: this.#route,
-      requiredAuth: true,
-      method: 'POST',
-      contentType: 'application/json',
-    });
-    await fetchClient.sendRequest();
-    this.changeLocalRating(score);
-    // успешно добавили
-    return true;
+      const fetchClient = new FetchStore({
+        body: JSON.stringify({ postId: this.postId, score, userId }),
+        route: this.#route,
+        requiredAuth: true,
+        method: 'POST',
+        contentType: 'application/json',
+      });
+      await fetchClient.sendRequest();
+      this.changeLocalRating(score);
+
+      // успешно добавили
+      notifyListService.addNotify('Ваша оценка добавлена!', STATUS.SUCCESSFULLY);
+      return true;
+    } catch (e) {
+      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      throw new Error(e);
+    }
   };
 }
 

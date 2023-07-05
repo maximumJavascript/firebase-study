@@ -29,15 +29,19 @@ export const PostComments = observer(
       const post = postCommentsService.post;
 
       const springConfig = {
-        from: { 'margin-top': '-100%' },
-        to: { 'margin-top': '0px' },
+        from: { marginTop: '-100%' },
+        to: { marginTop: '0px' },
         config: config.default,
       };
 
       return (
         <Spring {...springConfig}>
           {(s) => (
-            <animated.div style={s} className={styles.commentsWrap}>
+            <animated.div
+              style={s}
+              className={styles.commentsWrap}
+              ref={this.props.myRef}
+            >
               <div className={styles.commentsPost}>
                 <PostItemWithWindowWidth post={post} withComments />
               </div>
