@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { ReactComponent as CloseIcon } from '../../assets/icons/CloseIcon.svg';
 import styles from './ModalCloseButton.module.css';
 
-export function ModalCloseButton({ onClose }) {
-  const handleClose = () => onClose?.();
+export function ModalCloseButton({ onClick }) {
+  const handleClose = () => onClick();
   const handleKeyDown = (e) => {
     if (e.key === 'Escape') handleClose();
   };

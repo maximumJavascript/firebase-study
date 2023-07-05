@@ -15,13 +15,13 @@ export const Home = observer(
     arrWithRefs = [];
 
     componentDidMount() {
-      void homeService.posts.resetPosts();
       void homeService.posts.getPosts(true);
+      void homeService.listenScrollToGetPosts();
       viewsCounter.makePostsObservable(this.arrWithRefs);
     }
 
     componentWillUnmount() {
-      void homeService.posts.resetPosts();
+      void homeService.resetHomeService();
     }
 
     componentDidUpdate() {

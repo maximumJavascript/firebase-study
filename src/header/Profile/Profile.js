@@ -5,6 +5,7 @@ import { authService } from '../../auth/auth.service';
 import { ProfileDropDown } from './ProfileDropDown';
 import { ProfileLoginButton } from './ProfileLoginButton';
 import { ProfileMenu } from './ProfileMenu';
+import { notifyListService } from '../../notifications/NotifyList/notifyList.service';
 
 export const Profile = observer(
   class Profile extends React.Component {

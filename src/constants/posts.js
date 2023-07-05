@@ -1,2 +1,3 @@
 export const MAX_TITLE_LENGTH = 200;
 export const MAX_DESCRIPTION_LENGTH = 500;
+export const POSTS_SCROLL_THRESHOLD = 300;

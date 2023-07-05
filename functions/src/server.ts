@@ -116,7 +116,7 @@ export function attachRoutes() {
       let query = collectionRef
         .orderBy('date.seconds')
         .orderBy('date.nanoseconds')
-        .limit(limit);
+        .limit(limit + 1);
 
       if (markerSec && markerNanosec) {
         query = query.startAfter(markerSec, markerNanosec);
@@ -196,8 +196,18 @@ export function attachRoutes() {
 
   app.post('/posts', authenticatedRequest, async (req, res) => {
     try {
-      await db.collection('posts').add(req.body);
-      res.status(201).json(true);
+      const collection = await db.collection('posts').add(req.body);
+      const result = await collection.get();
+      const post: TPost = {
+        id: result.id,
+        title: result.data()?.title,
+        text: result.data()?.text,
+        authorId: result.data()?.authorId,
+        date: result.data()?.date,
+        base64Img: result.data()?.base64Img,
+        viewedBy: result.data()?.viewedBy,
+      };
+      res.status(201).json(post);
     } catch (error: any) {
       res
         .status(500)

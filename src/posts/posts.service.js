@@ -6,7 +6,7 @@ import { RatingService } from '../home/PostItem/Rating/rating.service';
 class PostsService {
   data = [];
   #route = '/posts';
-  limit = 1e3;
+  limit = 4;
   offset = {
     markerSec: 0,
     markerNanosec: 0,
@@ -108,6 +108,7 @@ class PostsService {
 
     const { offset, postsEnded } = fetchedResult;
 
+    this.postsEnded = postsEnded;
     this.offset = {
       markerSec: offset.markerSec,
       markerNanosec: offset.markerNanosec,
@@ -119,7 +120,7 @@ class PostsService {
     // не забыть
     void postsEnded;
 
-    if (!fetchSignal.aborted) runInAction(() => (this.data = posts));
+    if (!fetchSignal.aborted) runInAction(() => this.data.push(...posts));
   };
 
   getSinglePost = async ({ id, requiredMinDelay, signal } = {}) => {
