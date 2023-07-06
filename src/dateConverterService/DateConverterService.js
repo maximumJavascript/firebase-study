@@ -2,15 +2,15 @@ import { formatDistance } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 export class DateConverterService {
-  static formatDateTime = (UNIX_timestamp) => {
+  static formatDateTime = (dateMS) => {
     return new Intl.DateTimeFormat('ru-RU', {
       dateStyle: 'long',
       timeStyle: 'medium',
-    }).format(new Date(UNIX_timestamp));
+    }).format(new Date(dateMS));
   };
 
-  static getRelativeTimeAgo(UNIX_timestamp) {
-    const relativeTime = formatDistance(UNIX_timestamp, Date.now(), {
+  static getRelativeTimeAgo(dateMS) {
+    const relativeTime = formatDistance(dateMS, Date.now(), {
       locale: ru,
       addSuffix: true,
     });

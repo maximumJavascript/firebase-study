@@ -5,12 +5,12 @@ import { DateConverterService } from '../../../dateConverterService/DateConverte
 export class Author extends Component {
   render() {
     const { authorInfo, dateSec, isComment } = this.props;
-    const date = dateSec * 1000;
+    const dateMS = dateSec * 1000;
     if (!authorInfo) return null;
 
     const postDate = isComment
-      ? DateConverterService.getRelativeTimeAgo(date)
-      : DateConverterService.formatDateTime(date);
+      ? DateConverterService.getRelativeTimeAgo(dateMS)
+      : DateConverterService.formatDateTime(dateMS);
     return (
       <div className={styles.postAuthor}>
         <div className={styles.authorImg}>
