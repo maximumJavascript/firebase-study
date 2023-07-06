@@ -1,7 +1,6 @@
 import { auth } from '../firebase-config';
 import { FetchStore } from '../fetchStore';
 import { notifyListService } from '../notifications/NotifyList/notifyList.service';
-import { STATUS } from '../constants/notify';
 
 class CreatePostService {
   #route = '/posts';
@@ -16,10 +15,10 @@ class CreatePostService {
         contentType: 'application/json',
       });
       const result = await fetchClient.sendRequest();
-      notifyListService.addNotify('Пост успешно создан!', STATUS.SUCCESSFULLY);
+      notifyListService.addSuccess('Пост успешно создан!');
       return result;
     } catch (e) {
-      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      notifyListService.addError('Произошла ошибка!');
       throw new Error(e);
     }
   };

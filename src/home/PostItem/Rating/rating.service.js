@@ -3,7 +3,6 @@ import { auth } from '../../../firebase-config';
 import { FetchStore } from '../../../fetchStore';
 import { postsService } from '../../../posts/posts.service';
 import { notifyListService } from '../../../notifications/NotifyList/notifyList.service';
-import { STATUS } from '../../../constants/notify';
 
 class RatingService {
   #route = '/ratings';
@@ -68,9 +67,9 @@ class RatingService {
       });
       await fetchClient.sendRequest();
       this.changeLocalRating(score);
-      notifyListService.addNotify('Вы изменили оценку!', STATUS.SUCCESSFULLY);
+      notifyListService.addSuccess('Вы изменили оценку!');
     } catch (e) {
-      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      notifyListService.addError('Произошла ошибка!');
       throw new Error(e);
     }
   };
@@ -96,10 +95,10 @@ class RatingService {
       this.changeLocalRating(score);
 
       // успешно добавили
-      notifyListService.addNotify('Ваша оценка добавлена!', STATUS.SUCCESSFULLY);
+      notifyListService.addSuccess('Ваша оценка добавлена!');
       return true;
     } catch (e) {
-      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      notifyListService.addError('Произошла ошибка!');
       throw new Error(e);
     }
   };
