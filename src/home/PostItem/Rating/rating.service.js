@@ -67,9 +67,9 @@ class RatingService {
       });
       await fetchClient.sendRequest();
       this.changeLocalRating(score);
-      notifyListService.addSuccess('Вы изменили оценку!');
+      notifyListService.addSuccess('You have changed rating!');
     } catch (e) {
-      notifyListService.addError('Произошла ошибка!');
+      notifyListService.addError('An error has occurred!');
       throw new Error(e);
     }
   };
@@ -95,10 +95,10 @@ class RatingService {
       this.changeLocalRating(score);
 
       // успешно добавили
-      notifyListService.addSuccess('Ваша оценка добавлена!');
+      notifyListService.addSuccess('Your score has been added!');
       return true;
     } catch (e) {
-      notifyListService.addError('Произошла ошибка!');
+      notifyListService.addError('An error has occurred!');
       throw new Error(e);
     }
   };

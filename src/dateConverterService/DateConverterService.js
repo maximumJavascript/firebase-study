@@ -1,9 +1,9 @@
 import { formatDistance } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 
 export class DateConverterService {
   static formatDateTime = (dateMS) => {
-    return new Intl.DateTimeFormat('ru-RU', {
+    return new Intl.DateTimeFormat('en-EN', {
       dateStyle: 'long',
       timeStyle: 'medium',
     }).format(new Date(dateMS));
@@ -11,7 +11,7 @@ export class DateConverterService {
 
   static getRelativeTimeAgo(dateMS) {
     const relativeTime = formatDistance(dateMS, Date.now(), {
-      locale: ru,
+      locale: enUS,
       addSuffix: true,
     });
     return relativeTime;

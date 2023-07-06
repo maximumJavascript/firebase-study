@@ -15,10 +15,10 @@ class CreatePostService {
         contentType: 'application/json',
       });
       const result = await fetchClient.sendRequest();
-      notifyListService.addSuccess('Пост успешно создан!');
+      notifyListService.addSuccess('Post successfully created!');
       return result;
     } catch (e) {
-      notifyListService.addError('Произошла ошибка!');
+      notifyListService.addError('An error has occurred!');
       throw new Error(e);
     }
   };
