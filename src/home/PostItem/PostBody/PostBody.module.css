@@ -23,6 +23,7 @@
   max-height: 400px;
   overflow: hidden;
   overflow-y: auto;
+  white-space: pre-line;
 }
 
 @media (max-width: 1437px) {

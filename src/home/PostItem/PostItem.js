@@ -85,7 +85,14 @@ export class PostItem extends React.Component {
 
     return (
       <div className={styles.post} data-postid={post.id} ref={this.ref}>
-        {src && <PostImageWithConditionalLink to={linkToComments} src={src} />}
+        {src && (
+          <PostImageWithConditionalLink
+            to={linkToComments}
+            src={src}
+            linkClassName={styles.postImageLink}
+            withComments={withComments}
+          />
+        )}
         <div className={styles.postContainer}>
           {isMobile && Author}
           <PostBodyWithConditionalLink to={linkToComments} title={title} text={text} />
