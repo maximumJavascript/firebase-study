@@ -57,7 +57,7 @@ class RatingService {
     }
   };
 
-  changeRating = async (docId, score) => {
+  #changeRating = async (docId, score) => {
     try {
       const fetchClient = new FetchStore({
         body: JSON.stringify({ docId, score }),
@@ -80,7 +80,7 @@ class RatingService {
       const userId = auth.currentUser.uid;
       const userRating = await this.getSingleRating(userId);
       if (userRating) {
-        await this.changeRating(userRating.id, score);
+        await this.#changeRating(userRating.id, score);
         // изменили
         return false;
       }
