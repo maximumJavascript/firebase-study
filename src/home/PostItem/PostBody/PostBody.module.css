@@ -18,12 +18,14 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 26px;
-  word-break: break-all;
   height: auto;
   max-height: 400px;
   overflow: hidden;
   overflow-y: auto;
   white-space: pre-line;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 @media (max-width: 1437px) {
