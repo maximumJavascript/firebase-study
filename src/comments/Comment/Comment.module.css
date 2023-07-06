@@ -8,7 +8,9 @@
   font-weight: 500;
   font-size: 18px;
   color: #121221;
-  word-break: break-all;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 @media (max-width: 500px) {
