@@ -1,0 +1,1 @@
+export { PostDeleteButton } from './PostDeleteButton';

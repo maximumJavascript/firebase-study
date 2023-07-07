@@ -15,6 +15,7 @@ import { withConditionalLink } from '../../hoc/withConditionalLink';
 import { PostBody } from './PostBody';
 import { toJS } from 'mobx';
 import { PostImage } from './PostImage';
+import { PostDeleteButton } from './PostDeleteButton';
 
 const AuthorWithConditionalLink = withConditionalLink(Author);
 const PostBodyWithConditionalLink = withConditionalLink(PostBody);
@@ -48,10 +49,6 @@ export class PostItem extends React.Component {
     return text;
   }
 
-  handleDeletePost = () => {
-    postsService.deletePostItem(this.props.post.id);
-  };
-
   getProcessedText() {
     let { title = '', text = '' } = this.props.post;
     if (!this.props.withComments) {
@@ -67,7 +64,7 @@ export class PostItem extends React.Component {
 
     if (post.isLoading) return <PostItemSkeleton />;
 
-    const { windowSize, withComments } = props;
+    const { windowSize, withComments, onModalClose } = props;
     const { title, text } = this.getProcessedText();
     const src = post.base64Img;
     const postUserUid = post.authorId;
@@ -108,7 +105,7 @@ export class PostItem extends React.Component {
               </Link>
             )}
             {showDeletePostBtn && (
-              <ButtonUI onClick={this.handleDeletePost}>Delete</ButtonUI>
+              <PostDeleteButton onModalClose={onModalClose} postId={this.props.post.id} />
             )}
           </div>
         </div>

@@ -43,7 +43,11 @@ export const PostComments = observer(
               ref={this.props.myRef}
             >
               <div className={styles.commentsPost}>
-                <PostItemWithWindowWidth post={post} withComments />
+                <PostItemWithWindowWidth
+                  post={post}
+                  onModalClose={this.props.onModalClose}
+                  withComments
+                />
               </div>
               <div className={styles.commentsActionWrap}>
                 <CreateComment postId={this.id} />

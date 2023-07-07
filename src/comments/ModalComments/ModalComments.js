@@ -30,7 +30,7 @@ export function ModalComments({ redirectTo = '/' }) {
     <Modal>
       <div className={styles.modalCommentsBackground} onClick={handleModalClick}>
         <div className={styles.modalCommentsWrapper}>
-          <PostComments isClose={isClose} myRef={ref} />
+          <PostComments isClose={isClose} myRef={ref} onModalClose={handleClose} />
         </div>
         <ModalCloseButton onClick={handleClose} />
       </div>
