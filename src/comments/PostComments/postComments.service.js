@@ -15,7 +15,8 @@ class PostCommentsService {
   }
 
   resetPostComments() {
-    this.abortController?.abort();
+    this.abortController.abort();
+    this.abortController = new AbortController();
     runInAction(() => (this.post = { isLoading: true }));
   }
 
@@ -25,12 +26,14 @@ class PostCommentsService {
     if (existPost) {
       return runInAction(() => (this.post = { ...existPost, id: postId }));
     }
+
     const post = await postsService.getSinglePost({
       id: postId,
       requiredMinDelay: true,
       signal: this.abortController.signal,
     });
 
+    this.abortController = new AbortController();
     runInAction(() => (this.post = { ...post, id: postId, isLoading: false }));
   };
 }
