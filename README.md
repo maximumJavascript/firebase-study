@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+Blog Portal - это портал с блогами, разработанный для предоставления пользователям возможности создавать и делиться своими постами. Каждый пост включает в себя заголовок, текст, автора, время создания поста, рейтинг, и опционально изображение. Пользователи имеют возможность оценивать посты других пользователей и оставлять комментарии, что способствует активному взаимодействию в сообществе. Кроме того, каждый пост имеет счетчик просмотров, отображающий количество уникальных просмотров
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Технологии
 
-## Available Scripts
+Проект был реализован с использованием следующих технологий и инструментов:
 
-In the project directory, you can run:
+- React
+- React Router
+- MobX
+- Node.js Express
+- TypeScript
+- Firebase Firestore
 
-### `npm start`
+## Что я узнал
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+При разработке проекта Blog Portal были приобретены следующие знания и навыки:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Создание полноценного веб-приложения с использованием React
+- Работа с классовыми и функциональными компонентами React
+- Использование хуков и методов жизненного цикла компонентов
+- Работа с маршрутизацией в React с помощью React Router
+- Работа с реактивным состоянием компонентов с помощью MobX
+- Разработка серверной части с использованием Node.js Express
+- Создание маршрутов на сервере и обработка запросов
+- Взаимодействие с базой данных Firestore в Firebase
+- Использование TypeScript для типизации кода
+- Настройка CORS для обеспечения безопасности при работе с сервером
+- Углубленные знания по работе с сетевыми запросами
+- Создание адаптивного и кроссбраузерного веб-приложения
 
-### `npm test`
+## Время разработки
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Разработка велась с 03.23 по 06.23, в сумме было потрачено примерно 105 часов.
 
-### `npm run build`
+## Установка и запуск
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Склонируйте репозиторий на локальную машину.
+2. Убедитесь, что у вас установлен Node.js и npm.
+3. Перейдите в корневую папку проекта и выполните команду `npm install`, чтобы установить зависимости.
+4. Зайдите в папку `functions` и выполните команду `yarn install`, чтобы установить зависимости.
+5. Перенесите полученный в Firebase файл `firebase-keys.ts` в папку `functions/src/config`, для подключения к Firebase Firestore.
+6. Запустите серверную часть, выполните команду `yarn start` в папке `functions`.
+7. Запустите клиентскую часть, выполните команду `npm start` в корневой папке клиента.
+8. Откройте приложение в браузере по адресу `http://localhost:3000`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Готовый деплой
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+https://maximumjavascript.github.io/firebase-study/
 
-### `npm run eject`
+## Прочее
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Файл README.MD написан 09.07.2023
