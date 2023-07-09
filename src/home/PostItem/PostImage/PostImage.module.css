@@ -3,9 +3,16 @@
   height: 100%;
 }
 
-.postImage img {
+.postWithCommentsImage img {
   max-width: 244px;
   max-height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.postImage img {
+  width: 244px;
+  height: 300px;
   border-radius: 10px;
   object-fit: cover;
 }

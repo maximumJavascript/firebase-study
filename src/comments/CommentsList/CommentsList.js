@@ -10,7 +10,6 @@ import styles from './CommentsList.module.css';
 const CommentsList = observer(
   class CommentsList extends Component {
     componentDidMount() {
-      void commentsListService.resetCommentsListService();
       void commentsListService.getComments(this.props.postId, true);
     }
 

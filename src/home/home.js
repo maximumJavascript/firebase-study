@@ -51,7 +51,7 @@ export const Home = observer(
               );
             })}
           </div>
-          {withComments && <ModalComments />}
+          {withComments && <ModalComments redirectTo="/" />}
         </div>
       );
     }

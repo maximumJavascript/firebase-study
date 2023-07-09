@@ -3,7 +3,6 @@ import { auth } from '../../../firebase-config';
 import { FetchStore } from '../../../fetchStore';
 import { postsService } from '../../../posts/posts.service';
 import { notifyListService } from '../../../notifications/NotifyList/notifyList.service';
-import { STATUS } from '../../../constants/notify';
 
 class RatingService {
   #route = '/ratings';
@@ -57,7 +56,7 @@ class RatingService {
     }
   };
 
-  changeRating = async (docId, score) => {
+  #changeRating = async (docId, score) => {
     try {
       const fetchClient = new FetchStore({
         body: JSON.stringify({ docId, score }),
@@ -68,9 +67,9 @@ class RatingService {
       });
       await fetchClient.sendRequest();
       this.changeLocalRating(score);
-      notifyListService.addNotify('Вы изменили оценку!', STATUS.SUCCESSFULLY);
+      notifyListService.addSuccess('You have changed rating!');
     } catch (e) {
-      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      notifyListService.addError('An error has occurred!');
       throw new Error(e);
     }
   };
@@ -80,7 +79,7 @@ class RatingService {
       const userId = auth.currentUser.uid;
       const userRating = await this.getSingleRating(userId);
       if (userRating) {
-        await this.changeRating(userRating.id, score);
+        await this.#changeRating(userRating.id, score);
         // изменили
         return false;
       }
@@ -96,10 +95,10 @@ class RatingService {
       this.changeLocalRating(score);
 
       // успешно добавили
-      notifyListService.addNotify('Ваша оценка добавлена!', STATUS.SUCCESSFULLY);
+      notifyListService.addSuccess('Your score has been added!');
       return true;
     } catch (e) {
-      notifyListService.addNotify('Произошла ошибка!', STATUS.ERROR);
+      notifyListService.addError('An error has occurred!');
       throw new Error(e);
     }
   };

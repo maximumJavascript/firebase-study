@@ -1,10 +1,10 @@
 .postAuthor {
   display: flex;
-  justify-content: space-between;
   column-gap: 10px;
-  align-items: center;
-  flex-shrink: 0;
   margin-bottom: auto;
+  max-width: 200px;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .authorName {
@@ -24,6 +24,7 @@
 
 .authorImg {
   display: flex;
+  flex-shrink: 0;
 }
 
 .authorImg__img {

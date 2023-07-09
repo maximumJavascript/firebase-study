@@ -35,6 +35,10 @@
   padding: 11px 10px;
 }
 
+.postImageLink {
+  flex-shrink: 0;
+}
+
 @media (max-width: 1437px) {
   .postContainer {
     padding-right: 0;

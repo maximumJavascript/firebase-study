@@ -15,6 +15,7 @@ class CommentsListService {
   isLoading = false;
   comments = [];
   createdComments = [];
+  waitingCreatedComments = [];
   signal;
 
   constructor() {

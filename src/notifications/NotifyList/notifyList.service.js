@@ -11,15 +11,25 @@ class NotifyListService {
     });
   }
 
-  addNotify(text = '', status) {
-    if (!Object.values(STATUS).includes(status)) status = STATUS.ERROR;
-    const cId = this.#maxId++;
-    const notifyObj = {
-      id: cId,
-      text,
-      status,
-    };
+  get #nextId() {
+    return this.#maxId++;
+  }
 
+  addSuccess(text = '') {
+    const notifyObj = {
+      id: this.#nextId,
+      text,
+      status: STATUS.SUCCESSFULLY,
+    };
+    runInAction(() => this.notifyList.push(notifyObj));
+  }
+
+  addError(text = '') {
+    const notifyObj = {
+      id: this.#nextId,
+      text,
+      status: STATUS.ERROR,
+    };
     runInAction(() => this.notifyList.push(notifyObj));
   }
 

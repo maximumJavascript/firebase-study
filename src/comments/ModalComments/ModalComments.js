@@ -5,7 +5,7 @@ import { ModalCloseButton } from '../../modal/ModalCloseButton';
 import styles from './ModalComments.module.css';
 import { useNavigate } from 'react-router-dom';
 
-export function ModalComments() {
+export function ModalComments({ redirectTo = '/' }) {
   const [isClose, setIsClose] = useState(false);
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export function ModalComments() {
   const handleClose = () => {
     if (isClose) return;
     setIsClose(true);
-    navigate('/');
+    navigate(redirectTo);
   };
 
   const handleModalClick = (e) => {
@@ -30,7 +30,7 @@ export function ModalComments() {
     <Modal>
       <div className={styles.modalCommentsBackground} onClick={handleModalClick}>
         <div className={styles.modalCommentsWrapper}>
-          <PostComments isClose={isClose} myRef={ref} />
+          <PostComments isClose={isClose} myRef={ref} onModalClose={handleClose} />
         </div>
         <ModalCloseButton onClick={handleClose} />
       </div>

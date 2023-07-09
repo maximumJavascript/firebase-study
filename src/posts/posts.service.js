@@ -6,7 +6,7 @@ import { RatingService } from '../home/PostItem/Rating/rating.service';
 class PostsService {
   data = [];
   #route = '/posts';
-  limit = 4;
+  limit = 3;
   offset = {
     markerSec: 0,
     markerNanosec: 0,
